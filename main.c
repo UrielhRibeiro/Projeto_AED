@@ -4,7 +4,7 @@
 int main(){
     setlocale(LC_ALL,"Portuguese");
     
-    printf("Projeto Iniciado, não utilize a main");
+    printf("Projeto Iniciado, pagina principal");
 
     return 0;
 }
