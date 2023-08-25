@@ -45,17 +45,19 @@ int deleteFirstCard(card *c, cardNo *data_backup){
     return 1;
 }
 
-/*verifica se tem pelo menos uma carta igual*/
+/*retorna se ha pelo menos 1 carta igual a outra*/
 int hasACardEqual(card card1, card card2){
-    while (!card1.top){
-        while (!card2.top){
-            int EqName = strcmp(card1.top->name, card2.top->name);
-            int EqType = strcmp(card1.top->type, card2.top->type);
-            int EqEnergy_cost = card1.top->energy_cost == card2.top->energy_cost;
-            int EqPower= card1.top->power == card2.top->power;
-            if(EqEnergy_cost && EqName && EqPower && EqType) return 1;
-            deleteFirstCard(&card1,NULL);
-            deleteFirstCard(&card2,NULL);
+    if (card1.top && card2.top){
+        while(!card1.top){
+            while(!card2.top){
+                int EqName = strcmp(card1.top->name, card2.top->name);
+                int EqType = strcmp(card1.top->type, card2.top->type);
+                int EqEnergy_cost = card1.top->energy_cost == card2.top->energy_cost;
+                int EqPower= card1.top->power == card2.top->power;
+                if(EqEnergy_cost && EqName && EqPower && EqType) return 1;
+                deleteFirstCard(&card1, NULL);
+                deleteFirstCard(&card2, NULL);
+            }
         }
     }
     return 0;

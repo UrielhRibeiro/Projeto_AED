@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "carta.h"
-
-/*Perguntar a Soussa se no header pode passar uma funcao na struct*/
 typedef struct entity{
     int life, energy;
     card deck;
@@ -65,16 +63,15 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
         int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
         int EqPower= selected_card.top->power == c.top->power;
         deleteFirstCard(&(c), &hcno);
-        if(EqEnergy_cost && EqName && EqPower && EqType) continue;
+        if(EqEnergy_cost && EqName && EqPower && EqType) *usedc = hcno; continue;
         addCard(&hcard, &hcno);
     }
     *retc = hcard;
-    *usedc = hcno;
     return 1;
 }
 
 /*faz a entidade usar sua carta*/
-/*a entidade 1 e a que usa a carta e a entidade 2 e a q sofre em consequencia desse uso*/
+/*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
 int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasACardEqual(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
