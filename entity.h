@@ -57,7 +57,7 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
     card hcard;
     startCard(&hcard);
     cardNo hcno;
-    while(c.top){
+    while(c.top != NULL){
         int EqName = strcmp(selected_card.top->name, c.top->name);
         int EqType = strcmp(selected_card.top->type, c.top->type);
         int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
