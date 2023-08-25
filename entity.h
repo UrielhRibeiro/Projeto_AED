@@ -82,7 +82,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasACardEqual(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
         if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard)){
-            if(strcmp(selected_card.top->type, "attack")){
+            if(strcmp(selected_card.top->type, "attack") && !takes){
                 takes->life -= usedcard.power;
             }else if(strcmp(selected_card.top->type, "defence")){
                 /*sistema de defesa n especificado por soussa*/
