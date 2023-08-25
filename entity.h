@@ -77,6 +77,7 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
 
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
+/*se a entidade 2 nao sofrer em consequencia desse uso, ela pode ser nula*/
 int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasACardEqual(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
