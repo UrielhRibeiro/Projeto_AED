@@ -66,8 +66,8 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
         deleteFirstCard(&(c), &hcno);
         if(EqEnergy_cost && EqName && EqPower && EqType && cnd) {
             *usedc = hcno; 
-            continue;
             hasused = 0;
+            continue;
         }
         addCard(&hcard, &hcno);
     }
