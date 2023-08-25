@@ -59,12 +59,11 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
     cardNo hcno;
     int hasused = 1;
     while(c.top != NULL){
-        int EqName = strcmp(selected_card.top->name, c.top->name);
         int EqType = strcmp(selected_card.top->type, c.top->type);
         int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
         int EqPower= selected_card.top->power == c.top->power;
         deleteFirstCard(&(c), &hcno);
-        if(EqEnergy_cost && EqName && EqPower && EqType && hasused) {
+        if(EqEnergy_cost && EqPower && EqType && hasused) {
             *usedc = hcno; 
             hasused = 0;
             continue;
