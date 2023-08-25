@@ -47,8 +47,8 @@ int deleteFirstCard(card *c, cardNo *data_backup){
 
 /*retorna se ha pelo menos 1 carta igual a outra*/
 int hasACardEqual(card card1, card card2){
-    while (card1.top != NULL){
-        while (card2.top != NULL){
+    while(card1.top!= NULL){
+        while(card2.top != NULL){
             int EqName = strcmp(card1.top->name, card2.top->name);
             int EqType = strcmp(card1.top->type, card2.top->type);
             int EqEnergy_cost = card1.top->energy_cost == card2.top->energy_cost;
