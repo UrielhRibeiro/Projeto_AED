@@ -4,7 +4,7 @@
 #include <time.h>
 #include "carta.h"
 typedef struct entity{
-    int life, energy;
+    int life, energy, shield;
     card deck;
 }enitity;
 
@@ -29,6 +29,7 @@ enitity CreatePlayer(char *name){
     entity player;
     player.life = 20;
     player.energy = 3;
+    player.shield = 0;
     srand(time(NULL));
     for (int i=0; i < 10; i++){
         int j = rand() %2;
@@ -43,11 +44,12 @@ enitity CreatePlayer(char *name){
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(int life, cardNo *cardno){
+entity CreateMonster(int life, int shield, cardNo *cardno){
     enitity monster;
     monster.life = life;
     monster.energy = INT_MAX;
-    monster.deck.top = cardno; 
+    monster.deck.top = cardno;\
+    monster.shield = shield; 
     return monster;
 }
 
@@ -76,19 +78,25 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
 
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
-/*se a entidade 2 nao sofrer em consequencia desse uso, ela pode ser nula*/
+/*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
 int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasACardEqual(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
         if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard)){
             if(strcmp(selected_card.top->type, "attack") && takes){
-                takes->life -= usedcard.power;
+                int rest_shield = -selected_card.top->power +takes->shield;
+                if(rest_shield < 0){
+                    takes->life -= -rest_shield;
+                    takes->shield = 0;
+                if(rest_shield >= 0){
+                    takes->shield = rest_shield;
+                }
+                return 1;
             }else if(strcmp(selected_card.top->type, "defence")){
-                /*sistema de defesa n especificado por soussa*/
+                takes->shield += selected_card.top->power;
             }else if(strcmp(selected_card.top->type, "special")){
                 /*sistema de defesa n totalmente especificado por soussa*/
-            }else return 0;
-            return 1;
+            }
         }
     };
     return 0;
