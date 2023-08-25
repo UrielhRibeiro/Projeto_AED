@@ -88,7 +88,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
                 /*sistema de defesa n especificado por soussa*/
             }else if(strcmp(selected_card.top->type, "special")){
                 /*sistema de defesa n totalmente especificado por soussa*/
-            }
+            }else return 0;
             return 1;
         }
     };
