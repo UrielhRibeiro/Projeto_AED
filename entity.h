@@ -57,13 +57,18 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
     card hcard;
     startCard(&hcard);
     cardNo hcno;
+    int hasused = 1;
     while(c.top != NULL){
         int EqName = strcmp(selected_card.top->name, c.top->name);
         int EqType = strcmp(selected_card.top->type, c.top->type);
         int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
         int EqPower= selected_card.top->power == c.top->power;
         deleteFirstCard(&(c), &hcno);
-        if(EqEnergy_cost && EqName && EqPower && EqType) *usedc = hcno; continue;
+        if(EqEnergy_cost && EqName && EqPower && EqType && hasused) {
+            *usedc = hcno; 
+            hasused = 0;
+            continue;
+        }
         addCard(&hcard, &hcno);
     }
     *retc = hcard;
@@ -72,17 +77,18 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
 
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
+/*se a entidade 2 nao sofrer em consequencia desse uso, ela pode ser nula*/
 int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasACardEqual(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
         if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard)){
-            if(strcmp(selected_card.top->type, "attack")){
+            if(strcmp(selected_card.top->type, "attack") && takes){
                 takes->life -= usedcard.power;
             }else if(strcmp(selected_card.top->type, "defence")){
                 /*sistema de defesa n especificado por soussa*/
             }else if(strcmp(selected_card.top->type, "special")){
                 /*sistema de defesa n totalmente especificado por soussa*/
-            }
+            }else return 0;
             return 1;
         }
     };
