@@ -88,15 +88,16 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
                 if(rest_shield < 0){
                     takes->life -= -rest_shield;
                     takes->shield = 0;
-                }if(rest_shield >= 0){
+                }else{
                     takes->shield = rest_shield;
                 }
-                return 1;
+                
             }else if(strcmp(selected_card.top->type, "defence")){
                 takes->shield += selected_card.top->power;
             }else if(strcmp(selected_card.top->type, "special")){
                 /*sistema de defesa n totalmente especificado por soussa*/
             }
+            return 1;
         }
     };
     return 0;
