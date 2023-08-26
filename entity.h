@@ -88,7 +88,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
                 if(rest_shield < 0){
                     takes->life -= -rest_shield;
                     takes->shield = 0;
-                if(rest_shield >= 0){
+                }if(rest_shield >= 0){
                     takes->shield = rest_shield;
                 }
                 return 1;
