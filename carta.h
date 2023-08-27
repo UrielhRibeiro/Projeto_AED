@@ -53,10 +53,9 @@ int hasASameCard(card card1, card card2){
             int EqEnergy_cost = card1.top->energy_cost == card2.top->energy_cost;
             int EqPower= card1.top->power == card2.top->power;
             if(EqEnergy_cost && EqPower && EqType) return 1;
-            deleteFirstCard(&card1,NULL);
             deleteFirstCard(&card2,NULL);
         }
-    
+        deleteFirstCard(&card1,NULL);
     }
     return 0;
 }
