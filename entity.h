@@ -84,7 +84,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
         cardNo usedcard;
         if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard)){
             if(strcmp(selected_card.top->type, "attack") && takes){
-                int rest_shield = -selected_card.top->power +takes->shield;
+                int rest_shield = takes->shield -selected_card.top->power;
                 if(rest_shield < 0){
                     takes->life -= -rest_shield;
                     takes->shield = 0;
