@@ -48,7 +48,7 @@ entity CreateMonster(int life, int shield, cardNo *cardno){
     enitity monster;
     monster.life = life;
     monster.energy = INT_MAX;
-    monster.deck.top = cardno;\
+    monster.deck.top = cardno;
     monster.shield = shield; 
     return monster;
 }
