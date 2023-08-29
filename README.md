@@ -128,3 +128,97 @@ int main() {
     return 0;
 }
 
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_CARTAS 5
+#define MAX_DECKS 3
+
+typedef struct {
+    int dados[MAX_CARTAS];
+    int topo;
+} Pilha;
+
+void inicializarPilha(Pilha *pilha) {
+    pilha->topo = -1;
+}
+
+int estaVazia(Pilha *pilha) {
+    return pilha->topo == -1;
+}
+
+int estaCheia(Pilha *pilha) {
+    return pilha->topo == MAX_CARTAS - 1;
+}
+
+void empilhar(Pilha *pilha, int carta) {
+    if (!estaCheia(pilha)) {
+        pilha->topo++;
+        pilha->dados[pilha->topo] = carta;
+    }
+}
+
+int desempilhar(Pilha *pilha) {
+    if (!estaVazia(pilha)) {
+        int carta = pilha->dados[pilha->topo];
+        pilha->topo--;
+        return carta;
+    }
+    return -1; // Retorna um valor inválido para indicar falha
+}
+
+int jogarJogo() {
+    Pilha decks[MAX_DECKS];
+    int deckEscolhido, cartasRemovidas = 0, carta, soma = 0;
+
+    for (int i = 0; i < MAX_DECKS; i++) {
+        inicializarPilha(&decks[i]);
+        for (int j = 0; j < MAX_CARTAS; j++) {
+            carta = rand() % 10 + 1; // Gerando cartas aleatórias de 1 a 10
+            empilhar(&decks[i], carta);
+        }
+    }
+
+    printf("Escolha um deck (0, 1 ou 2): ");
+    scanf("%d", &deckEscolhido);
+
+    while (cartasRemovidas < 3) {
+        printf("Escolha uma carta para remover do deck (1 a 5): ");
+        scanf("%d", &carta);
+        if (carta >= 1 && carta <= 5) {
+            carta = desempilhar(&decks[deckEscolhido]);
+            if (carta != -1) {
+                soma += carta;
+                cartasRemovidas++;
+            } else {
+                printf("Seleção de carta inválida.\n");
+            }
+        } else {
+            printf("Seleção de carta inválida.\n");
+        }
+    }
+
+    if (soma % 3 == 0) {
+        printf("Parabéns! Você venceu.\n");
+        return 1;
+    } else {
+        printf("Desculpe, você não venceu desta vez.\n");
+        return 0;
+    }
+}
+
+int main() {
+    srand(time(NULL)); // Inicializa o gerador de números aleatórios
+    jogarJogo();
+    return 0;
+}
+
+
