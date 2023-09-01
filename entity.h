@@ -61,7 +61,7 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
     cardNo hcno;
     int hasused = 0;
     while(c.top != NULL){
-        int EqType = strcmp(selected_card.top->type, c.top->type);
+        int EqType = !strcmp(selected_card.top->type, c.top->type);
         int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
         int EqPower= selected_card.top->power == c.top->power;
         deleteFirstCard(&(c), &hcno);
@@ -82,8 +82,8 @@ int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
 int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasASameCard(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
-        if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard) && takes){
-            if(strcmp(selected_card.top->type, "attack")){
+        if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard) && takes->deck->top != NULL){
+            if(!strcmp(selected_card.top->type, "attack") && isEntityAMonster(takes)){
                 int rest_shield = takes->shield -selected_card.top->power;
                 if(rest_shield < 0){
                     takes->life -= -rest_shield;
@@ -91,13 +91,13 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
                 }else{
                     takes->shield = rest_shield;
                 }
-                
-            }else if(strcmp(selected_card.top->type, "defence")){
+                return 1;
+            }else if(!strcmp(selected_card.top->type, "defence") && isEntityAPlayer(takes)){
                 takes->shield += selected_card.top->power;
-            }else if(strcmp(selected_card.top->type, "special")){
-                /*sistema de defesa n totalmente especificado por soussa*/
+                return 1;
+            }else if(!strcmp(selected_card.top->type, "special")){
+                return 1;
             }
-            return 1;
         }
     };
     return 0;
