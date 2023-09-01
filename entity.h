@@ -83,7 +83,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
     if ((hasASameCard(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
         cardNo usedcard;
         if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard) && takes->deck->top != NULL){
-            if(!strcmp(selected_card.top->type, "attack") && isEntityAMonster(takes)){
+            if(!strcmp(selected_card.top->type, "attack")){
                 int rest_shield = takes->shield -selected_card.top->power;
                 if(rest_shield < 0){
                     takes->life -= -rest_shield;
@@ -92,7 +92,7 @@ int useEntityCard(card selected_card, entity *causes, entity *takes){
                     takes->shield = rest_shield;
                 }
                 return 1;
-            }else if(!strcmp(selected_card.top->type, "defence") && isEntityAPlayer(takes)){
+            }else if(!strcmp(selected_card.top->type, "defence")){
                 takes->shield += selected_card.top->power;
                 return 1;
             }else if(!strcmp(selected_card.top->type, "special")){
