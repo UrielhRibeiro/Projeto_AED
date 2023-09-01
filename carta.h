@@ -49,7 +49,7 @@ int deleteFirstCard(card *c, cardNo *data_backup){
 int hasASameCard(card card1, card card2){
     while (card1.top != NULL){
         while (card2.top != NULL){
-            int EqType = strcmp(card1.top->type, card2.top->type);
+            int EqType = !strcmp(card1.top->type, card2.top->type);
             int EqEnergy_cost = card1.top->energy_cost == card2.top->energy_cost;
             int EqPower= card1.top->power == card2.top->power;
             if(EqEnergy_cost && EqPower && EqType) return 1;
