@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include "carta.h"
+
+#define MAX_SHIELD 20
 typedef struct entity{
     int life, energy, shield;
-    card deck;
-}enitity;
+    CardStack deck;
+}entity;
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
@@ -22,80 +24,87 @@ int isEntityAMonster(entity *possible_monster){
     return 0;
 }
 
+//verifica se a entidade esta viva
+int isEntityalive(entity *entity1){
+    if (entity1->life <= 0){
+        return 0;
+    }
+    return 1;
+}
+
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-enitity CreatePlayer(char *name){
-    char types[3][8] = {"attack", "defence", "special"};
+entity CreatePlayer(char *name, Card card){
     entity player;
     player.life = 20;
     player.energy = 3;
     player.shield = 0;
-    srand(time(NULL));
-    for (int i=0; i < 10; i++){
-        int j = rand() %2;
-        char str[10]; 
-        itoa(i +1,str,10);
-        cardNo no = {*types[j], *strcat(types[j], str), rand() %10, rand() %8};
-        startCard(&player.deck);
-        addCard(&player.deck, &no);
-    }
+    player.deck.top = &card;
     return player;
 }
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(int life, int shield, cardNo *cardno){
-    enitity monster;
+entity CreateMonster(int life, int shield, Card card){
+    entity monster;
     monster.life = life;
     monster.energy = INT_MAX;
-    monster.deck.top = cardno;
+    monster.deck.top = &card;
     monster.shield = shield; 
     return monster;
 }
 
-/*pega apenas a parte q intereca da carta, removendo a ja ultilizada*/
-int getImportantCards(card c, card selected_card, card *retc, cardNo *usedc){
-    if(!(c.top && selected_card.top)) return 0;
-    card hcard;
-    startCard(&hcard);
-    cardNo hcno;
-    int hasused = 0;
-    while(c.top != NULL){
-        int EqType = !strcmp(selected_card.top->type, c.top->type);
-        int EqEnergy_cost = selected_card.top->energy_cost == c.top->energy_cost;
-        int EqPower= selected_card.top->power == c.top->power;
-        deleteFirstCard(&(c), &hcno);
-        if(EqEnergy_cost && EqPower && EqType && !hasused) {
-            *usedc = hcno; 
-            hasused = 1;
-            continue;
-        }
-        addCard(&hcard, &hcno);
+//retorna se o ataque foi realizado ou n
+int attackEntity(entity *attackentity, entity *defenceentity, int power){
+    int pp = isEntityAPlayer(attackentity); // pp = possivel jogador
+    int pm = isEntityAMonster(defenceentity); // pm = possivel monstro
+    if(pp){
+        if (!pm) return 0;
+    }else if(!pp){
+        if (pm) return 0;
     }
-    *retc = hcard;
+    int restshield = defenceentity->shield -power;
+        if(restshield < 0){
+            defenceentity->life -= -restshield;
+            defenceentity->shield = 0;
+        }else{
+            defenceentity->shield = restshield;
+        }
+    return 1;
+}
+
+int addEntityShield(entity *entity1, entity *entity2, int qntshield){
+    int pp = isEntityAPlayer(entity1); // pp = possivel jogador
+    int pm = isEntityAMonster(entity2); // pm = possivel monstro
+    if(pp){
+        if (!pm) return 0;
+    }else if(!pp){
+        if (pm) return 0;
+    }  
+    if(entity1->shield == MAX_SHIELD) return 0;
+    entity1->shield = entity1->shield +qntshield;
+    if(entity1->shield > MAX_SHIELD){
+        int overshield = MAX_SHIELD -entity1->shield;
+        entity1->shield -= overshield;
+    }
     return 1;
 }
 
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
 /*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
-int useEntityCard(card selected_card, entity *causes, entity *takes){
-    if ((hasASameCard(selected_card, causes->deck))&&(causes->energy -selected_card.top->energy_cost >= 0)){
-        cardNo usedcard;
-        if (getImportantCards(causes->deck, selected_card, &(causes->deck), &usedcard) && takes->deck->top != NULL){
-            if(!strcmp(selected_card.top->type, "attack")){
-                int rest_shield = takes->shield -selected_card.top->power;
-                if(rest_shield < 0){
-                    takes->life -= -rest_shield;
-                    takes->shield = 0;
-                }else{
-                    takes->shield = rest_shield;
-                }
-                return 1;
-            }else if(!strcmp(selected_card.top->type, "defence")){
-                takes->shield += selected_card.top->power;
-                return 1;
-            }else if(!strcmp(selected_card.top->type, "special")){
+/*selected_cardstack e uma cardstack e nao card devido a funcao hassamecard*/
+int useEntitycardstack(entity *causes, entity *takes, CardStack *selected_cardstack){
+    if ((hasSameCard(causes->deck, selected_cardstack))&&(causes->energy -selected_cardstack.top->energy_cost >= 0)){
+        Card usedcardstack;
+        if (takes->deck.top != NULL){
+            if(!strcmp(selected_cardstack.top->type, "attack")){
+                int ans = attackEntity(causes, takes, selected_cardstack->top->power);
+                if (ans){/*vai remover a carta*/};
+            }else if(!strcmp(selected_cardstack.top->type, "defence")){
+                int ans = addEntityShield(causes, takes, selected_cardstack->top->power);
+                if (ans){/*vai remover a carta*/};
+            }else if(!strcmp(selected_cardstack.top->type, "special")){
                 return 1;
             }
         }
