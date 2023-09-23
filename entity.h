@@ -75,9 +75,9 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
     if(pp){
-        if (!pm) return 0;
-    }else if(!pp){
         if (pm) return 0;
+    }else if(!pp){
+        if (!pm) return 0;
     }  
     if(entity1->shield == MAX_SHIELD) return 0;
     entity1->shield = entity1->shield +qntshield;
