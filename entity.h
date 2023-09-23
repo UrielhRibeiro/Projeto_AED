@@ -25,7 +25,7 @@ int isEntityAMonster(entity *possible_monster){
 }
 
 //verifica se a entidade esta viva
-int isEntityalive(entity *entity1){
+int isEntityAlive(entity *entity1){
     if (entity1->life <= 0) return 0;
     return 1;
 }
@@ -88,6 +88,27 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     return 1;
 }
 
+int digCard(entity *entity1, entity *entity2){
+    static int i = 1;
+    if (entity1 != entity2) return 0;
+    char types[3][20] = {"attack", "defence", "dig"};
+    srand(time(NULL));
+    int v = rand() %3, p = rand() %10 +2;
+    char buffer[100];
+    itoa(v, buffer, 10);
+    strcat(buffer, " dig card");
+    if (!strcmp(types[v], types[3])) p = 1;  
+    Card c; 
+    strcpy(c.type, types[v]);
+    strcpy(c.name, buffer);
+    c.energy_cost =  rand() %5 +1;
+    c.power = p;
+    c.next = entity1->deck.top;
+    pushCard(&(entity1->deck), &c);
+    i++;
+    return 1;
+}
+
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
 /*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
@@ -102,8 +123,9 @@ int useEntitycardstack(entity *causes, entity *takes, CardStack *selected_cardst
             }else if(!strcmp(selected_cardstack.top->type, "defence")){
                 int ans = addEntityShield(causes, takes, selected_cardstack->top->power);
                 if (ans){/*vai remover a carta*/};
-            }else if(!strcmp(selected_cardstack.top->type, "special")){
-                return 1;
+            }else if(!strcmp(selected_cardstack.top->type, "dig")){
+                int ans = digCard(causes, takes);
+                if (ans){/*vai remover a carta*/};
             }
         }
     };
