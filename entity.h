@@ -112,18 +112,18 @@ int digCard(entity *entity1, entity *entity2){
 /*faz a entidade usar sua carta*/
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
 /*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
-/*selected_cardstack e uma cardstack e nao card devido a funcao hassamecard*/
-int useEntitycardstack(entity *causes, entity *takes, CardStack *selected_cardstack){
-    if ((hasSameCard(causes->deck, selected_cardstack))&&(causes->energy -selected_cardstack.top->energy_cost >= 0)){
+/*selected_card e uma cardstack e nao card devido a funcao hassamecard*/
+int useEntitycard(entity *causes, entity *takes, Card *selected_card){
+    if ((hasSameCard(causes->deck, selected_card))&&(causes->energy -selected_card->energy_cost >= 0)){
         Card usedcardstack;
         if (takes->deck.top != NULL){
-            if(!strcmp(selected_cardstack.top->type, "attack")){
-                int ans = attackEntity(causes, takes, selected_cardstack->top->power);
+            if(!strcmp(selected_card->type, "attack")){
+                int ans = attackEntity(causes, takes, selected_card->power);
                 if (ans){/*vai remover a carta*/};
-            }else if(!strcmp(selected_cardstack.top->type, "defence")){
-                int ans = addEntityShield(causes, takes, selected_cardstack->top->power);
+            }else if(!strcmp(selected_card->type, "defence")){
+                int ans = addEntityShield(causes, takes, selected_card->power);
                 if (ans){/*vai remover a carta*/};
-            }else if(!strcmp(selected_cardstack.top->type, "dig")){
+            }else if(!strcmp(selected_card->type, "dig")){
                 int ans = digCard(causes, takes);
                 if (ans){/*vai remover a carta*/};
             }
