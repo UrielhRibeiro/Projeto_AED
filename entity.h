@@ -26,9 +26,7 @@ int isEntityAMonster(entity *possible_monster){
 
 //verifica se a entidade esta viva
 int isEntityalive(entity *entity1){
-    if (entity1->life <= 0){
-        return 0;
-    }
+    if (entity1->life <= 0) return 0;
     return 1;
 }
 
