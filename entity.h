@@ -98,7 +98,7 @@ int digCard(entity *entity1, entity *entity2){
     strcat(buffer, " dig card");
     if      (!strcmp(types[v], types[0]))  p = rand() %(damage[0] +1) +damage[1];  
     else if (!strcmp(types[v], types[1]))  p = rand() %(shield[0] +1) +shield[1];
-    else if (!strcmp(types[v], types[2]))  p = rand() %(heal[0] +1) +heal[1];
+    else if (!strcmp(types[v], types[2]))  p = rand() %(heal[0] +1)   +heal[1];
     else if (!strcmp(types[v], types[3]))  p = 1;
     Card c; 
     strcpy(c.type, types[v]);

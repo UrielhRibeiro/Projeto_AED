@@ -4,7 +4,7 @@ int MAX_SHIELD = 20;
 //quantidade de vida do jogador
 int PLAYER_LIFE = 50;
 
-//maximo de dano min de dano respectivamente
+//maximo e minimo respectivamente
 //usado na probabilidade de poder ao gerar a carta
 //intervalo de valores aleatorios
 //iguais aos 4 debaixo:
