@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "carta.h"
-
-#define MAX_SHIELD 20
+#include "config.h"
 typedef struct entity{
     int life, energy, shield;
     CardStack deck;
@@ -34,8 +33,8 @@ int isEntityAlive(entity *entity1){
 /*e retorna a entidade jogador*/
 entity CreatePlayer(char *name, Card card){
     entity player;
-    player.life = 20;
-    player.energy = 3;
+    player.life = PLAYER_LIFE;
+    player.energy = PLAYER_ENERGY;
     player.shield = 0;
     player.deck.top = &card;
     return player;
@@ -91,22 +90,42 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
 int digCard(entity *entity1, entity *entity2){
     static int i = 1;
     if (entity1 != entity2) return 0;
-    char types[3][20] = {"attack", "defence", "dig"};
+    char types[4][20] = {"attack", "defence", "heal", "dig"};
     srand(time(NULL));
-    int v = rand() %3, p = rand() %10 +2;
+    int v = rand() %3, p;
     char buffer[100];
     itoa(v, buffer, 10);
     strcat(buffer, " dig card");
-    if (!strcmp(types[v], types[3])) p = 1;  
+    if      (!strcmp(types[v], types[0]))  p = rand() %(damage[0] +1) +damage[1];  
+    else if (!strcmp(types[v], types[1]))  p = rand() %(shield[0] +1) +shield[1];
+    else if (!strcmp(types[v], types[2]))  p = rand() %(heal[0] +1)   +heal[1];
+    else if (!strcmp(types[v], types[3]))  p = 1;
     Card c; 
     strcpy(c.type, types[v]);
     strcpy(c.name, buffer);
-    c.energy_cost =  rand() %5 +1;
+    c.energy_cost =  rand() %(energy_cost[0] +1) +energy_cost[0];
     c.power = p;
     c.next = entity1->deck.top;
     pushCard(&(entity1->deck), &c);
     i++;
     return 1;
+}
+
+int healEntity(entity *entity1, entity *entity2 , int qntheal){
+    int pp = isEntityAPlayer(entity1); // pp = possivel jogador
+    int pm = isEntityAMonster(entity2); // pm = possivel monstro
+    if(pp){
+        if (pm) return 0;
+    }else if(!pp){
+        if (!pm) return 0;
+    }  
+    if(entity1->life == PLAYER_LIFE) return 0;
+    entity1->life = entity1->life +qntheal;
+    if(entity1->life > PLAYER_LIFE){
+        int overlife = PLAYER_LIFE -entity1->life;
+        entity1->life -= overlife;
+    }
+    return 1;  
 }
 
 /*faz a entidade usar sua carta*/
@@ -121,6 +140,9 @@ int useEntitycard(entity *causes, entity *takes, Card *selected_card){
                 if (ans){/*vai remover a carta*/};
             }else if(!strcmp(selected_card->type, "defence")){
                 int ans = addEntityShield(causes, takes, selected_card->power);
+                if (ans){/*vai remover a carta*/};
+            }else if(!strcmp(selected_card->type, "heal")){
+                int ans = healEntity(causes, takes, selected_card->power);
                 if (ans){/*vai remover a carta*/};
             }else if(!strcmp(selected_card->type, "dig")){
                 int ans = digCard(causes, takes);
