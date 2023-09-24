@@ -112,16 +112,54 @@ int hasSameCardInStack(CardStack stack, Card selected_card) {
 
 
 /**** Deletar um Carta ****/
-
-int DeleteCard(){
-
-
-
-
-
-
-
+int DeleteCard(CardStack *stack, Card *selected_card){
     
+    if(stack -> top == NULL){
+        fprintf(stderr, "Erro: A pilha está vazia.\n");
+        return 0;
+    } 
+
+    CardStack tempStack; // Pilha auxiliar de cartas para ajudar a encontrar a carta e excluir 
+    initCardStack(&tempStack); // Iniciliazar a pilha de cartas temporárias  
+
+    int cardFound = 0; // Verificar de carta encontrada
+
+      while (stack->top != NULL) { 
+        Card card;
+        if (!popCard(stack, &card)) {
+            fprintf(stderr, "Erro ao remover carta da pilha.\n");
+            return 0;
+        }
+
+        // Verificação de atribtuos da carta para remover ela 
+        // Se for igual a carta selecionada (struct), em todos os atribtuos retorna 1 => carta excluída
+        if (strcmp(card.type, selected_card->type) == 0 && 
+            card.energy_cost == selected_card->energy_cost &&
+            card.power == selected_card-> power) {
+            cardFound = 1;
+            continue; // Carta encontrada e excluída
+        }
+
+        pushCard(&tempStack, &card);
+
+    }
+
+    // Restaurar a pilha original pois ela foi invertida com a adição de uma pilha temporária
+    // A pilha original agora não tem a carta que foi excluída 
+    while (tempStack.top != NULL) {
+        Card card;
+        popCard(&tempStack, &card);
+        pushCard(stack, &card);
+    }
+
+    clearCardStack(&tempStack); //Excluir a pilha temporária 
+
+    if (cardFound) {
+        return 1; // Carta encontrada e excluída com sucesso
+    } else {
+        fprintf(stderr, "Erro: A carta não foi encontrada na pilha de cartas! \n");
+        return 0; // Carta não encontrada
+    }
 }
 
 
