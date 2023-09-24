@@ -5,8 +5,6 @@ int MAX_SHIELD = 20;
 int PLAYER_LIFE = 50;
 int PLAYER_ENERGY = 20;
 
-
-
 //maximo e minimo respectivamente
 //usado na probabilidade de poder ao gerar a carta
 //intervalo de valores aleatorios
