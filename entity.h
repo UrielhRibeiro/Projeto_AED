@@ -33,8 +33,8 @@ int isEntityAlive(entity *entity1){
 /*e retorna a entidade jogador*/
 entity CreatePlayer(char *name, Card card){
     entity player;
-    player.life = 20;
-    player.energy = 3;
+    player.life = PLAYER_LIFE;
+    player.energy = PLAYER_ENERGY;
     player.shield = 0;
     player.deck.top = &card;
     return player;
