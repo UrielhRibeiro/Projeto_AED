@@ -114,7 +114,7 @@ int digCard(entity *entity1, entity *entity2){
 /*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
 /*selected_card e uma cardstack e nao card devido a funcao hassamecard*/
 int useEntitycard(entity *causes, entity *takes, Card *selected_card){
-    if ((hasSameCard(causes->deck, selected_card))&&(causes->energy -selected_card->energy_cost >= 0)){
+    if ((hasSameCard(&causes->deck, selected_card))&&(causes->energy -selected_card->energy_cost >= 0)){
         Card usedcardstack;
         if (takes->deck.top != NULL){
             if(!strcmp(selected_card->type, "attack")){
