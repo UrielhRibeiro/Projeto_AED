@@ -103,7 +103,7 @@ int digCard(entity *entity1, entity *entity2){
     Card c; 
     strcpy(c.type, types[v]);
     strcpy(c.name, buffer);
-    c.energy_cost =  rand() %5 +1;
+    c.energy_cost =  rand() %(energy_cost[0] +1) +energy_cost[0];
     c.power = p;
     c.next = entity1->deck.top;
     pushCard(&(entity1->deck), &c);

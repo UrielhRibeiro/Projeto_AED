@@ -7,8 +7,10 @@ int PLAYER_LIFE = 50;
 //maximo de dano min de dano respectivamente
 //usado na probabilidade de poder ao gerar a carta
 //intervalo de valores aleatorios
-//iguais aos 3 debaixo:
+//iguais aos 4 debaixo:
 int damage[2] = {10,5};
 int shield[2] = {10,5};
 int heal  [2] = {10,5};
+//custo de energia
+int energy_cost[2] = {5,1};
 
