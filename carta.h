@@ -60,34 +60,30 @@ void clearCardStack(CardStack *stack) {
     }
 }
 
-/* Verifica se há pelo menos 1 carta igual a outra */
-int hasSameCard(const CardStack *stack1, const CardStack *stack2) {
-    if (stack1->top == NULL || stack2->top == NULL) {
-        fprintf(stderr, "Erro: Pelo menos uma das pilhas está vazia.\n");
+/* Verifica se há pelo menos 1 carta igual a outra dentro de uma única pilha */
+int hasSameCardInStack(CardStack stack, Card selected_card) {
+    if (stack.top == NULL) {
+        fprintf(stderr, "Erro: A pilha está vazia.\n");
         return 0;
     }
 
-    CardStack tempStack1, tempStack2;
-    initCardStack(&tempStack1);
-    initCardStack(&tempStack2);
+    CardStack tempStack;
+    initCardStack(&tempStack);
 
     int hasSame = 0;
 
-    while (stack1->top != NULL) {
+    while (stack.top != NULL) {
         Card card1;
-        if (!popCard((CardStack *)stack1, &card1)) {
-            fprintf(stderr, "Erro ao remover carta da primeira pilha.\n");
+        if (!popCard(&stack, &card1)) {
+            fprintf(stderr, "Erro ao remover carta da pilha.\n");
             return 0;
         }
-        pushCard(&tempStack1, &card1);
+        pushCard(&tempStack, &card1);
 
-        while (stack2->top != NULL) {
+        while (tempStack.top != NULL) {
             Card card2;
-            if (!popCard((CardStack *)stack2, &card2)) {
-                fprintf(stderr, "Erro ao remover carta da segunda pilha.\n");
-                return 0;
-            }
-            pushCard(&tempStack2, &card2);
+            popCard(&tempStack, &card2);
+            pushCard(&stack, &card2);
 
             if (strcmp(card1.type, card2.type) == 0 &&
                 card1.energy_cost == card2.energy_cost &&
@@ -97,26 +93,36 @@ int hasSameCard(const CardStack *stack1, const CardStack *stack2) {
             }
         }
 
-        while (tempStack2.top != NULL) {
-            Card card2;
-            popCard(&tempStack2, &card2);
-            pushCard((CardStack *)stack2, &card2);
-        }
-
         if (hasSame) {
             break;
         }
     }
 
-    // Restaurar as pilhas originais
-    while (tempStack1.top != NULL) {
+    // Restaurar a pilha original
+    while (tempStack.top != NULL) {
         Card card1;
-        popCard(&tempStack1, &card1);
-        pushCard((CardStack *)stack1, &card1);
+        popCard(&tempStack, &card1);
+        pushCard(&stack, &card1);
     }
 
-    clearCardStack(&tempStack1);
-    clearCardStack(&tempStack2);
+    clearCardStack(&tempStack);
 
     return hasSame;
 }
+
+
+/**** Deletar um Carta ****/
+
+int DeleteCard(){
+
+
+
+
+
+
+
+    
+}
+
+
+
