@@ -1,0 +1,14 @@
+//Maximo de escudo permitido
+int MAX_SHIELD = 20;
+
+//quantidade de vida do jogador
+int PLAYER_LIFE = 50;
+
+//maximo de dano min de dano respectivamente
+//usado na probabilidade de poder ao gerar a carta
+//intervalo de valores aleatorios
+//iguais aos 3 debaixo:
+int damage[2] = {10,5};
+int shield[2] = {10,5};
+int heal  [2] = {10,5};
+
