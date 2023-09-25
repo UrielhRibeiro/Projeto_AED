@@ -2,7 +2,7 @@
 int MAX_SHIELD = 20;
 
 //maximo e minimo respectivamente
-//usado na probabilidade de poder ao gerar a carta
+//usado na probabilidade ao gerar a carta
 //intervalo de valores aleatorios
 //iguais aos 4 debaixo:
 int damage[2]      = {10,5};
