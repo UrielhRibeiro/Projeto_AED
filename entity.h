@@ -4,6 +4,9 @@
 #include <time.h>
 #include "carta.h"
 #include "config.h"
+
+int PLAYER_LIFE;
+
 typedef struct entity{
     int life, energy, shield;
     CardStack deck;
@@ -31,10 +34,11 @@ int isEntityAlive(entity *entity1){
 
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-entity CreatePlayer(char *name){
+entity CreatePlayer(char *name, int life, int energy){
     entity player;
-    player.life = PLAYER_LIFE;
-    player.energy = PLAYER_ENERGY;
+    player.life = life;
+    PLAYER_LIFE = life;
+    player.energy = energy;
     player.shield = 0;
     char types[4][20] = {"attack", "defence", "heal", "dig"};
     srand(time(NULL));
@@ -69,7 +73,9 @@ entity CreateMonster(int life, int shield, Card card){
     return monster;
 }
 
-//retorna se o ataque foi realizado ou n
+//!!!!! as funcoes abaixo exceto useEntityCard nao deve estar no jogo pq ao usar a useEntityCard ja executa essas funcoes
+
+//ataca a entidade e retorna se foi possivel realizar o ataque ou n
 int attackEntity(entity *attackentity, entity *defenceentity, int power){
     int pp = isEntityAPlayer(attackentity); // pp = possivel jogador
     int pm = isEntityAMonster(defenceentity); // pm = possivel monstro
@@ -88,6 +94,7 @@ int attackEntity(entity *attackentity, entity *defenceentity, int power){
     return 1;
 }
 
+//adiciona escudo a entidade em uma determinada quantidade e retorna se foi possivel realizar o ataque ou n
 int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
@@ -105,6 +112,7 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     return 1;
 }
 
+//cava a carta aleatoria e retorna se foi possivel realizar o ataque ou n
 int digCard(entity *entity1, entity *entity2){
     static int i = 1;
     if (entity1 != entity2) return 0;
@@ -129,6 +137,7 @@ int digCard(entity *entity1, entity *entity2){
     return 1;
 }
 
+// restaura a vida de alguma entidade em um valor especificado e retorna se foi possivel realizar o ataque ou n
 int healEntity(entity *entity1, entity *entity2 , int qntheal){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
