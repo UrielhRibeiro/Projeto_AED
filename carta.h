@@ -113,7 +113,7 @@ int hasSameCardInStack(CardStack stack, Card selected_card) {
 
 /**** Deletar um Carta ****/
 int DeleteCard(CardStack *stack, Card *selected_card){
-    
+
     if(stack -> top == NULL){
         fprintf(stderr, "Erro: A pilha está vazia.\n");
         return 0;
@@ -141,7 +141,7 @@ int DeleteCard(CardStack *stack, Card *selected_card){
         }
 
         pushCard(&tempStack, &card);
-
+        
     }
 
     // Restaurar a pilha original pois ela foi invertida com a adição de uma pilha temporária
@@ -162,5 +162,47 @@ int DeleteCard(CardStack *stack, Card *selected_card){
     }
 }
 
+
+/* Embaralha as cartas na pilha */
+void shuffleCardStack(CardStack *stack) {
+    if (stack->top == NULL) {
+        fprintf(stderr, "Erro: A pilha está vazia.\n");
+        return;
+    }
+
+    // Inicializa a aleatoriedade com base no tempo atual
+    srand(time(NULL));
+
+    Card *cardsArray[100]; // Aqui eu assumi um valor abritário, mas pode mudar.
+    int numCards = 0;
+
+    // Copia as cartas da pilha para um array
+    while (stack->top != NULL) {
+        Card *card = (Card *)malloc(sizeof(Card));
+        if (card == NULL) {
+            fprintf(stderr, "Erro: Falha na alocação de memória para embaralhar as cartas.\n");
+            exit(1);
+        }
+        popCard(stack, card);
+        cardsArray[numCards++] = card;
+    }
+
+    // Embaralha as cartas no array
+    for (int i = numCards - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        if (i != j) {
+            // Troca as posições das cartas
+            Card *temp = cardsArray[i];
+            cardsArray[i] = cardsArray[j];
+            cardsArray[j] = temp;
+        }
+    }
+
+    // Empilha as cartas embaralhadas de volta na pilha original
+    for (int i = 0; i < numCards; i++) {
+        pushCard(stack, cardsArray[i]);
+        free(cardsArray[i]); // Libera a memória alocada para o array
+    }
+}
 
 
