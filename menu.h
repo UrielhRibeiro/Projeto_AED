@@ -1,38 +1,58 @@
+#ifndef MENU_H
+#define MENU_H
+
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
+#include <windows.h>
 
 void GameStart(){
+
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
     char playerName[20];
     printf("Seja bem vindo jogador!\n");
     printf("insira aqui seu nome:");
     scanf("%s",playerName);
-    printf("Ola, %s",playerName);
+    printf("Olá, %s!",playerName);
 
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
 void GameCredits(){
-    printf("-----------Creditos-------------\n");
+
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
+    printf("------------Créditos------------\n");
     printf("--------------------------------\n");
     printf("---------Colaboradores----------\n");
     printf("--------------------------------\n");
-    printf("---------Andrei Rehem-----------\n");
+    printf("----------Andrei Rehem----------\n");
     printf("--------Guilherme Gradin--------\n");
-    printf("-------Miguel Bernardino--------\n");
-    printf("--------Uriel Henrique----------\n");
+    printf("--------Miguel Bernardino-------\n");
+    printf("---------Uriel Henrique---------\n");
     printf("--------------------------------\n");
+
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
+void menu(){
 
-int main(){
-    setlocale(LC_ALL,"Portuguese");
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
     char option[8];
     int validOption;
-    printf("--------Nome do Jogo-----------\n");
-    printf("-------------------------------\n");
-    printf("-----------Jogar---------------\n");
-    printf("----------Creditos-------------\n");
-    printf("-------------------------------\n");
+    printf("---------Nome do Jogo-----------\n");
+    printf("--------------------------------\n");
+    printf("------------Jogar---------------\n");
+    printf("-----------Créditos-------------\n");
+    printf("--------------------------------\n");
     printf("digite aqui sua opção:");
     do{
     scanf("%s",option);
@@ -49,7 +69,8 @@ int main(){
     }
     }while(!validOption);
 
-        
-   
-    return 0;
+
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
+
+#endif

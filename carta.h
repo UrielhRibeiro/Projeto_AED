@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct Card {
     char type[20];
     char name[20];
+    char desc[60];
     int energy_cost;
     int power;
+    int quantity;
     struct Card *next;
 } Card;
 
