@@ -12,7 +12,7 @@ void GameStart(){
 }
 
 void GameCredits(){
-    printf("-----------Creditos-------------\n");
+    printf("-----------Creditos------------\n");
     printf("--------------------------------\n");
     printf("---------Colaboradores----------\n");
     printf("--------------------------------\n");
