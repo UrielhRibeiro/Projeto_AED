@@ -6,42 +6,51 @@
 #include <string.h>
 #include <windows.h>
 
+// Função para obter o nome do jogador e configurar a página de código UTF-8
 char* GameStart(){
+    // Configuração da página de código para UTF-8
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
-    static char playerName[20];
-    char option[8];
-    int validOption;
-    printf("Seja bem vindo jogador!\n");
-    printf("insira aqui seu nome:");
-     fgets(playerName, sizeof(playerName), stdin);
-    playerName[strcspn(playerName, "\n")] = '\0';
-    printf("Ola, %s\n",playerName);
-    printf("Voce gostaria de iniciar o tutorial?\n");
-     do{
+
+    static char playerName[20]; // Variável para armazenar o nome do jogador
+    char option[8]; //Variável para armazenar opção escolhida
+    int validOption;//Variável para checar validez da opçãoo
+
+    printf("Seja bem-vindo jogador!\n");
+    printf("Insira aqui seu nome:");
+    // Usando fgets para ler uma linha, incluindo espaços em branco
+    fgets(playerName, sizeof(playerName), stdin);
+    playerName[strcspn(playerName, "\n")] = '\0'; // Remove a quebra de linha do final
+
+    printf("Olá, %s\n",playerName);
+    printf("Você gostaria de iniciar o tutorial?\n");
+    //fazendo checagem de validez da opção
+    do {
         scanf("%s",option);
-        if (stricmp(option, "sim")==0){
-         validOption=1;
-    }
-        else if(stricmp(option, "nao")==0){
-         break;
-         
-    }
-        else{
-         printf("Opcao invalida,tente novamente");
-    }
-    }while(!validOption);
+        if (stricmp(option, "sim") == 0) {
+            validOption = 1;
+        } else if (stricmp(option, "nao") == 0) {
+            break;
+        } else {
+            printf("Opção inválida, tente novamente");
+        }
+    } while (!validOption);
+
+    // Restaura a página de código padrão
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 
     return playerName;
-    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
+// Função para exibir os créditos do jogo 
 void GameCredits(){
+    
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
-    printf("-----------Creditos-------------\n");
+
+    printf("-----------Créditos-------------\n");
     printf("--------------------------------\n");
     printf("---------Colaboradores----------\n");
     printf("--------------------------------\n");
@@ -50,45 +59,48 @@ void GameCredits(){
     printf("-------Miguel Bernardino--------\n");
     printf("--------Uriel Henrique----------\n");
     printf("--------------------------------\n");
-     SetConsoleOutputCP(CPAGE_DEFAULT);
+
+    // Restaura a página de código padrão
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
-
+// Função para iniciar o menu do jogo 
 void startMenu(){
-     UINT CPAGE_UTF8 = 65001;
+    
+    UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
+
     setlocale(LC_ALL,"Portuguese");
     char option[8];
     int validOption;
+
     printf("--------Nome do Jogo-----------\n");
     printf("-------------------------------\n");
     printf("-----------Jogar---------------\n");
     printf("----------Creditos-------------\n");
     printf("------------Sair---------------\n");
     printf("-------------------------------\n");
-    printf("digite aqui sua opção:");
-    do{
-    scanf("%s",option);
-    if (stricmp(option, "jogar")==0){
-        GameStart();
-        validOption=1;
-    }
-    else if(stricmp(option, "creditos")==0){
-        GameCredits();
-        validOption=1;
-    }
-    else if (stricmp(option, "sair") == 0) {
+    printf("Digite aqui sua opção:");
+    //fazendo checagem de validez da opção e chamando função de acordo com a escolha
+    do {
+        scanf("%s",option);
+        if (stricmp(option, "jogar") == 0) {
+            GameStart();
+            validOption = 1;
+        } else if (stricmp(option, "creditos") == 0) {
+            GameCredits();
+            validOption = 1;
+        } else if (stricmp(option, "sair") == 0) {
             printf("Obrigado por jogar! Saindo do jogo...\n");
             break;
+        } else {
+            printf("Opção inválida, tente novamente.");
         }
-    else{
-        printf("Opcao invalida,tente novamente.");
-    }
-    }while(!validOption);
- SetConsoleOutputCP(CPAGE_DEFAULT);
+    } while (!validOption);
+
+   
+    SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
 #endif
-
-
