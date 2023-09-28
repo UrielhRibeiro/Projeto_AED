@@ -70,7 +70,6 @@ void menu(){
     }while(!validOption);
 
 
-
     SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
