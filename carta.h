@@ -6,6 +6,7 @@
 typedef struct Card {
     char type[20];
     char name[20];
+    char desc[60];
     int energy_cost;
     int power;
     int quantity;
