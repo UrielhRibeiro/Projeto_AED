@@ -6,8 +6,10 @@
 #include <string.h>
 #include <windows.h>
 
+//Introdução do jogo
 void intro(){
 
+    // Configuração da página de código para UTF-8
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
@@ -25,7 +27,7 @@ void intro(){
     printf("\n--------------------------------\n");
     printf("|Nessa aventura, viva como um  |\n|Feiticeiro Jujutsu e exorcize |\n|todas as maldições que encon- |\n|trar!                         |\n");
     printf("--------------------------------\n");
-    printf("\n");
+    printf("\n\n");
 
     SetConsoleOutputCP(CPAGE_DEFAULT);
 }

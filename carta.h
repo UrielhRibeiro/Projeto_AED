@@ -1,9 +1,14 @@
+#ifndef CARTA_H
+#define CARTA_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <locale.h>
+#include <windows.h>
 
-typedef struct Card {
+typedef struct Card{
     char type[20];
     char name[20];
     char desc[60];
@@ -208,4 +213,27 @@ void shuffleCardStack(CardStack *stack) {
     }
 }
 
+void printCardStack(CardStack *stack){
 
+    //Modifica a linguagem na qual o texto sai no terminal, aceitando assim os assentos e caracteres especiais
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
+    //Copia a carta no topo da stack para realizar a impressão
+    Card *temp;
+    int cont=1;
+    temp = stack->top;
+    while (temp != NULL)
+    {
+        //Imprime a carta e passa para a próxima
+        printf("\nCARTA %d %s\nNome: %s\nCusto: %d EA\nForça: %d\n%s\n", cont, temp->type, temp->name, temp->energy_cost, temp->power, temp->desc);
+        temp = temp->next;
+        cont ++;
+    }
+
+    //Volta a linguagem do terminal para o padrão
+    SetConsoleOutputCP(CPAGE_DEFAULT);
+}
+
+#endif

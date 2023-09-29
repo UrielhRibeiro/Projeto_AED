@@ -7,6 +7,7 @@ CardStack MegumiCards(){
     //Cartas de Ataque
     Card MegumiAtaque[4];
 
+    //Preenchendo cada elemento das cartas de ataque
     for(int i=0; i<4; i++) strcpy(MegumiAtaque[i].type, "ATAQUE");
     
     strcpy(MegumiAtaque[0].name, "GOLPE");
@@ -15,9 +16,9 @@ CardStack MegumiCards(){
     strcpy(MegumiAtaque[3].name, "CÃO DIVINO: TOTAL");
 
     strcpy(MegumiAtaque[0].desc, "Golpeia o inimigo.");
-    strcpy(MegumiAtaque[1].desc, "Invoca dois cães gêmeos, um preto e um branco, que atacam o alvo juntos.");
-    strcpy(MegumiAtaque[2].desc, "Invoca Nue, uma criatura voadura que eletrocuta o inimigo.");
-    strcpy(MegumiAtaque[3].desc, "Mescla os cães divinos, formando uma criatura de dano massivo.");
+    strcpy(MegumiAtaque[1].desc, "Invoca dois cães gêmeos, um pre-\nto e um branco, que atacam o al-\nvo juntos.");
+    strcpy(MegumiAtaque[2].desc, "Invoca Nue, uma criatura voadura\nque eletrocuta o inimigo.");
+    strcpy(MegumiAtaque[3].desc, "Mescla os cães divinos, formando\numa criatura de dano massivo.");
     
     MegumiAtaque[0].energy_cost = 1;
     MegumiAtaque[1].energy_cost = 2;
@@ -37,6 +38,7 @@ CardStack MegumiCards(){
     //Cartas de Defesa
     Card MegumiDefesa[4];
 
+    //Preenchendo cada elemento das cartas de defesa
     for(int i=0; i<4; i++) strcpy(MegumiDefesa[i].type, "DEFESA");
     
     strcpy(MegumiDefesa[0].name, "DEFENDER");
@@ -45,9 +47,9 @@ CardStack MegumiCards(){
     strcpy(MegumiDefesa[3].name, "FUGA DOS COELHOS");
 
     strcpy(MegumiDefesa[0].desc, "Defenda o golpe do adversário.");
-    strcpy(MegumiDefesa[1].desc, "Envolve o usuário em energia amaldiçoada que amortece o próximo ataque inimigo.");
-    strcpy(MegumiDefesa[2].desc, "Invoca um sapo capaz de carregar o usuário dentro da boca, absorvendo o dano do próximo ataque inimigo.");
-    strcpy(MegumiDefesa[3].desc, "Invoca vários coelhos que confundem o inimigo.");
+    strcpy(MegumiDefesa[1].desc, "Envolve o usuário em energia a- \nmaldiçoada que amortece o próxi-\nmo ataque inimigo.");
+    strcpy(MegumiDefesa[2].desc, "Invoca um sapo capaz de carregar\no usuário dentro da boca, absor-\nvendo o dano do próximo ataque  \ninimigo.");
+    strcpy(MegumiDefesa[3].desc, "Invoca vários coelhos que con-  \nfundem o inimigo.");
 
     MegumiDefesa[0].energy_cost = 1;
     MegumiDefesa[1].energy_cost = 2;
@@ -69,6 +71,7 @@ CardStack MegumiCards(){
     Card MegumiSuporte[4];
     int att, def, ec;
 
+    //Preenchendo cada elemento das cartas de suporte
     for(int i=0; i<4; i++) strcpy(MegumiSuporte[i].type, "SUPORTE");
 
     strcpy(MegumiSuporte[0].name, "Concentrar");
@@ -103,10 +106,10 @@ CardStack MegumiCards(){
 
     //Passando todas as cartas pro deck
     for(int i=0; i<4; i++){
-
-        pushCard(&Megumi, &MegumiAtaque[i]);
-        pushCard(&Megumi, &MegumiDefesa[i]);
-        pushCard(&Megumi, &MegumiSuporte[i]);
+        //Passa as cartas repetidamente N número de vezes para o deck, N = quantidade pré-definida
+        for(int j=0; j<MegumiAtaque[i].quantity; j++) pushCard(&Megumi, &MegumiAtaque[i]);
+        for(int j=0; j<MegumiDefesa[i].quantity; j++) pushCard(&Megumi, &MegumiDefesa[i]);
+        for(int j=0; j<MegumiSuporte[i].quantity; j++) pushCard(&Megumi, &MegumiSuporte[i]);
 
     }
 

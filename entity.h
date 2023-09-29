@@ -1,16 +1,26 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "carta.h"
 #include "config.h"
 
 int PLAYER_LIFE;
 
 typedef struct entity{
+
+    char name[20], character[20];
     int life, energy, shield;
     CardStack deck;
 }entity;
+
+typedef struct monster{
+    int life, maxDamage, minDamage, maxShield, minShield;
+}monster;
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
@@ -34,8 +44,10 @@ int isEntityAlive(entity *entity1){
 
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-entity CreatePlayer(char *name, int life, int energy){
+entity CreatePlayer(char *name, char *character, int life, int energy){
     entity player;
+    strcmp(player.name, name);
+    strcmp(player.character, character);
     player.life = life;
     PLAYER_LIFE = life;
     player.energy = energy;
@@ -43,7 +55,7 @@ entity CreatePlayer(char *name, int life, int energy){
     char types[4][20] = {"attack", "defence", "heal", "dig"};
     srand(time(NULL));
     initCardStack(&player.deck);
-    for (int i = 0; i < 10; i++){
+    /*for (int i = 0; i < 10; i++){
         Card c;
         int v = rand() %4, p;
         char buffer[100];
@@ -59,18 +71,30 @@ entity CreatePlayer(char *name, int life, int energy){
         c.power = p;
         pushCard(&player.deck, &c);
     }
+    */
     return player;
 }
 
 /*cria um monstro*/
-/*e retorna a entidade monstro*/
-entity CreateMonster(int life, int shield, Card card){
-    entity monster;
-    monster.life = life;
-    monster.energy = INT_MAX;
-    monster.deck.top = &card;
-    monster.shield = shield;
-    return monster;
+/*e retorna a monstro*/
+monster CreateMonster(int life, int minShield, int maxShield, int minDamage, int maxDamage){
+    monster novo_mon;
+    novo_mon.life = life;
+    novo_mon.maxShield = maxShield;
+    novo_mon.minShield = minShield;
+    novo_mon.maxDamage = maxDamage;
+    novo_mon.minDamage = minDamage;
+
+    return novo_mon;
+}
+//Imprime o jogador
+void printEntity(entity *entity1){
+    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", entity1->name, entity1->character, entity1->life, entity1->energy);
+}
+
+//Imprime o monstro
+void printMonster(monster *monster1){
+    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\n Escudo: %d - %d\n", monster1->life, monster1->minDamage, monster1->maxDamage, monster1->minShield, monster1->maxShield);
 }
 
 //!!!!! as funcoes abaixo exceto useEntityCard nao deve estar no jogo pq ao usar a useEntityCard ja executa essas funcoes
@@ -159,6 +183,7 @@ int healEntity(entity *entity1, entity *entity2 , int qntheal){
 /*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
 /*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
 /*selected_card e uma cardstack e nao card devido a funcao hassamecard*/
+/*
 int useEntitycard(entity *causes, entity *takes, Card *selected_card){
     if ((hasSameCardInStack(causes->deck, *selected_card))&&(causes->energy -selected_card->energy_cost >= 0)){
         Card usedcardstack;
@@ -192,3 +217,6 @@ int useEntitycard(entity *causes, entity *takes, Card *selected_card){
     };
     return 0;
 }
+*/
+
+#endif

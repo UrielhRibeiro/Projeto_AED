@@ -18,13 +18,13 @@ char* GameStart(){
     int validOption;//Variável para checar validez da opçãoo
 
     printf("Seja bem-vindo jogador!\n");
-    printf("Insira aqui seu nome:");
+    printf("Insira aqui seu nome: ");
     // Usando fgets para ler uma linha, incluindo espaços em branco
     fgets(playerName, sizeof(playerName), stdin);
     playerName[strcspn(playerName, "\n")] = '\0'; // Remove a quebra de linha do final
 
-    printf("Olá, %s\n",playerName);
-    printf("Você gostaria de iniciar o tutorial?\n");
+    printf("Olá, %s!\n",playerName);
+    printf("Você gostaria de iniciar o tutorial?\n('sim' ou 'nao')\n");
     //fazendo checagem de validez da opção
     do {
         scanf("%s",option);
@@ -33,7 +33,7 @@ char* GameStart(){
         } else if (stricmp(option, "nao") == 0) {
             break;
         } else {
-            printf("Opção inválida, tente novamente");
+            printf("Opção inválida, tente novamente.");
         }
     } while (!validOption);
 
@@ -46,18 +46,19 @@ char* GameStart(){
 // Função para exibir os créditos do jogo 
 void GameCredits(){
     
+    // Configuração da página de código para UTF-8
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
 
-    printf("-----------Créditos-------------\n");
+    printf("------------Créditos------------\n");
     printf("--------------------------------\n");
-    printf("---------Colaboradores----------\n");
+    printf("----------Colaboradores---------\n");
     printf("--------------------------------\n");
-    printf("---------Andrei Rehem-----------\n");
+    printf("----------Andrei Rehem----------\n");
     printf("--------Guilherme Gradin--------\n");
-    printf("-------Miguel Bernardino--------\n");
-    printf("--------Uriel Henrique----------\n");
+    printf("--------Miguel Bernardino-------\n");
+    printf("---------Uriel Henrique---------\n");
     printf("--------------------------------\n");
 
     // Restaura a página de código padrão
@@ -67,21 +68,21 @@ void GameCredits(){
 // Função para iniciar o menu do jogo 
 void startMenu(){
     
+    // Configuração da página de código para UTF-8
     UINT CPAGE_UTF8 = 65001;
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
 
-    setlocale(LC_ALL,"Portuguese");
     char option[8];
     int validOption;
 
-    printf("--------Nome do Jogo-----------\n");
-    printf("-------------------------------\n");
-    printf("-----------Jogar---------------\n");
-    printf("----------Creditos-------------\n");
-    printf("------------Sair---------------\n");
-    printf("-------------------------------\n");
-    printf("Digite aqui sua opção:");
+    printf("----------JUJUTSU ROAD----------\n");
+    printf("--------------------------------\n");
+    printf("--------------Jogar-------------\n");
+    printf("------------Créditos------------\n");
+    printf("--------------Sair--------------\n");
+    printf("--------------------------------\n");
+    printf("Digite aqui sua opção:\n(Escreva em letras minúsculas sem acento)\n");
     //fazendo checagem de validez da opção e chamando função de acordo com a escolha
     do {
         scanf("%s",option);
@@ -99,7 +100,7 @@ void startMenu(){
         }
     } while (!validOption);
 
-   
+    // Restaura a página de código padrão
     SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
