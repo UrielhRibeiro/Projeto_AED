@@ -2,7 +2,7 @@
 #define CHARACTER_H
 #include "carta.h"
 
-CardStack MegumiCards(){
+void MegumiCards(CardStack *deck){
 
     //Cartas de Ataque
     Card MegumiAtaque[4];
@@ -69,7 +69,7 @@ CardStack MegumiCards(){
 
     //Cartas de Suporte
     Card MegumiSuporte[4];
-    int att, def, ec;
+    //int att, def, ec;
 
     //Preenchendo cada elemento das cartas de suporte
     for(int i=0; i<4; i++) strcpy(MegumiSuporte[i].type, "SUPORTE");
@@ -89,33 +89,22 @@ CardStack MegumiCards(){
     MegumiSuporte[2].energy_cost = 0;
     MegumiSuporte[3].energy_cost = 0;
 
-    MegumiSuporte[0].power = ec-1;
-    MegumiSuporte[1].power = def*1.5;
-    MegumiSuporte[2].power = att*1.5;
-    MegumiSuporte[3].power = def*0.5;
+    MegumiSuporte[0].power = 0;
+    MegumiSuporte[1].power = 0;
+    MegumiSuporte[2].power = 0;
+    MegumiSuporte[3].power = 0;
 
     MegumiSuporte[0].quantity = 1;
     MegumiSuporte[1].quantity = 1;
     MegumiSuporte[2].quantity = 1;
     MegumiSuporte[3].quantity = 1;
 
-
-    //Criação e inicialização do deck
-    CardStack Megumi;
-    initCardStack(&Megumi);
-
     //Passando todas as cartas pro deck
     for(int i=0; i<4; i++){
         //Passa as cartas repetidamente N número de vezes para o deck, N = quantidade pré-definida
-        for(int j=0; j<MegumiAtaque[i].quantity; j++) pushCard(&Megumi, &MegumiAtaque[i]);
-        for(int j=0; j<MegumiDefesa[i].quantity; j++) pushCard(&Megumi, &MegumiDefesa[i]);
-        for(int j=0; j<MegumiSuporte[i].quantity; j++) pushCard(&Megumi, &MegumiSuporte[i]);
-
+        for(int j=0; j<MegumiAtaque[i].quantity; j++)  pushCard(deck, &MegumiAtaque[i]);  
+        for(int j=0; j<MegumiDefesa[i].quantity; j++)  pushCard(deck, &MegumiDefesa[i]);
+        for(int j=0; j<MegumiSuporte[i].quantity; j++) pushCard(deck, &MegumiSuporte[i]);   
     }
-
-    return Megumi;
-
 }
-
-
 #endif
