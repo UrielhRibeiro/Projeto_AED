@@ -1,11 +1,10 @@
 #include "entity.h"
-#include "config.h"
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
 
 // Função para realizar um round de combate entre um jogador e um monstro
-void Round(entity *jogador, entity *monstro) {
+void Round(player *jogador, monster *monstro) {
     // Cria uma carta de ataque para o monstro
     Card monsterCard;
     strcpy(monsterCard.type, "attack");
@@ -22,15 +21,14 @@ void Round(entity *jogador, entity *monstro) {
 
     // Embaralhe o baralho do jogador e do monstro
     shuffleCardStack(&(jogador->deck));
-    shuffleCardStack(&(monstro->deck));
 
     // Use a carta do jogador contra o monstro
-    useEntitycard(jogador, monstro, &playerCard);
+    /*useEntitycard(jogador, monstro, &playerCard);
     printf("Vida da maldição: %d Escudo da maldição: %d\n", monstro->life, monstro->shield);
 
     // Use a carta do monstro contra o jogador
     useEntitycard(monstro, jogador, &monsterCard);
-    printf("Vida: %d Energia amaldiçoada: %d\n", jogador->life, jogador->energy);
+    printf("Vida: %d Energia amaldiçoada: %d\n", jogador->life, jogador->energy);*/
 }
 
 int main() {
@@ -44,7 +42,7 @@ int main() {
     GameStart(playerName);
 
     // Crie o jogador e o monstro
-    entity jogador;
+    player jogador;
     monster monstro;
 
     //Seleção de personagem
@@ -59,15 +57,14 @@ int main() {
         case 1:
             printf("Você escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
             //Cria o jogador
-            jogador = CreatePlayer(playerName, "Megumi", 90, 6);
-            jogador.deck = MegumiCards();
+            jogador = CreatePlayer(playerName, 90, 6, "Megumi");
             shuffleCardStack(&jogador.deck);
             break;
     }
 
     //Visualizar jogador
     printf("\nO seu jogador foi criado!\nVeja como ficou:\n")/
-    printEntity(&jogador);
+    printPlayer(&jogador);
 
     //Visualizar o deck
     printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
@@ -77,7 +74,7 @@ int main() {
     startMenu();
     intro();
     printf("\nSeja bem-vindo ao tutorial!\n");
-    printf("\nVida: %d | EA: %d\n", jogador.life, jogador.energy);
+    printf("\nVida: %d | EA: %d\n", jogador.property.life, jogador.property.energy);
     printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
