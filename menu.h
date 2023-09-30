@@ -14,28 +14,31 @@ char* GameStart(){
     SetConsoleOutputCP(CPAGE_UTF8);
 
     static char playerName[20]; // Variável para armazenar o nome do jogador
-    char option[8]; //Variável para armazenar opção escolhida
-    int validOption;//Variável para checar validez da opçãoo
+    //char option[8]; //Variável para armazenar opção escolhida
+    //int validOption;//Variável para checar validez da opçãoo
 
     printf("Seja bem-vindo jogador!\n");
     printf("Insira aqui seu nome: ");
     // Usando fgets para ler uma linha, incluindo espaços em branco
-    fgets(playerName, sizeof(playerName), stdin);
+    scanf(" %[^\n]s", playerName);
+    //fgets(playerName, sizeof(playerName), stdin);
     playerName[strcspn(playerName, "\n")] = '\0'; // Remove a quebra de linha do final
 
+    
     printf("Olá, %s!\n",playerName);
-    printf("Você gostaria de iniciar o tutorial?\n('sim' ou 'nao')\n");
+    /*printf("Você gostaria de iniciar o tutorial?\n('sim' ou 'nao')\n");
     //fazendo checagem de validez da opção
     do {
         scanf("%s",option);
         if (stricmp(option, "sim") == 0) {
             validOption = 1;
         } else if (stricmp(option, "nao") == 0) {
-            break;
+            continue;
         } else {
             printf("Opção inválida, tente novamente.");
         }
     } while (!validOption);
+    */
 
     // Restaura a página de código padrão
     SetConsoleOutputCP(CPAGE_DEFAULT);
@@ -87,7 +90,7 @@ void startMenu(){
     do {
         scanf("%s",option);
         if (stricmp(option, "jogar") == 0) {
-            GameStart();
+            //GameStart();
             validOption = 1;
         } else if (stricmp(option, "creditos") == 0) {
             GameCredits();

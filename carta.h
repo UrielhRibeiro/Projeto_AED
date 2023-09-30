@@ -11,7 +11,7 @@
 typedef struct Card{
     char type[20];
     char name[20];
-    char desc[60];
+    char desc[500];
     int energy_cost;
     int power;
     int quantity;
@@ -221,14 +221,14 @@ void printCardStack(CardStack *stack){
     SetConsoleOutputCP(CPAGE_UTF8);
 
     //Copia a carta no topo da stack para realizar a impressão
-    Card *temp;
+    Card *aux;
     int cont=1;
-    temp = stack->top;
-    while (temp != NULL)
+    aux = stack->top;
+    while (aux != NULL)
     {
         //Imprime a carta e passa para a próxima
-        printf("\nCARTA %d %s\nNome: %s\nCusto: %d EA\nForça: %d\n%s\n", cont, temp->type, temp->name, temp->energy_cost, temp->power, temp->desc);
-        temp = temp->next;
+        printf("\nCARTA %d %s\nNome: %s\nCusto: %d EA\nForça: %d\n", cont, aux->type, aux->name, aux->energy_cost, aux->power);
+        aux = aux->next;
         cont ++;
     }
 

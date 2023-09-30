@@ -37,30 +37,37 @@ int main() {
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
 
-    // Obtenha o nome do jogador
-    char playerName[20];
-    GameStart(playerName);
-
     // Crie o jogador e o monstro
     player jogador;
     monster monstro;
 
+    // Inicia o menu 
+    startMenu();
+    
+    // Obtenha o nome do jogador
+    char playerName[20];
+
+    strcpy(playerName, GameStart());
+
+    
     //Seleção de personagem
     int escolhaPersonagem;
-    printf("Escolha o personagem que deseja jogar:\n1.Fushiguro Megumi\n");
+    printf("\nEscolha o personagem que deseja jogar:\n1.Fushiguro Megumi\n");
     scanf("%d", &escolhaPersonagem);
     while(escolhaPersonagem!=1){
         printf("Escolha uma opção válida.");
         scanf("%d", &escolhaPersonagem);
     }
-    switch(escolhaPersonagem){
-        case 1:
-            printf("Você escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
-            //Cria o jogador
-            jogador = CreatePlayer(playerName, 90, 6, "Megumi");
-            shuffleCardStack(&jogador.deck);
-            break;
+    
+    if(escolhaPersonagem==1){
+
+        printf("\nVocê escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
+
+        //Cria o jogador
+        jogador = CreatePlayer(playerName, 90, 6, "Megumi");
+        shuffleCardStack(&jogador.deck);
     }
+    
 
     //Visualizar jogador
     printf("\nO seu jogador foi criado!\nVeja como ficou:\n")/
@@ -70,17 +77,17 @@ int main() {
     printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
     printCardStack(&jogador.deck);
 
-    // Inicia o menu 
-    startMenu();
+    //Imprime a introdução do jogo
     intro();
+
     printf("\nSeja bem-vindo ao tutorial!\n");
-    printf("\nVida: %d | EA: %d\n", jogador.property.life, jogador.property.energy);
+    printPlayer(&jogador);
     printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
     monstro = CreateMonster(62, 5, 8, 7, 12);
     printMonster(&monstro);
-    printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esse \nvalores.");
+    printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
 
     printf("\n\nObrigado por jogar!\nNovas versões virão em breve!");
     /*

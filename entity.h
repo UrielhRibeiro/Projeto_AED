@@ -59,12 +59,12 @@ player CreatePlayer(char name[], int life, int energy, char character[]){
     strcpy(player.name, name);
     initCardStack(&player.deck);
     srand(time(NULL));
-    for (int c = 0; c < 10; c++){
-        if (!strcmp(character, "Megumi")){//personagem
-            strcpy(player.character, "Megumi");
-            MegumiCards(&player.deck);
-        }else if(0) {/*outro personagem ainda n definido*/}
-    }
+    
+    if (!strcmp(character, "Megumi")){//personagem
+        strcpy(player.character, "Megumi");
+        MegumiCards(&player.deck);
+    }else if(0) {/*outro personagem ainda n definido*/}
+    
     return player;
 }
 
@@ -92,7 +92,7 @@ int printPlayer(player *player1){
 //Imprime o monstro
 int printMonster(monster *monster1){
     if(isEntityAPlayer(&monster1->property)) return 0;
-    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\n Escudo: %d - %d\n", monster1->property.life, monster1->random_damage.min, monster1->random_damage.max, monster1->random_shield.min, monster1->random_shield.max);
+    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\nEscudo: %d - %d\n", monster1->property.life, monster1->random_damage.min, monster1->random_damage.max, monster1->random_shield.min, monster1->random_shield.max);
     return 1;
 }
 /*
