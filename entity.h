@@ -1,26 +1,32 @@
-#ifndef ENTITY_H
-#define ENTITY_H
-
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
-#include "carta.h"
-#include "config.h"
+#include <stdarg.h> 
+#include "characters.h"
 
 int PLAYER_LIFE;
+typedef struct random{
+    int min;
+    int max;
+}random;
 
 typedef struct entity{
-
-    char name[20], character[20];
     int life, energy, shield;
-    CardStack deck;
 }entity;
 
 typedef struct monster{
-    int life, maxDamage, minDamage, maxShield, minShield;
+    entity property;
+    random random_damage;
+    random random_shield;
 }monster;
+
+typedef struct player {
+    entity property;
+    CardStack deck;
+    char character[20];
+    char name[20];
+}player;
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
@@ -44,62 +50,53 @@ int isEntityAlive(entity *entity1){
 
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-entity CreatePlayer(char *name, char *character, int life, int energy){
-    entity player;
-    strcmp(player.name, name);
-    strcmp(player.character, character);
-    player.life = life;
+player CreatePlayer(char name[], int life, int energy, char character[]){
+    player player;
+    player.property.life = life;
     PLAYER_LIFE = life;
-    player.energy = energy;
-    player.shield = 0;
-    char types[4][20] = {"attack", "defence", "heal", "dig"};
-    srand(time(NULL));
+    player.property.energy = energy;
+    player.property.shield = 0;
+    strcpy(player.name, name);
     initCardStack(&player.deck);
-    /*for (int i = 0; i < 10; i++){
-        Card c;
-        int v = rand() %4, p;
-        char buffer[100];
-        itoa(i, buffer, 10);
-        strcat(buffer, " card");
-        if      (!strcmp(types[v], types[0]))  p = rand() %(damage[0] +1) +damage[1];  
-        else if (!strcmp(types[v], types[1]))  p = rand() %(shield[0] +1) +shield[1];
-        else if (!strcmp(types[v], types[2]))  p = rand() %(heal[0] +1)   +heal[1];
-        else if (!strcmp(types[v], types[3]))  p = 1;
-        strcpy(c.type, types[v]);
-        strcpy(c.name, buffer);
-        c.energy_cost =  rand() %(energy_cost[0] +1) +energy_cost[0];
-        c.power = p;
-        pushCard(&player.deck, &c);
+    srand(time(NULL));
+    for (int c = 0; c < 10; c++){
+        if (!strcmp(character, "Megumi")){//personagem
+            strcpy(player.character, "Megumi");
+            MegumiCards(&player.deck);
+        }else if(0) {/*outro personagem ainda n definido*/}
     }
-    */
     return player;
 }
 
 /*cria um monstro*/
-/*e retorna a monstro*/
+/*e retorna a entidade monstro*/
 monster CreateMonster(int life, int minShield, int maxShield, int minDamage, int maxDamage){
-    monster novo_mon;
-    novo_mon.life = life;
-    novo_mon.maxShield = maxShield;
-    novo_mon.minShield = minShield;
-    novo_mon.maxDamage = maxDamage;
-    novo_mon.minDamage = minDamage;
-
-    return novo_mon;
+    monster m;
+    m.property.life = life;
+    m.property.energy = INT_MAX;
+    m.property.shield = 0;
+    m.random_shield.min = minShield;
+    m.random_shield.max = maxShield;
+    m.random_damage.min = minDamage;
+    m.random_damage.max = maxDamage;
+    return m;
 }
+
 //Imprime o jogador
-void printEntity(entity *entity1){
-    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", entity1->name, entity1->character, entity1->life, entity1->energy);
+int printPlayer(player *player1){
+    if(isEntityAMonster(&player1->property)) return 0;
+    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", player1->name, player1->character, player1->property.life, player1->property.energy);
+    return 1;
 }
 
 //Imprime o monstro
-void printMonster(monster *monster1){
-    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\n Escudo: %d - %d\n", monster1->life, monster1->minDamage, monster1->maxDamage, monster1->minShield, monster1->maxShield);
+int printMonster(monster *monster1){
+    if(isEntityAPlayer(&monster1->property)) return 0;
+    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\n Escudo: %d - %d\n", monster1->property.life, monster1->random_damage.min, monster1->random_damage.max, monster1->random_shield.min, monster1->random_shield.max);
+    return 1;
 }
-
-//!!!!! as funcoes abaixo exceto useEntityCard nao deve estar no jogo pq ao usar a useEntityCard ja executa essas funcoes
-
-//ataca a entidade e retorna se foi possivel realizar o ataque ou n
+/*
+//retorna se o ataque foi realizado ou n
 int attackEntity(entity *attackentity, entity *defenceentity, int power){
     int pp = isEntityAPlayer(attackentity); // pp = possivel jogador
     int pm = isEntityAMonster(defenceentity); // pm = possivel monstro
@@ -117,8 +114,8 @@ int attackEntity(entity *attackentity, entity *defenceentity, int power){
         }
     return 1;
 }
-
-//adiciona escudo a entidade em uma determinada quantidade e retorna se foi possivel realizar o ataque ou n
+*/
+/*
 int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
@@ -127,41 +124,16 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     }else if(!pp){
         if (!pm) return 0;
     }  
-    if(entity1->shield == MAX_SHIELD) return 0;
-    entity1->shield = entity1->shield +qntshield;
-    if(entity1->shield > MAX_SHIELD){
-        int overshield = MAX_SHIELD -entity1->shield;
-        entity1->shield -= overshield;
+    if(player1->property.shield == MAX_SHIELD) return 0;
+    player1->property.shield = player1->property.shield +qntshield;
+    if(player1->property.shield > MAX_SHIELD){
+        int overshield = MAX_SHIELD -player1->property.shield;
+        player1->property.shield -= overshield;
     }
     return 1;
 }
-
-//cava a carta aleatoria e retorna se foi possivel realizar o ataque ou n
-int digCard(entity *entity1, entity *entity2){
-    static int i = 1;
-    if (entity1 != entity2) return 0;
-    char types[4][20] = {"attack", "defence", "heal", "dig"};
-    srand(time(NULL));
-    int v = rand() %4, p;
-    char buffer[100];
-    itoa(i, buffer, 10);
-    strcat(buffer, " dig card");
-    if      (!strcmp(types[v], types[0]))  p = rand() %(damage[0] +1) +damage[1];  
-    else if (!strcmp(types[v], types[1]))  p = rand() %(shield[0] +1) +shield[1];
-    else if (!strcmp(types[v], types[2]))  p = rand() %(heal[0] +1)   +heal[1];
-    else if (!strcmp(types[v], types[3]))  p = 1;
-    Card c; 
-    strcpy(c.type, types[v]);
-    strcpy(c.name, buffer);
-    c.energy_cost =  rand() %(energy_cost[0] +1) +energy_cost[0];
-    c.power = p;
-    c.next = entity1->deck.top;
-    pushCard(&(entity1->deck), &c);
-    i++;
-    return 1;
-}
-
-// restaura a vida de alguma entidade em um valor especificado e retorna se foi possivel realizar o ataque ou n
+*/
+/*
 int healEntity(entity *entity1, entity *entity2 , int qntheal){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
@@ -170,53 +142,59 @@ int healEntity(entity *entity1, entity *entity2 , int qntheal){
     }else if(!pp){
         if (!pm) return 0;
     }  
-    if(entity1->life == PLAYER_LIFE) return 0;
-    entity1->life = entity1->life +qntheal;
-    if(entity1->life > PLAYER_LIFE){
-        int overlife = PLAYER_LIFE -entity1->life;
-        entity1->life -= overlife;
+    if(player1->property.life == PLAYER_LIFE) return 0;
+    player1->property.life = player1->property.life +qntheal;
+    if(player1->property.life > PLAYER_LIFE){
+        int overlife = PLAYER_LIFE -player1->property.life;
+        player1->property.life -= overlife;
     }
     return 1;  
 }
-
-/*faz a entidade usar sua carta*/
-/*a entidade 1 e a que usa a carta, e a entidade 2 e a q sofre em consequencia desse uso*/
-/*se a carta selecionada for de defesa, logo a entidade 1 == entidade 2, pois ela mesmo sofre em consequencia do uso*/
-/*selected_card e uma cardstack e nao card devido a funcao hassamecard*/
+*/
+/*a entidade 1 e a que causa a acao, e a entidade 2 e a q sofre a acao*/
+/*a entidade que deve ser passada como parametro n deve ser do tipo entity, e sim do tipo player ou monster*/
+/*a variavel inutil e realmente inutil so serve pra poder usar o vararg*/
+/*entity *causes, entity *takes, Card *selected_card*/
 /*
-int useEntitycard(entity *causes, entity *takes, Card *selected_card){
+int EntityAction(char inutil, ...){
+    player player1[2];
+    monster monster1[2];
+    Card action;
+    va_list args;
+    int aux = 0; 
+    va_start(args, inutil);
+    for (int i = 0; i < 3; i++){
+        if (i == 0) {// a entidade que causa a acao
+        
+        }else if(i == 1){//a entidade que sofre a acao
+
+        }
+    }
+    va_end(args);
+
     if ((hasSameCardInStack(causes->deck, *selected_card))&&(causes->energy -selected_card->energy_cost >= 0)){
-        Card usedcardstack;
         if (takes->deck.top != NULL){
-            if(!strcmp(selected_card->type, "attack")){
+            if(!strcmp(selected_card->type, "ATAQUE")){
                 int ans = attackEntity(causes, takes, selected_card->power);
                 if (ans){
                     DeleteCard(&causes->deck, selected_card);
                     return 1;
-                };
-            }else if(!strcmp(selected_card->type, "defence")){
+                }
+            }else if(!strcmp(selected_card->type, "DEFESA")){
                 int ans = addEntityShield(causes, takes, selected_card->power);
                 if (ans){
                     DeleteCard(&causes->deck, selected_card);
                     return 1;
-                };
-            }else if(!strcmp(selected_card->type, "heal")){
+                }
+            }else if(!strcmp(selected_card->type, "SUPORTE")){
                 int ans = healEntity(causes, takes, selected_card->power);
                 if (ans){
                     DeleteCard(&causes->deck, selected_card);
                     return 1;
-                };
-            }else if(!strcmp(selected_card->type, "dig")){
-                int ans = digCard(causes, takes);
-                if (ans){
-                    DeleteCard(&causes->deck, selected_card);
-                    return 1;
-                };
+                }
             }
         }
-    };
+    }
     return 0;
 }
 */
-
-#endif
