@@ -1,44 +1,44 @@
 #include <stdio.h>
-#include <limits.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdarg.h> 
 #include "characters.h"
 
 int PLAYER_LIFE;
+//usado para o monstro na geracao de valores aleatorios com um valor minimo e outro valor maximo para definir o intervalo dos valores aleatorios
 typedef struct random{
     int min;
     int max;
 }random;
 
-typedef struct entity{
-    int life, energy, shield;
-}entity;
-
-typedef struct monster{
-    entity property;
-    random random_damage;
-    random random_shield;
-}monster;
-
-typedef struct player {
-    entity property;
+typedef struct player{
     CardStack deck;
     char character[20];
     char name[20];
+    int energy;
 }player;
+
+typedef struct monster{
+    random random_damage;
+    random random_shield;        
+}monster;
+
+typedef struct entity{
+    int life, shield;
+    player *const player;
+    monster *const monster;
+}entity;
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
 int isEntityAPlayer(entity *possible_player){
-    if(possible_player->energy < INT_MAX -999999) return 1;
+    if(possible_player->monster == NULL) return 1;
     return 0;
 }
 
 /*verifica se e um monstro*/
 /*1: e um monstro | 0: nao e um monstro*/
 int isEntityAMonster(entity *possible_monster){
-    if(possible_monster->energy > INT_MAX -999999) return 1;
+    if(possible_monster->player == NULL) return 1;
     return 0;
 }
 
@@ -47,52 +47,48 @@ int isEntityAlive(entity *entity1){
     if (entity1->life <= 0) return 0;
     return 1;
 }
-
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-player CreatePlayer(char name[], int life, int energy, char character[]){
-    player player;
-    player.property.life = life;
+entity CreatePlayer(char name[], int life, int energy, char character[]){
+    player p;
     PLAYER_LIFE = life;
-    player.property.energy = energy;
-    player.property.shield = 0;
-    strcpy(player.name, name);
-    initCardStack(&player.deck);
+    p.energy = energy;
+    strcpy(p.name, name);
+    initCardStack(&(p.deck));
     srand(time(NULL));
-    
+
     if (!strcmp(character, "Megumi")){//personagem
-        strcpy(player.character, "Megumi");
-        MegumiCards(&player.deck);
+        strcpy(p.character, "Megumi");
+        MegumiCards(&p.deck);
     }else if(0) {/*outro personagem ainda n definido*/}
-    
-    return player;
+
+    entity e = {.life = life, .shield = 0, .player = &p, .monster = NULL};
+    return e;
 }
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-monster CreateMonster(int life, int minShield, int maxShield, int minDamage, int maxDamage){
+entity CreateMonster(int life, int minShield, int maxShield, int minDamage, int maxDamage){
     monster m;
-    m.property.life = life;
-    m.property.energy = INT_MAX;
-    m.property.shield = 0;
     m.random_shield.min = minShield;
     m.random_shield.max = maxShield;
     m.random_damage.min = minDamage;
     m.random_damage.max = maxDamage;
-    return m;
+    entity e = {.life = life, .shield = 0, .player = NULL, .monster = &m};
+    return e;
 }
 
 //Imprime o jogador
-int printPlayer(player *player1){
-    if(isEntityAMonster(&player1->property)) return 0;
-    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", player1->name, player1->character, player1->property.life, player1->property.energy);
+int printPlayer(entity *e){
+    if(isEntityAMonster(e)) return 0;
+    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", e->player->name, e->player->character, e->life, e->player->energy);
     return 1;
 }
 
 //Imprime o monstro
-int printMonster(monster *monster1){
-    if(isEntityAPlayer(&monster1->property)) return 0;
-    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\nEscudo: %d - %d\n", monster1->property.life, monster1->random_damage.min, monster1->random_damage.max, monster1->random_shield.min, monster1->random_shield.max);
+int printMonster(entity *e){
+    if(isEntityAPlayer(e)) return 0;
+    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\nEscudo: %d - %d\n", e->life, e->monster->random_damage.min, e->monster->random_damage.max, e->monster->random_shield.min, e->monster->random_shield.max);
     return 1;
 }
 /*
@@ -158,7 +154,7 @@ int healEntity(entity *entity1, entity *entity2 , int qntheal){
 /*
 int EntityAction(char inutil, ...){
     player player1[2];
-    monster monster1[2];
+    monster e->monster[2];
     Card action;
     va_list args;
     int aux = 0; 
