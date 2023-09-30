@@ -6,7 +6,7 @@
 #include "characters.h"
 
 int PLAYER_LIFE;
-//usado para o monstro para o intervalo de valores para gerar por exemplo o dano aleatorio
+//usado para o monstro na geracao de valores aleatorios com um valor minimo e outro valor maximo para definir o intervalo dos valores aleatorios
 typedef struct random{
     int min;
     int max;
