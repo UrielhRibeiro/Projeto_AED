@@ -2,6 +2,12 @@
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
+#include "global_var.h"
+#include "entity.h"
+
+void Round_Finished(){
+    ac_attack = 0, ac_shield = 0;
+}
 
 // Função para realizar um round de combate entre um jogador e um monstro
 void Round(player *jogador, monster *monstro) {
@@ -29,6 +35,8 @@ void Round(player *jogador, monster *monstro) {
     // Use a carta do monstro contra o jogador
     useEntitycard(monstro, jogador, &monsterCard);
     printf("Vida: %d Energia amaldiçoada: %d\n", jogador->life, jogador->energy);*/
+
+    Round_Finished();
 }
 
 int main() {
@@ -90,7 +98,6 @@ int main() {
     printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
 
     printf("\n\nObrigado por jogar!\nNovas versões virão em breve!");
-    /*
     do {
         // Realize um round de combate
         Round(&jogador, &monstro);
@@ -103,7 +110,6 @@ int main() {
         printf("Você perdeu...\n");
         GameCredits(); // Exiba os créditos do jogo 
     }
-    */
 
     SetConsoleOutputCP(CPAGE_DEFAULT);
     return 0;
