@@ -1,16 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdarg.h>
 #include "characters.h"
+#include "fila.h"
 
 int PLAYER_LIFE;
 //usado para o monstro na geracao de valores aleatorios com um valor minimo e outro valor maximo para definir o intervalo dos valores aleatorios
-typedef struct random{
-    int min;
-    int max;
-}random;
-
 typedef struct player{
     CardStack deck;
     char character[20];
@@ -19,8 +14,7 @@ typedef struct player{
 }player;
 
 typedef struct monster{
-    random random_damage;
-    random random_shield;        
+    tp_fila *const action;      
 }monster;
 
 typedef struct entity{
@@ -73,25 +67,26 @@ entity CreatePlayer(char name[], int life, int energy, char character[]){
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(int life, int minShield, int maxShield, int minDamage, int maxDamage){
+entity CreateMonster(int life, tp_fila *action){
     monster *m;
     do {
         m = (monster *) malloc(sizeof(monster));
     }while(m == NULL);
-
-    m->random_shield.min = minShield;
-    m->random_shield.max = maxShield;
-    m->random_damage.min = minDamage;
-    m->random_damage.max = maxDamage;
-
+    if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
+    *m->action = *action;
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};
     return e;
 }
 
 //Deleta uma entidade
 void DeleteEntity(entity *e){
-    free(e);
-    e = NULL;
+    if(isEntityAPlayer(e)){
+        free(e->player);
+    }else if(isEntityAMonster(e)){
+        free(e->monster);
+    }
+    e->life = -1;
+    e->shield = -1;
 }
 
 //Imprime o jogador
@@ -104,7 +99,7 @@ int printPlayer(entity *e){
 //Imprime o monstro
 int printMonster(entity *e){
     if(isEntityAPlayer(e)) return 0;
-    printf("\nMonstro\nVida: %d\nAtaque: %d - %d\nEscudo: %d - %d\n", e->life, e->monster->random_damage.min, e->monster->random_damage.max, e->monster->random_shield.min, e->monster->random_shield.max);
+    printf("\nMonstro\nVida: %d\nAction: %s - %d", e->life, e->monster->action->ini->type, e->monster->action->ini->power);
     return 1;
 }
 
@@ -112,11 +107,7 @@ int printMonster(entity *e){
 int attackEntity(entity *attackentity, entity *defence_entity, int power){
     int pp = isEntityAPlayer(attackentity); // pp = possivel jogador
     int pm = isEntityAMonster(defence_entity); // pm = possivel monstro
-    if(pp){
-        if (!pm) return 0;
-    }else if(!pp){
-        if (pm) return 0;
-    }
+    if(pp == !pm) return 0;
     int restshield = defence_entity->shield -power;
         if(restshield < 0){
             defence_entity->life -= -restshield;
@@ -127,24 +118,14 @@ int attackEntity(entity *attackentity, entity *defence_entity, int power){
     return 1;
 }
 
-/*
+//retorna se foi possivel adicionar escudo ou n
 int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
     int pm = isEntityAMonster(entity2); // pm = possivel monstro
-    if(pp){
-        if (pm) return 0;
-    }else if(!pp){
-        if (!pm) return 0;
-    }  
-    if(player1->property.shield == MAX_SHIELD) return 0;
-    player1->property.shield = player1->property.shield +qntshield;
-    if(player1->property.shield > MAX_SHIELD){
-        int overshield = MAX_SHIELD -player1->property.shield;
-        player1->property.shield -= overshield;
-    }
+    if(pp == pm) return 0; 
+    entity1->shield += qntshield;
     return 1;
 }
-*/
 /*
 int healEntity(entity *entity1, entity *entity2 , int qntheal){
     int pp = isEntityAPlayer(entity1); // pp = possivel jogador
@@ -165,32 +146,73 @@ int healEntity(entity *entity1, entity *entity2 , int qntheal){
 */
 
 /*a entidade causes e a que causa a acao, e a entidade takes e a q sofre a acao*/
-/*o vararg esta ali para funcionar como um parametro opcional, pois o monstro possui apenas a acao, e o jogador a carta*/
-/*(entity, entity, char[] ou *Card)*/
-int EntityAction(entity *causes, entity *takes, ...){
-    va_list args;
+/*o tipo do 3 parametro e void pq podem ser 2 tipos de variaveis, esta descrito abaixo*/
+/*valores de entrada (entity, entity, tp_fila * ou Card *)*/
+int EntityAction(entity *causes, entity *takes, void *action){
     char action[20];
     Card *selected_card;
-    va_start(args, takes);
-        if(isEntityAPlayer(causes)){
-            va_arg(args, Card *);
-            //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
-            if(!( (hasSameCardInStack(causes->player->deck, *selected_card)) && (causes->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
-            strcpy(action, selected_card->type);
-        }else if(isEntityAMonster(causes)){
-            strcpy(action, va_arg(args, char *));
-        }else { return 0; }
-    va_end(args);
+    tp_fila *queue_action;
+    if(isEntityAPlayer(causes)){
+        selected_card = (Card *) action;// converte o ponteiro
+        //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
+        if(!( (hasSameCardInStack(causes->player->deck, *selected_card)) && (causes->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
+        strcpy(action, selected_card->type);
+    }else if(isEntityAMonster(causes)){
+        queue_action = (tp_fila *) action;
+        if(fila_vazia(queue_action)) return 0;
+        strcpy(action, queue_action->ini->type);
+    }else { return 0; }
     if(!strcmp(action, "ATAQUE")){
         if (isEntityAPlayer(causes)){
             int ans = attackEntity(causes, takes, selected_card->power);
             if (ans) {
                 DeleteCard(&causes->player->deck, selected_card);
+                return 1;
             }
         }else if(isEntityAMonster(causes)){
-            int ans = attackEntity(causes, takes, selected_card->power);
+            int ans = attackEntity(causes, takes, queue_action->ini->power);
             if (ans) {
-                //vai executar a remocao e insercao na fila
+                int old_power;
+                char old_type[20];
+                remove_fila(queue_action, old_type, &old_power);
+                insere_fila(queue_action, old_type, old_power);
+                return 1;
+            }
+        }
+
+    } else if(!strcmp(action, "DEEFESA")){
+        if (isEntityAPlayer(causes)){
+            int ans = addEntityShield(causes, takes, selected_card->power);
+            if (ans) {
+                DeleteCard(&causes->player->deck, selected_card);
+                return 1;
+            }
+        }else if(isEntityAMonster(causes)){
+            int ans = addEntityShield(causes, takes, queue_action->ini->power);
+            if (ans) {
+                int old_power;
+                char old_type[20];
+                remove_fila(queue_action, old_type, &old_power);
+                insere_fila(queue_action, old_type, old_power);
+                return 1;
+            }
+        }
+
+    } else if(!strcmp(action, "SUPORTE")){
+        if (isEntityAPlayer(causes)){
+            int ans; //falta a funcao
+            if (ans) {
+                DeleteCard(&causes->player->deck, selected_card);
+                return 1;
+            }
+        }else if(isEntityAMonster(causes)){
+            int ans; //falta a funcao
+            if (ans) {
+                int old_power;
+                char old_type[20];
+                remove_fila(queue_action, old_type, &old_power);
+                insere_fila(queue_action, old_type, old_power);
+                return 1;
             }
         }
     }
