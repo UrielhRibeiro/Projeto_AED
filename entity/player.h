@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "C:\Users\lickc\Desktop\trabalho AED\Projeto_AED\carta.h"
+#include "C:\Users\Acer\Desktop\Projeto_AED\Projeto_AED\carta.h"
 
 #ifndef PHAND_H
 #define PHAND_H
@@ -23,6 +23,7 @@ typedef struct player{
     char character[20];
     char name[20];
     int energy;
+    int MAX_EA;
 }player;
 
 void initPlayerHand(phand *ph){
