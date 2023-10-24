@@ -5,10 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct monster{
-    tp_fila *const action;      
-}monster;
-
 typedef struct tp_no_aux {
     char type[20];
     int power;
@@ -19,6 +15,9 @@ typedef struct {
     tp_no *ini, *fim;
 } tp_fila;
 
+typedef struct monster{
+    tp_fila *const action;      
+}monster;
 
 // a fila de acoes do monstro
 tp_fila *inicializa_fila (){

@@ -2,7 +2,6 @@
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
-#include "global_var.h"
 #include "entity.h"
 
 void Round_Finished(){

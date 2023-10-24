@@ -9,12 +9,12 @@ int PLAYER_LIFE;
 
 typedef struct phand_no{
     Card card;
-    phand_no *next;
-    phand_no *befo;
+    struct phand_no *next;
+    struct phand_no *befo;
 }phand_no;
 
 typedef struct phand{
-    phand_no *top;
+    phand_no *first;
 }phand;
 
 typedef struct player{
@@ -26,23 +26,23 @@ typedef struct player{
 }player;
 
 void initPlayerHand(phand *ph){
-    ph->top = NULL;
+    ph->first = NULL;
 }
 
-int insertPlayerHandCard(phand *ph, Card e){
+int insertPlayerHandCard(phand *ph, const Card e){
     phand_no *aux = (phand_no *) malloc(sizeof(phand_no));
     if(aux == NULL) return 0;
     aux->card = e;
-    aux->next = ph->top;
+    aux->next = ph->first;
     aux->befo = NULL;
-    ph->top->befo = aux;
-    ph->top = aux;
+    ph->first->befo = aux;
+    ph->first = aux;
     return 1;
 }
 
 int serchPlayerHandCard (phand *ph, const Card *e){
-    if(ph->top == NULL) return 0;
-    phand_no *aux = ph->top;
+    if(ph->first == NULL) return 0;
+    phand_no *aux = ph->first;
     do{
         aux = aux->next;
     }while((aux != NULL) && !areCardsEqual(&aux->card, e));
@@ -51,8 +51,8 @@ int serchPlayerHandCard (phand *ph, const Card *e){
 }
 
 int deletePlayerHandCard(phand *ph, Card *e){
-    if(ph->top == NULL) return 0;
-    phand_no *aux = ph->top;
+    if(ph->first == NULL) return 0;
+    phand_no *aux = ph->first;
     do{
         aux = aux->next;
     }while( (aux != NULL) && !areCardsEqual(&aux->card, e) );

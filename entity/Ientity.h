@@ -24,6 +24,6 @@ int printPlayer(entity *e);
 int printMonster(entity *e);
 int attackEntity(entity *attackentity, entity *defence_entity, int power);
 int addEntityShield(entity *entity1, entity *entity2, int qntshield);
-int EntityAction(entity *cause, entity *takes, void *action);
+int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func);
 
 #endif
