@@ -8,6 +8,8 @@
 /*no geral e uma funcao que armazena as funcoes de suporte de um determinado personagem em uma lista encadeada*/
 /*em associacao cahve valor, onde a chave e uma string e o valor uma funcao*/
 
+int initialshield, initiallife;
+
 typedef struct sup_func_no{
     char key[20];
     int (*func) (entity *cause, entity *takes);

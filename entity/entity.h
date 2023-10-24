@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "characters.h"
 
-int PLAYER_LIFE;
-
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
 int isEntityAPlayer(entity *possible_player){
@@ -109,28 +107,34 @@ int addEntityShield(entity *entity1, entity *entity2, int qntshield){
     return 1;
 }
 
-/*a entidade cause e a que causa a acao, e a entidade takes e a q sofre a acao         */
-/*o tipo do 3 parametro e void pq podem ser 2 tipos de variaveis, esta descrito abaixo */
-/*valores de entrada (entity, entity, tp_fila * ou hand *)                             */
-int EntityAction(entity *cause, entity *takes, void *action){
+/*a entidade cause e a que causa a acao, e a entidade takes e a q sofre a acao                     */
+/*o tipo do 3 parametro e void pq podem ser 2 tipos de variaveis, esta descrito abaixo             */
+/*valores de entrada (entity, entity, tp_fila * ou Card *, funcao de suporte[apenas para player] ) */
+int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func){
     char actiontxt[20];
     Card *selected_card;
     tp_fila *queue_action;
     if(isEntityAPlayer(cause)){
+
         selected_card = (Card *) action;// converte o ponteiro
         //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
-        if(!( (hasSameCardInStack(cause->player->deck, *selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
+        if(!( (serchPlayerHandCard(&cause->player->hand, selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
         strcpy(actiontxt, selected_card->type);
+
     }else if(isEntityAMonster(cause)){
+
         queue_action = (tp_fila *) action;
         if(fila_vazia(queue_action)) return 0;
         strcpy(actiontxt, queue_action->ini->type);
+
     }else { return 0; }
+
     if(!strcmp(actiontxt, "ATAQUE")){
+
         if (isEntityAPlayer(cause)){
             int ans = attackEntity(cause, takes, selected_card->power);
             if (ans) {
-                DeleteCard(&cause->player->deck, selected_card);
+                deletePlayerHandCard(&cause->player->hand, selected_card);
                 return 1;
             }
         }else if(isEntityAMonster(cause)){
@@ -144,11 +148,13 @@ int EntityAction(entity *cause, entity *takes, void *action){
             }
         }
 
+
     } else if(!strcmp(actiontxt, "DEEFESA")){
+
         if (isEntityAPlayer(cause)){
             int ans = addEntityShield(cause, takes, selected_card->power);
             if (ans) {
-                DeleteCard(&cause->player->deck, selected_card);
+                deletePlayerHandCard(&cause->player->hand, selected_card);
                 return 1;
             }
         }else if(isEntityAMonster(cause)){
@@ -162,14 +168,18 @@ int EntityAction(entity *cause, entity *takes, void *action){
             }
         }
 
+
     } else if(!strcmp(actiontxt, "SUPORTE")){
+
         if (isEntityAPlayer(cause)){
-            int ans = executeSupFunc(); //falta a funcao
+            int ans = executeSupFunc(sup_func, selected_card->name, cause, takes); //falta a funcao
             if (ans) {
-                DeleteCard(&cause->player->deck, selected_card);
+                deletePlayerHandCard(&cause->player->hand, selected_card);
                 return 1;
             }
         }
+
     }
+
     return 0;
 }

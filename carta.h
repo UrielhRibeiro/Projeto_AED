@@ -118,19 +118,6 @@ int hasSameCardInStack(CardStack stack, Card selected_card) {
     return hasSame;
 }
 
-
-/* Verifica se duas cartas são iguais */
-int areCardsEqual(const Card *card1, const Card *card2) {
-    if (strcmp(card1->type, card2->type) == 0 &&
-        card1->energy_cost == card2->energy_cost &&
-        card1->power == card2->power) {
-        return 1; // Cartas são iguais
-    } else {
-        return 0; // Cartas não são iguais
-    }
-}
-
-
 /**** Deletar um Carta ****/
 int DeleteCard(CardStack *stack, Card *selected_card){
 
@@ -182,7 +169,16 @@ int DeleteCard(CardStack *stack, Card *selected_card){
     }
 }
 
-
+/* Verifica se duas cartas são iguais */
+int areCardsEqual(const Card *card1, const Card *card2) {
+    if (strcmp(card1->type, card2->type) == 0 &&
+        card1->energy_cost == card2->energy_cost &&
+        card1->power == card2->power) {
+        return 1; // Cartas são iguais
+    } else {
+        return 0; // Cartas não são iguais
+    }
+}
 /* Embaralha as cartas na pilha */
 void shuffleCardStack(CardStack *stack) {
     if (stack->top == NULL) {

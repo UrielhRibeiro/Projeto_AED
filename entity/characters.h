@@ -137,11 +137,19 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
     int r1 = isEntityAPlayer(causes);
     int r2 = isEntityAPlayer(takes);
     if(r1 == r2 && r1 == 1){
+        initialshield = causes->shield;
         causes->shield *= 1.5;
         return 1;
     }
     return 0;
 }
+
+void Megumi_Reset(entity *player){
+    if(isEntityAPlayer(player)){
+        initialshield *= 1.5;
+        
+    }
+}  
 
 #endif
 
