@@ -3,7 +3,7 @@
 #include <time.h>
 #include "player.h"
 #include "monster.h"
-#include "C:\Users\lickc\Desktop\trabalho AED\Projeto_AED\carta.h"
+#include "C:\Users\Acer\Desktop\Projeto_AED\Projeto_AED\carta.h"
 
 #ifndef IENTITY_H
 #define IENTITY_H

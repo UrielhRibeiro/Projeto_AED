@@ -32,9 +32,9 @@ entity CreatePlayer(char name[], int life, int energy, char character[]){
     
     PLAYER_LIFE = life;
     p->energy = energy;
+    p->MAX_EA = energy;
     strcpy(p->name, name);
     initCardStack(&p->deck);
-    srand(time(NULL));
 
     if (!strcmp(character, "Megumi")){//personagem
         strcpy(p->character, "Megumi");

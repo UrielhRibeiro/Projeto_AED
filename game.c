@@ -1,11 +1,14 @@
-#include "entity.h"
+#include "entity/entity.h"
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
 #include "entity.h"
 
-void Round_Finished(){
-    ac_attack = 0, ac_shield = 0;
+void Round_Finished(entity *player, entity *monster){
+    if(isEntityAPlayer(player) && isEntityAMonster(monster)){
+        player->shield = 0;
+        monster->shield = 0;
+    }
 }
 
 // Função para realizar um round de combate entre um jogador e um monstro
