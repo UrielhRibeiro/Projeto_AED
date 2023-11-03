@@ -1,7 +1,10 @@
 #include "menu.h"
 #include "entity/characters.h"
 #include "intro.h"
+<<<<<<<<< Temporary merge branch 1
+=========
 #include "entity/entity.h"
+>>>>>>>>> Temporary merge branch 2
 
 void Round_Finished(entity *player, entity *monster){
     if(isEntityAPlayer(player) && isEntityAMonster(monster)){
