@@ -23,13 +23,14 @@ typedef struct player{
     char character[20];
     char name[20];
     int energy;
+    int MAX_EA;
 }player;
 
 void initPlayerHand(phand *ph){
     ph->first = NULL;
 }
 
-int insertPlayerHandCard(phand *ph, const Card e){
+int insertPlayerHandCard(phand *ph, Card e){
     phand_no *aux = (phand_no *) malloc(sizeof(phand_no));
     if(aux == NULL) return 0;
     aux->card = e;
@@ -40,7 +41,7 @@ int insertPlayerHandCard(phand *ph, const Card e){
     return 1;
 }
 
-int serchPlayerHandCard (phand *ph, const Card *e){
+int serchPlayerHandCard (phand *ph, Card *e){
     if(ph->first == NULL) return 0;
     phand_no *aux = ph->first;
     do{

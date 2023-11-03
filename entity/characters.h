@@ -1,9 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <math.h>
 #include "Ientity.h"
 #include "sup_func.h"
-#include "C:\Users\lickc\Desktop\trabalho AED\Projeto_AED\carta.h"
 
 void MegumiCards(CardStack *deck){
 
@@ -138,7 +138,7 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
     int r2 = isEntityAPlayer(takes);
     if(r1 == r2 && r1 == 1){
         initialshield = causes->shield;
-        causes->shield *= 1.5;
+        causes->shield = ceil(causes->shield*1.5);
         return 1;
     }
     return 0;
@@ -146,7 +146,6 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
 
 void Megumi_Reset(entity *player){
     if(isEntityAPlayer(player)){
-        initialshield *= 1.5;
         
     }
 }  

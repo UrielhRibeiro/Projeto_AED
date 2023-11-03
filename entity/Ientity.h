@@ -3,7 +3,6 @@
 #include <time.h>
 #include "player.h"
 #include "monster.h"
-#include "C:\Users\lickc\Desktop\trabalho AED\Projeto_AED\carta.h"
 
 #ifndef IENTITY_H
 #define IENTITY_H
@@ -13,6 +12,16 @@ typedef struct entity{
     player *const player;
     monster *const monster;
 }entity;
+
+typedef struct sup_func_no{
+    char key[20];
+    int (*func) (entity *cause, entity *takes);
+    struct sup_func_no *prox;
+} sup_func_no;
+
+typedef struct sup_func{
+    sup_func_no *sup_func_no;
+}sup_func;
 
 entity CreatePlayer(char name[], int life, int energy, char character[]);
 entity CreateMonster(int life, tp_fila *action);

@@ -10,16 +10,6 @@
 
 int initialshield, initiallife;
 
-typedef struct sup_func_no{
-    char key[20];
-    int (*func) (entity *cause, entity *takes);
-    struct sup_func_no *prox;
-} sup_func_no;
-
-typedef struct sup_func{
-    sup_func_no *sup_func_no;
-}sup_func;
-
 //inicializa a lista
 void initSupFunc(sup_func *sf){
     sf->sup_func_no = NULL;
