@@ -69,7 +69,6 @@ void MegumiCards(CardStack *deck){
     MegumiDefesa[2].quantity = 1;
     MegumiDefesa[3].quantity = 1;
 
-
     //Cartas de Suporte
     Card MegumiSuporte[4];
     //int att, def, ec;
@@ -121,32 +120,56 @@ int Megumi_supfunc_EA(entity *causes, entity *takes){
     return 0;
 }
 
-int Megumi_supfunc_attack(entity *causes, entity *takes){
+int aumentou_dano = 0; 
+
+int Megumi_supfunc_attack(player *causes,entity *takes) {
     int r1 = isEntityAPlayer(causes);
-    int r2 = isEntityAMonster(takes);
-    CardStack aux;
-    initCardStack(&aux);
-    if(r1 == r2 && r1 == 1){
-        
-        return 1;
+    int r2 = isEntityAMonster(takes); 
+
+    if (r1 == 1 && r2 == 0) { //Verificação 
+        for (phand_no *card_node = causes->hand.first; card_node != NULL; card_node = card_node->next) {
+            //Aumenta o dano da carta multiplicando por 1.5
+            card_node->card.damage *= 1.5;
+            //Comentado pra ver se vai arredondar ou não 
+            //card_node->card.damage = ceil(card_node->card.damage * 1.5);
+        }
+
+        aumentou_dano = 1; 
+
+        return 1;//Funcionou
     }
-    return 0;
+
+    return 0;//Não funcionou 
 }
+
 
 int Megumi_supfunc_shield(entity *causes, entity *takes){
     int r1 = isEntityAPlayer(causes);
     int r2 = isEntityAPlayer(takes);
     if(r1 == r2 && r1 == 1){
-        initialshield = causes->shield;
+        initialshield = causes->shield; //Vai definir o escudo inicial 
         causes->shield = ceil(causes->shield*1.5);
         return 1;
     }
     return 0;
 }
 
+
 void Megumi_Reset(entity *player){
     if(isEntityAPlayer(player)){
-        
+        //Resetar Escudo
+        if(player -> shield > initialshield){
+            player -> shield =  initialshield;     
+        } 
+        //Resetar Ataque
+        if(aumentou_dano){
+            for (phand_no *card_node = causes->hand.first; card_node != NULL; card_node = card_node->next) {
+            //Diminui o dano da carta dividindo por 1.5
+            card_node->card.damage /= 1.5;
+            //Comentado pra ver se vai arredondar ou não 
+            //card_node->card.damage = ceil(card_node->card.damage * 1.5);
+            }
+        }
     }
 }  
 

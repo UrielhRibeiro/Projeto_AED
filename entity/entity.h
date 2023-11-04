@@ -24,11 +24,11 @@ int isEntityAlive(entity *entity1){
 
 /*cria um jogador*/
 /*e retorna a entidade jogador*/
-entity CreatePlayer(char name[], int life, int energy, char character[]){
+entity CreatePlayer(char name[], int life, int energy, char character[], sup_func *sf) {
     player *p;
     do {
         p = (player *) malloc(sizeof(player));
-    }while(p == NULL);
+    } while (p == NULL);
     
     PLAYER_LIFE = life;
     p->energy = energy;
@@ -36,14 +36,32 @@ entity CreatePlayer(char name[], int life, int energy, char character[]){
     strcpy(p->name, name);
     initCardStack(&p->deck);
 
-    if (!strcmp(character, "Megumi")){//personagem
+    if (!strcmp(character, "Megumi")) { // Personagem Megumi
+
+     // Insira as funções do Megumi na lista de funções de suporte
+        insertSupFunc(sf, "Megumi_EA", Megumi_supfunc_EA);
+        insertSupFunc(sf, "Megumi_attack", Megumi_supfunc_attack);
+        insertSupFunc(sf, "Megumi_shield", Megumi_supfunc_shield);
+
         strcpy(p->character, "Megumi");
         MegumiCards(&p->deck);
-    }else if(0) {/*outro personagem ainda n definido*/}
+    } else if (0) {
+        // Outro personagem ainda não definido
+    }
 
     entity e = {.life = life, .shield = 0, .player = p, .monster = NULL};
+
+    // Adicione cartas da pilha de cartas do jogador à sua mão
+    for (int i = 0; i < NUM_INITIAL_CARDS; i++) {
+        Card drawnCard;
+        if (drawCardFromDeck(&p->deck, &drawnCard)) {
+            insertPlayerHandCard(&p->hand, drawnCard);
+        }
+    }
+
     return e;
 }
+
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
