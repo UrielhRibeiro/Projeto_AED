@@ -16,7 +16,7 @@ typedef struct {
 } tp_fila;
 
 typedef struct monster{
-    tp_fila *const action;     
+    tp_fila action;     
     char class[32]; 
 }monster;
 
