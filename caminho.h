@@ -20,8 +20,12 @@ typedef struct tp_caminho {
 } tp_caminho;
 
 // Inicialização do caminho
-void inicializa_caminho(tp_caminho *cam) {
+tp_caminho *inicializa_caminho() {
+    tp_caminho *cam =(tp_caminho*) malloc(sizeof(tp_caminho));
+
     cam->ini = NULL;
+
+    return cam; // Retorna NULL indicando que o caminho está vazio
 }
 
 int caminho_vazio(tp_caminho *caminho) {
@@ -38,6 +42,7 @@ tp_no *aloc_caminho() {
 
 int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
     tp_no *novo_no, *atu;
+    
     novo_no = aloc_caminho(); // Aloca um novo nó
     if (novo_no == NULL || !isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
     novo_no->monster = e;
@@ -45,7 +50,6 @@ int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
     if (caminho_vazio(caminho)) {
         caminho->ini = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
     } else {
-        atu = caminho->ini;
         atu = caminho->ini;
         while (atu->prox != NULL) {
             atu = atu->prox;
@@ -58,7 +62,6 @@ int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
 void imprime_caminho(tp_caminho *caminho) {
     tp_no *atu;
     atu = caminho->ini;
-    printf("%s",atu->monster->monster->clas);
     while (atu != NULL) {
         printf("%s\n", atu->monster->monster->clas); // Imprime o valor do nó
         atu = atu->prox;
@@ -76,7 +79,6 @@ int remove_caminho(tp_caminho *caminho, tp_item *e) {
     if (atu == NULL)
         return 0; // Retorna 0 se o elemento não foi encontrado no caminho
     if (ant == NULL) {
-        caminho->ini = atu->prox; // Remove o primeiro nó
         caminho->ini = atu->prox; // Remove o primeiro nó
     } else {
         ant->prox = atu->prox; // Remove um nó que não é o primeiro

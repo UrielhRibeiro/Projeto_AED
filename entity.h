@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "characters.h"
 #include "player.h"
+#include "sup_func.h"
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
@@ -76,12 +77,13 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(char clas[], int life, tp_fila *action){
+entity CreateMonster(char clas[32], int life, tp_fila *action){
     monster *m;
     do {
         m = (monster *) malloc(sizeof(monster));
     }while(m == NULL);
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
+    printf("fds");
     m->action = action;
     strcpy(m->clas, clas);
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};
