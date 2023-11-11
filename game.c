@@ -26,6 +26,8 @@ int main() {
         printf("Escolha uma opção válida.");
         scanf("%d", &escolhaPersonagem);
     }
+
+    //cria um ponteiro para se refereciar aos personagens devido ao const em player na struct entity
     entity *jogador;
     if(escolhaPersonagem==1){
 
