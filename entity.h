@@ -55,7 +55,7 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
     // Adicione cartas da pilha de cartas do jogador à sua mão
     for (int i = 0; i < 5; i++) {
         Card drawnCard;
-        if (drawCardFromDeck(&p->deck, &drawnCard)) {
+        if (popCard(&p->deck, &drawnCard)) {
             insertPlayerHandCard(&p->hand, drawnCard);
         }
     }
