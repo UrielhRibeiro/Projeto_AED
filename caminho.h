@@ -33,6 +33,9 @@ int caminho_vazio(tp_caminho *caminho) {
 tp_no *aloc_caminho() {
     tp_no *novo_no;
     novo_no = (tp_no *)malloc(sizeof(tp_no)); // Aloca espaço para um novo nó
+tp_no *aloc_caminho() {
+    tp_no *novo_no;
+    novo_no = (tp_no *)malloc(sizeof(tp_no)); // Aloca espaço para um novo nó
     return novo_no;
 }
 
@@ -45,6 +48,7 @@ int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
     if (caminho_vazio(caminho)) {
         caminho->ini = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
     } else {
+        atu = caminho->ini;
         atu = caminho->ini;
         while (atu->prox != NULL) {
             atu = atu->prox;
@@ -67,6 +71,9 @@ void imprime_caminho(tp_caminho *caminho) {
 int remove_caminho(tp_caminho *caminho, tp_item *e) {
     tp_no *ant, *atu;
     atu = caminho->ini;
+int remove_caminho(tp_caminho *caminho, tp_item *e) {
+    tp_no *ant, *atu;
+    atu = caminho->ini;
     ant = NULL;
     while ((atu != NULL) && (atu->monster != e)) {
         ant = atu;
@@ -75,6 +82,7 @@ int remove_caminho(tp_caminho *caminho, tp_item *e) {
     if (atu == NULL)
         return 0; // Retorna 0 se o elemento não foi encontrado no caminho
     if (ant == NULL) {
+        caminho->ini = atu->prox; // Remove o primeiro nó
         caminho->ini = atu->prox; // Remove o primeiro nó
     } else {
         ant->prox = atu->prox; // Remove um nó que não é o primeiro
