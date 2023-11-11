@@ -1,128 +1,129 @@
 #ifndef CAMINHO_H
 #define CAMINHO_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int tp_item;
+typedef int tp_item; // Define o tipo de dado que será armazenado no caminho
 
 typedef struct tp_no {
     tp_item info;
     struct tp_no *prox;
 } tp_caminho;
 
-// Inicialização da lista
+// Inicialização do caminho
 tp_caminho *inicializa_caminho() {
-    return NULL;
+    return NULL; // Retorna NULL indicando que o caminho está vazio
 }
 
-int caminho_vazio(tp_caminho *lista) {
-    if (lista == NULL)
+int caminho_vazio(tp_caminho *caminho) {
+    if (caminho == NULL)
         return 1;
-    return 0;
+    return 0; // Retorna 1 se o caminho estiver vazio, senão retorna 0
 }
 
 tp_caminho *aloc_caminho() {
     tp_caminho *novo_no;
-    novo_no = (tp_caminho *)malloc(sizeof(tp_caminho));
+    novo_no = (tp_caminho *)malloc(sizeof(tp_caminho)); // Aloca espaço para um novo nó
     return novo_no;
 }
 
-int insere_caminho_no_fim(tp_caminho **lista, tp_item e) {
+int insere_caminho_no_fim(tp_caminho **caminho, tp_item e) {
     tp_caminho *novo_no, *atu;
-    novo_no = aloc_caminho();
+    novo_no = aloc_caminho(); // Aloca um novo nó
     if (novo_no == NULL)
-        return 0;
+        return 0; // Retorna 0 se a alocação falhar
     novo_no->info = e;
     novo_no->prox = NULL;
-    if (caminho_vazio(*lista)) {
-        *lista = novo_no;
+    if (caminho_vazio(*caminho)) {
+        *caminho = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
     } else {
-        atu = *lista;
+        atu = *caminho;
         while (atu->prox != NULL) {
             atu = atu->prox;
         }
-        atu->prox = novo_no;
+        atu->prox = novo_no; // Adiciona o novo nó no final do caminho
     }
-    return 1;
+    return 1; // Retorna 1 indicando sucesso na inserção
 }
 
-void imprime_caminho(tp_caminho *lista) {
+void imprime_caminho(tp_caminho *caminho) {
     tp_caminho *atu;
-    atu = lista;
+    atu = caminho;
     while (atu != NULL) {
-        printf("%d\n", atu->info);
+        printf("%d\n", atu->info); // Imprime o valor do nó
         atu = atu->prox;
     }
 }
 
-int remove_caminho(tp_caminho **lista, tp_item e) {
+int remove_caminho(tp_caminho **caminho, tp_item e) {
     tp_caminho *ant, *atu;
-    atu = *lista;
+    atu = *caminho;
     ant = NULL;
     while ((atu != NULL) && (atu->info != e)) {
         ant = atu;
         atu = atu->prox;
     }
     if (atu == NULL)
-        return 0;
+        return 0; // Retorna 0 se o elemento não foi encontrado no caminho
     if (ant == NULL) {
-        *lista = atu->prox;
+        *caminho = atu->prox; // Remove o primeiro nó
     } else {
-        ant->prox = atu->prox;
+        ant->prox = atu->prox; // Remove um nó que não é o primeiro
     }
-    free(atu);
+    free(atu); // Libera a memória do nó removido
     atu = NULL;
-    return 1;
+    return 1; // Retorna 1 indicando sucesso na remoção
 }
 
-tp_caminho *busca_caminho(tp_caminho *lista, tp_item e) {
+tp_caminho *busca_caminho(tp_caminho *caminho, tp_item e) {
     tp_caminho *atu;
-    atu = lista;
+    atu = caminho;
     while ((atu != NULL) && (atu->info != e)) {
         atu = atu->prox;
     }
     if (atu == NULL)
-        return NULL;
-    return atu;
+        return NULL; // Retorna NULL se o elemento não foi encontrado no caminho
+    return atu; // Retorna um ponteiro para o nó contendo o elemento encontrado
 }
 
-int tamanho_caminho(tp_caminho *lista) {
+int tamanho_caminho(tp_caminho *caminho) {
     int cont = 0;
     tp_caminho *atu;
-    atu = lista;
+    atu = caminho;
     while (atu != NULL) {
         cont++;
         atu = atu->prox;
     }
-    return cont;
+    return cont; // Retorna o número de elementos no caminho
 }
 
-void destroi_caminho(tp_caminho **lista) {
+void destroi_caminho(tp_caminho **caminho) {
     tp_caminho *atu;
-    atu = *lista;
+    atu = *caminho;
     while (atu != NULL) {
-        *lista = atu->prox;
-        free(atu);
-        atu = *lista;
+        *caminho = atu->prox;
+        free(atu); // Libera a memória de cada nó
+        atu = *caminho;
     }
-    *lista = NULL;
+    *caminho = NULL;
 }
 
 // Remoção de Elemento na Posição
-int remove_elemento_posicao(tp_caminho **lista, int posicao) {
-    if (caminho_vazio(*lista) || posicao < 0) {
-        return 0; // Não é possível remover de lista vazia ou posição inválida.
+int remove_elemento_posicao(tp_caminho **caminho, int posicao) {
+    if (caminho_vazio(*caminho) || posicao < 0) {
+        return 0; // Não é possível remover de caminho vazio ou posição inválida.
     }
 
     if (posicao == 0) {
-        tp_caminho *temp = *lista;
-        *lista = (*lista)->prox;
+        tp_caminho *temp = *caminho;
+        *caminho = (*caminho)->prox;
         free(temp);
         return 1; // Remoção bem-sucedida.
     }
 
     tp_caminho *anterior = NULL;
-    tp_caminho *atu = *lista;
+    tp_caminho *atu = *caminho;
     int contador = 0;
 
     while (atu != NULL && contador < posicao) {
@@ -140,6 +141,5 @@ int remove_elemento_posicao(tp_caminho **lista, int posicao) {
 
     return 1; // Remoção bem-sucedida.
 }
-
 
 #endif
