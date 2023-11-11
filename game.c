@@ -60,45 +60,46 @@ int main() {
     continuar();
 
     printf("\nSeja bem-vindo ao tutorial!\n");
-    printPlayer(&jogador);
+    printPlayer(jogador);
     printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
     
     // Cria o monstro do tutorial
     tp_fila *tutorial = inicializa_fila();
-    entity monstro = CreateMonster(62, tutorial);
+    entity monstro = CreateMonster("cl4", 62, tutorial);
     printMonster(&monstro);
     printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
 
     printf("\n\nObrigado por jogar!\nNovas versões virão em breve!");
 
+    //Criação dos 5 Monstros
     tp_fila *cl4 = inicializa_fila();
-    entity classe4 = CreateMonster(62, cl4);
+    entity classe4 = CreateMonster("cl4", 62, cl4);
 
     tp_fila *cl3 = inicializa_fila();
-    entity classe3 = CreateMonster(84, cl3);
+    entity classe3 = CreateMonster("cl3", 84, cl3);
 
     tp_fila *cl2 = inicializa_fila();
-    entity classe2 = CreateMonster(98, cl2);
+    entity classe2 = CreateMonster("cl2", 98, cl2);
 
     tp_fila *cl1 = inicializa_fila();
-    entity classe1 = CreateMonster(110, cl1);
+    entity classe1 = CreateMonster("cl1", 110, cl1);
 
     tp_fila *clesp = inicializa_fila();
-    entity classeEsp = CreateMonster(135, clesp);
+    entity classeEsp = CreateMonster("clesp", 135, clesp);
 
 
 
 
-    do {
+    /*do {
         // Realize um round de combate
         Round(&jogador, &monstro);
-    } while (isEntityAlive(&jogador) && !isEntityAlive(&monstro));
+    } while (isEntityAlive(&jogador) && !isEntityAlive(&monstro));*/
 
     // Verifique o resultado da partida e exiba uma mensagem apropriada
-    if (isEntityAlive(&jogador)) {
-        printf("Parabéns %s!! Você venceu!\n", playerName);
+    if (isEntityAlive(jogador)) {
+        printf("Parabéns %s! Você venceu!\n", playerName);
     } else {
         printf("Você perdeu...\n");
         GameCredits(); // Exiba os créditos do jogo 

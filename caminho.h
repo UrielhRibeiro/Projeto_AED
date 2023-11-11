@@ -3,12 +3,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Ientity.h"
 
-typedef entity tp_item; // Define o tipo de dado que será armazenado no caminho
+typedef char tp_item; // Define o tipo de dado que será armazenado no caminho
 
 typedef struct tp_no {
-    tp_item info;
+    tp_item info[10];
     struct tp_no *prox;
 } tp_caminho;
 
@@ -29,12 +30,12 @@ tp_caminho *aloc_caminho() {
     return novo_no;
 }
 
-int insere_caminho_no_fim(tp_caminho **caminho, tp_item e) {
+int insere_caminho_no_fim(tp_caminho **caminho, tp_item e[]) {
     tp_caminho *novo_no, *atu;
     novo_no = aloc_caminho(); // Aloca um novo nó
     if (novo_no == NULL)
         return 0; // Retorna 0 se a alocação falhar
-    novo_no->info = e;
+    strcpy(e, novo_no->info);
     novo_no->prox = NULL;
     if (caminho_vazio(*caminho)) {
         *caminho = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
