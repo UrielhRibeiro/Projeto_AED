@@ -33,6 +33,9 @@ int caminho_vazio(tp_caminho *caminho) {
 tp_no *aloc_caminho() {
     tp_no *novo_no;
     novo_no = (tp_no *)malloc(sizeof(tp_no)); // Aloca espaço para um novo nó
+tp_no *aloc_caminho() {
+    tp_no *novo_no;
+    novo_no = (tp_no *)malloc(sizeof(tp_no)); // Aloca espaço para um novo nó
     return novo_no;
 }
 
@@ -65,6 +68,9 @@ void imprime_caminho(tp_caminho *caminho) {
     }
 }
 
+int remove_caminho(tp_caminho *caminho, tp_item *e) {
+    tp_no *ant, *atu;
+    atu = caminho->ini;
 int remove_caminho(tp_caminho *caminho, tp_item *e) {
     tp_no *ant, *atu;
     atu = caminho->ini;
