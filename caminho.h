@@ -11,35 +11,41 @@ typedef entity tp_item; // Define o tipo de dado que será armazenado no caminho
 typedef struct tp_no {
     tp_item *monster;
     struct tp_no *prox;
+} tp_no;
+
+typedef struct tp_caminho {
+
+    tp_no *ini;
+
 } tp_caminho;
 
 // Inicialização do caminho
-tp_caminho *inicializa_caminho() {
-    return NULL; // Retorna NULL indicando que o caminho está vazio
+void inicializa_caminho(tp_caminho *cam) {
+    cam->ini = NULL;
 }
 
 int caminho_vazio(tp_caminho *caminho) {
-    if (caminho == NULL)
+    if (caminho->ini == NULL)
         return 1;
     return 0; // Retorna 1 se o caminho estiver vazio, senão retorna 0
 }
 
-tp_caminho *aloc_caminho() {
-    tp_caminho *novo_no;
-    novo_no = (tp_caminho *)malloc(sizeof(tp_caminho)); // Aloca espaço para um novo nó
+tp_no *aloc_caminho() {
+    tp_no *novo_no;
+    novo_no = (tp_no *)malloc(sizeof(tp_no)); // Aloca espaço para um novo nó
     return novo_no;
 }
 
-int insere_caminho_no_fim(tp_caminho **caminho, tp_item *e) {
-    tp_caminho *novo_no, *atu;
+int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
+    tp_no *novo_no, *atu;
     novo_no = aloc_caminho(); // Aloca um novo nó
     if (novo_no == NULL || !isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
     novo_no->monster = e;
     novo_no->prox = NULL;
-    if (caminho_vazio(*caminho)) {
-        *caminho = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
+    if (caminho_vazio(caminho)) {
+        caminho->ini = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
     } else {
-        atu = *caminho;
+        atu = caminho->ini;
         while (atu->prox != NULL) {
             atu = atu->prox;
         }
@@ -49,17 +55,18 @@ int insere_caminho_no_fim(tp_caminho **caminho, tp_item *e) {
 }
 
 void imprime_caminho(tp_caminho *caminho) {
-    tp_caminho *atu;
-    atu = caminho;
+    tp_no *atu;
+    atu = caminho->ini;
+    printf("%s",atu->monster->monster->clas);
     while (atu != NULL) {
         printf("%s\n", atu->monster->monster->clas); // Imprime o valor do nó
         atu = atu->prox;
     }
 }
 
-int remove_caminho(tp_caminho **caminho, tp_item *e) {
-    tp_caminho *ant, *atu;
-    atu = *caminho;
+int remove_caminho(tp_caminho *caminho, tp_item *e) {
+    tp_no *ant, *atu;
+    atu = caminho->ini;
     ant = NULL;
     while ((atu != NULL) && (atu->monster != e)) {
         ant = atu;
@@ -68,7 +75,7 @@ int remove_caminho(tp_caminho **caminho, tp_item *e) {
     if (atu == NULL)
         return 0; // Retorna 0 se o elemento não foi encontrado no caminho
     if (ant == NULL) {
-        *caminho = atu->prox; // Remove o primeiro nó
+        caminho->ini = atu->prox; // Remove o primeiro nó
     } else {
         ant->prox = atu->prox; // Remove um nó que não é o primeiro
     }
@@ -77,9 +84,9 @@ int remove_caminho(tp_caminho **caminho, tp_item *e) {
     return 1; // Retorna 1 indicando sucesso na remoção
 }
 
-tp_caminho *busca_caminho(tp_caminho *caminho, tp_item *e) {
-    tp_caminho *atu;
-    atu = caminho;
+tp_no *busca_caminho(tp_caminho *caminho, tp_item *e) {
+    tp_no *atu;
+    atu = caminho->ini;
     while ((atu != NULL) && (atu->monster != e)) {
         atu = atu->prox;
     }
@@ -90,8 +97,8 @@ tp_caminho *busca_caminho(tp_caminho *caminho, tp_item *e) {
 
 int tamanho_caminho(tp_caminho *caminho) {
     int cont = 0;
-    tp_caminho *atu;
-    atu = caminho;
+    tp_no *atu;
+    atu = caminho->ini;
     while (atu != NULL) {
         cont++;
         atu = atu->prox;
@@ -99,32 +106,32 @@ int tamanho_caminho(tp_caminho *caminho) {
     return cont; // Retorna o número de elementos no caminho
 }
 
-void destroi_caminho(tp_caminho **caminho) {
-    tp_caminho *atu;
-    atu = *caminho;
+void destroi_caminho(tp_caminho *caminho) {
+    tp_no *atu;
+    atu = caminho->ini;
     while (atu != NULL) {
-        *caminho = atu->prox;
+        caminho->ini = atu->prox;
         free(atu); // Libera a memória de cada nó
-        atu = *caminho;
+        atu = caminho->ini;
     }
-    *caminho = NULL;
+    caminho->ini = NULL;
 }
 
 // Remoção de Elemento na Posição
-int remove_elemento_posicao(tp_caminho **caminho, int posicao) {
-    if (caminho_vazio(*caminho) || posicao < 0) {
+int remove_elemento_posicao(tp_caminho *caminho, int posicao) {
+    if (caminho_vazio(caminho) || posicao < 0) {
         return 0; // Não é possível remover de caminho vazio ou posição inválida.
     }
 
     if (posicao == 0) {
-        tp_caminho *temp = *caminho;
-        *caminho = (*caminho)->prox;
+        tp_no *temp = caminho->ini;
+        caminho->ini = caminho->ini->prox;
         free(temp);
         return 1; // Remoção bem-sucedida.
     }
 
-    tp_caminho *anterior = NULL;
-    tp_caminho *atu = *caminho;
+    tp_no *anterior = NULL;
+    tp_no *atu = caminho->ini;
     int contador = 0;
 
     while (atu != NULL && contador < posicao) {

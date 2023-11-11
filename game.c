@@ -2,6 +2,7 @@
 #include "characters.h"
 #include "intro.h"
 #include "caminho.h"
+#include "sup_func.h"
 
 int main() {
     
@@ -37,8 +38,11 @@ int main() {
         printf("\nVocê escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
 
         //Cria o jogador
+        printf("\n1\n");
         entity temp = CreatePlayer(playerName, 90, 6, "Megumi", &j1);
+        printf("\n1\n");
         jogador = &temp;
+        printf("\n1\n");
     }
     
 
@@ -85,7 +89,8 @@ int main() {
     continuar();
 
     //Criando o caminho
-    tp_caminho *game = inicializa_caminho();
+    tp_caminho game;
+    inicializa_caminho(&game);
     insere_caminho_no_fim(&game, &classe4);
     insere_caminho_no_fim(&game, &classe3);
     insere_caminho_no_fim(&game, &classe2);
@@ -95,7 +100,7 @@ int main() {
 
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
-    imprime_caminho(game);
+    imprime_caminho(&game);
 
     continuar();
 
@@ -121,7 +126,7 @@ int main() {
 
 
 
-        Megumi_Reset(&jogador);
+        Megumi_Reset(jogador);
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
 
     }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));

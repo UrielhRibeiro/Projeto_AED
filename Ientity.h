@@ -25,7 +25,7 @@ typedef struct sup_func{
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(char class[], int life, tp_fila *action);
+entity CreateMonster(char clas[], int life, tp_fila *action);
 
 /*cria um jogador*/
 /*e retorna a entidade jogador*/

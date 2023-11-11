@@ -9,15 +9,15 @@ typedef struct tp_no_aux {
     char type[20];
     int power;
     struct tp_no_aux *prox;
-} tp_no;
+} tp_no_aux;
 
 typedef struct {
-    tp_no *ini, *fim;
+    tp_no_aux *ini, *fim;
 } tp_fila;
 
 typedef struct monster{
-    tp_fila action;     
-    char clas[32]; 
+    tp_fila *action;     
+    char clas[]; 
 }monster;
 
 // a fila de acoes do monstro
@@ -27,9 +27,9 @@ tp_fila *inicializa_fila (){
     return fila;
 }
 
-tp_no *aloca() {
-    tp_no* pt;
-    pt=(tp_no*) malloc(sizeof(tp_no));
+tp_no_aux *aloca() {
+    tp_no_aux* pt;
+    pt=(tp_no_aux*) malloc(sizeof(tp_no_aux));
     return pt;
 }
 
@@ -39,7 +39,7 @@ int fila_vazia (tp_fila *fila){
 }
 
 int insere_fila (tp_fila *fila, char type[], int pow){
-    tp_no *novo;
+    tp_no_aux *novo;
     novo=aloca();
     if (!novo) return 0;
     novo->power = pow;
@@ -57,7 +57,7 @@ int insere_fila (tp_fila *fila, char type[], int pow){
 }
 
 int remove_fila (tp_fila *fila, char ty[], int *e){
-    tp_no *aux;
+    tp_no_aux *aux;
     if (fila_vazia(fila)) return 0;
     *e=fila->ini->power;
     strcpy(ty, fila->ini->type);
@@ -72,7 +72,7 @@ int remove_fila (tp_fila *fila, char ty[], int *e){
 }
 
 tp_fila *destroi_fila(tp_fila *fila) {
-    tp_no *atu=fila->ini;
+    tp_no_aux *atu=fila->ini;
     int e;
     char ty[20];
     while (atu!=NULL)

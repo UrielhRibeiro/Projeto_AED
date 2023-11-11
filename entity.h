@@ -28,6 +28,7 @@ int isEntityAlive(entity *entity1){
 entity CreatePlayer(char name[], int life, int energy, char character[], sup_func *sup_func) {
     player *p;
     do {
+        printf("\n2\n");
         p = (player *) malloc(sizeof(player));
     } while (p == NULL);
     
@@ -38,30 +39,30 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
     initCardStack(&p->deck);
 
     if (!strcmp(character, "Megumi")) { // Personagem Megumi
-
+        printf("\n3\n");
      // Insira as funções do Megumi na lista de funções de suporte
         insertSupFunc(sup_func, "Megumi_EA", Megumi_supfunc_EA);
         insertSupFunc(sup_func, "Megumi_attack", Megumi_supfunc_attack);
         insertSupFunc(sup_func, "Megumi_shield", Megumi_supfunc_shield);
-
+        printf("\n3\n");
         strcpy(p->character, "Megumi");
         MegumiCards(&p->deck);
     } else if (0) {
         // Outro personagem ainda não definido
     }
+    printf("\n4\n");
 
     entity e = {.life = life, .shield = 0, .player = p, .monster = NULL};
 
+    printf("\n4\n");
+
     shuffleCardStack(&p->deck);
 
-    // Adicione cartas da pilha de cartas do jogador à sua mão
-    for (int i = 0; i < 5; i++) {
-        Card drawnCard;
-        initPlayerHand(&p->hand);
-        if (popCard(&p->deck, &drawnCard)) {
-            insertPlayerHandCard(&p->hand, drawnCard);
-        }
-    }
+    initPlayerHand(&p->hand);
+
+    printf("\n4\n");
+
+    printf("\n5\n");
 
     return e;
 }
@@ -69,14 +70,14 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(char class[], int life, tp_fila *action){
+entity CreateMonster(char clas[], int life, tp_fila *action){
     monster *m;
     do {
         m = (monster *) malloc(sizeof(monster));
     }while(m == NULL);
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
-    m->action = *action;
-    strcpy(m->clas, class);
+    m->action = action;
+    strcpy(m->clas, clas);
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};
     return e;
 }
@@ -102,7 +103,7 @@ int printPlayer(entity *e){
 //Imprime o monstro
 int printMonster(entity *e){
     if(isEntityAPlayer(e)) return 0;
-    printf("\nMonstro\nVida: %d\nAction: %s - %d", e->life, e->monster->action.ini->type, e->monster->action.ini->power);
+    printf("\nMonstro\nVida: %d\nAction: %s - %d", e->life, e->monster->action->ini->type, e->monster->action->ini->power);
     return 1;
 }
 

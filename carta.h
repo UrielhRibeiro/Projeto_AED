@@ -45,10 +45,8 @@ int pushCard(CardStack *stack, const Card *newCard) {
 
 /* Remove o primeiro elemento da pilha de cartas */
 int popCard(CardStack *stack, Card *data) {
-    if (stack->top == NULL) {
-        fprintf(stderr, "Erro: Tentativa de remover de uma pilha vazia.\n");
-        return 0; // Pilha vazia
-    }
+    if (stack->top == NULL) return 0; // Pilha vazia
+    
     Card *temp = stack->top;
     stack->top = temp->next;
     if (data != NULL) {
