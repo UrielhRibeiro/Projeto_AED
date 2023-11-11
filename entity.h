@@ -52,9 +52,12 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
 
     entity e = {.life = life, .shield = 0, .player = p, .monster = NULL};
 
+    shuffleCardStack(&p->deck);
+
     // Adicione cartas da pilha de cartas do jogador à sua mão
     for (int i = 0; i < 5; i++) {
         Card drawnCard;
+        initPlayerHand(&p->hand);
         if (popCard(&p->deck, &drawnCard)) {
             insertPlayerHandCard(&p->hand, drawnCard);
         }
@@ -138,7 +141,7 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
 
         selected_card = (Card *) action;// converte o ponteiro
         //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
-        if(!( (serchPlayerHandCard(&cause->player->hand, selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
+        if(!( (searchPlayerHandCard(&cause->player->hand, selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
         strcpy(actiontxt, selected_card->type);//copia o nome da acao
 
     }else if(isEntityAMonster(cause)){

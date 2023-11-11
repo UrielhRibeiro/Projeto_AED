@@ -157,10 +157,7 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
 
 void Megumi_Reset(entity *player){
     if(isEntityAPlayer(player)){
-        //Resetar Escudo
-        if(player -> shield > initialshield){
-            player -> shield =  initialshield;     
-        } 
+        
         //Resetar Ataque
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {

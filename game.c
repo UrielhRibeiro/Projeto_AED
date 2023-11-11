@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
+#include "caminho.h"
 
 int main() {
     
@@ -38,7 +39,6 @@ int main() {
         //Cria o jogador
         entity temp = CreatePlayer(playerName, 90, 6, "Megumi", &j1);
         jogador = &temp;
-        shuffleCardStack(&jogador->player->deck);
     }
     
 
@@ -65,14 +65,7 @@ int main() {
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
     
-    // Cria o monstro do tutorial
-    tp_fila *tutorial = inicializa_fila();
-    entity monstro = CreateMonster("cl4", 62, tutorial);
-    printMonster(&monstro);
-    printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
-
-    printf("\n\nObrigado por jogar!\nNovas versões virão em breve!");
-
+    
     //Criação dos 5 Monstros
     tp_fila *cl4 = inicializa_fila();
     entity classe4 = CreateMonster("cl4", 62, cl4);
@@ -88,6 +81,55 @@ int main() {
 
     tp_fila *clesp = inicializa_fila();
     entity classeEsp = CreateMonster("clesp", 135, clesp);
+
+    continuar();
+
+    //Criando o caminho
+    tp_caminho *game = inicializa_caminho();
+    insere_caminho_no_fim(&game, "cl4");
+    insere_caminho_no_fim(&game, "cl3");
+    insere_caminho_no_fim(&game, "cl2");
+    insere_caminho_no_fim(&game, "cl1");
+    insere_caminho_no_fim(&game, "clesp");
+
+    printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
+
+    imprime_caminho(game);
+
+    continuar();
+
+    //Primeiro combate
+    printf("Vamos ver como você se sai no   \nseu primeiro combate.\n");
+
+    CardStack descarte;
+    initCardStack(&descarte);
+    Card drawnCard;
+
+    do{
+
+        //Mantém o jogador sempre com 5 cartas
+        for(int i=5; i>countPlayerHand(&jogador->player->hand); i--){
+            if (popCard(&jogador->player->deck, &drawnCard)) {
+            insertPlayerHandCard(&jogador->player->hand, drawnCard);
+            }
+        }
+
+        printMonster(&classe4);
+
+
+
+
+
+        Megumi_Reset(&jogador);
+        if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
+
+    }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));
+
+
+    
+
+    printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
+
 
 
 

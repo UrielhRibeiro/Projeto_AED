@@ -117,7 +117,7 @@ void continuar(){
     int conf=0;
     do{
 
-        printf("/nDigite 1 para continuar...\n");
+        printf("\nDigite 1 para continuar...\n");
         scanf("%d", &conf);
         printf("\n");
 

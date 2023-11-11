@@ -41,7 +41,7 @@ int insertPlayerHandCard(phand *ph, Card e){
     return 1;
 }
 
-int serchPlayerHandCard (phand *ph, Card *e){
+int searchPlayerHandCard (phand *ph, Card *e){
     if(ph->first == NULL) return 0;
     phand_no *aux = ph->first;
     do{
@@ -49,6 +49,20 @@ int serchPlayerHandCard (phand *ph, Card *e){
     }while((aux != NULL) && !areCardsEqual(&aux->card, e));
     if(aux == NULL) return 0;
     return 1;
+}
+
+int countPlayerHand (phand *ph){
+
+    int c=0;
+    phand_no *aux = ph->first;
+    if(aux == NULL) return 0;
+    while(aux != NULL){
+        aux=aux->next;
+        c++;
+    }
+
+    return c;
+
 }
 
 int deletePlayerHandCard(phand *ph, Card *e){

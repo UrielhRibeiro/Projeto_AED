@@ -10,6 +10,7 @@ typedef char tp_item; // Define o tipo de dado que será armazenado no caminho
 
 typedef struct tp_no {
     tp_item info[10];
+    entity monster;
     struct tp_no *prox;
 } tp_caminho;
 
@@ -58,7 +59,7 @@ void imprime_caminho(tp_caminho *caminho) {
     }
 }
 
-int remove_caminho(tp_caminho **caminho, tp_item e) {
+int remove_caminho(tp_caminho **caminho, tp_item e[]) {
     tp_caminho *ant, *atu;
     atu = *caminho;
     ant = NULL;
@@ -78,7 +79,7 @@ int remove_caminho(tp_caminho **caminho, tp_item e) {
     return 1; // Retorna 1 indicando sucesso na remoção
 }
 
-tp_caminho *busca_caminho(tp_caminho *caminho, tp_item e) {
+tp_caminho *busca_caminho(tp_caminho *caminho, tp_item e[]) {
     tp_caminho *atu;
     atu = caminho;
     while ((atu != NULL) && (atu->info != e)) {
