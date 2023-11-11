@@ -72,7 +72,8 @@ entity CreateMonster(char class[], int life, tp_fila *action){
         m = (monster *) malloc(sizeof(monster));
     }while(m == NULL);
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
-    *m->action = *action;
+    m->action = *action;
+    strcpy(m->class, class);
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};
     return e;
 }
@@ -98,7 +99,7 @@ int printPlayer(entity *e){
 //Imprime o monstro
 int printMonster(entity *e){
     if(isEntityAPlayer(e)) return 0;
-    printf("\nMonstro\nVida: %d\nAction: %s - %d", e->life, e->monster->action->ini->type, e->monster->action->ini->power);
+    printf("\nMonstro\nVida: %d\nAction: %s - %d", e->life, e->monster->action.ini->type, e->monster->action.ini->power);
     return 1;
 }
 
