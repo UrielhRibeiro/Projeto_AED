@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "C:\Users\lickc\Desktop\trabalho AED\Projeto_AED\carta.h"
+#include "carta.h"
 
 #ifndef PHAND_H
 #define PHAND_H

@@ -129,7 +129,7 @@ int Megumi_supfunc_attack(player *causes,entity *takes) {
     if (r1 == 1 && r2 == 0) { //Verificação 
         for (phand_no *card_node = causes->hand.first; card_node != NULL; card_node = card_node->next) {
             //Aumenta o dano da carta multiplicando por 1.5
-            card_node->card.damage *= 1.5;
+            card_node->card.power *= 1.5;
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
         }
@@ -156,6 +156,7 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
 
 
 void Megumi_Reset(entity *player){
+    entity *causes;
     if(isEntityAPlayer(player)){
         //Resetar Escudo
         if(player -> shield > initialshield){
@@ -163,9 +164,9 @@ void Megumi_Reset(entity *player){
         } 
         //Resetar Ataque
         if(aumentou_dano){
-            for (phand_no *card_node = causes->hand.first; card_node != NULL; card_node = card_node->next) {
+            for (phand_no *card_node = causes->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
-            card_node->card.damage /= 1.5;
+            card_node->card.power /= 1.5;
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
             }

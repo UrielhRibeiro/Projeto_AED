@@ -1,47 +1,6 @@
 #include "menu.h"
-#include "entity/characters.h"
+#include "characters.h"
 #include "intro.h"
-<<<<<<<<< Temporary merge branch 1
-=========
-#include "entity/entity.h"
->>>>>>>>> Temporary merge branch 2
-
-void Round_Finished(entity *player, entity *monster){
-    if(isEntityAPlayer(player) && isEntityAMonster(monster)){
-        player->shield = 0;
-        monster->shield = 0;
-    }
-}
-
-// Função para realizar um round de combate entre um jogador e um monstro
-void Round(player *jogador, monster *monstro) {
-    // Cria uma carta de ataque para o monstro
-    Card monsterCard;
-    strcpy(monsterCard.type, "attack");
-    strcpy(monsterCard.name, "Monster Attack Card");
-    monsterCard.energy_cost = 5;
-    monsterCard.power = 10;
-
-    // Cria uma carta de ataque para o jogador
-    Card playerCard;
-    strcpy(playerCard.type, "attack");
-    strcpy(playerCard.name, "attack");
-    playerCard.energy_cost = 5;
-    playerCard.power = 15;
-
-    // Embaralhe o baralho do jogador e do monstro
-    shuffleCardStack(&(jogador->deck));
-
-    // Use a carta do jogador contra o monstro
-    /*useEntitycard(jogador, monstro, &playerCard);
-    printf("Vida da maldição: %d Escudo da maldição: %d\n", monstro->life, monstro->shield);
-
-    // Use a carta do monstro contra o jogador
-    useEntitycard(monstro, jogador, &monsterCard);
-    printf("Vida: %d Energia amaldiçoada: %d\n", jogador->life, jogador->energy);*/
-
-    Round_Finished();
-}
 
 int main() {
     
@@ -50,8 +9,8 @@ int main() {
     SetConsoleOutputCP(CPAGE_UTF8);
 
     // Crie o jogador e o monstro
-    player jogador;
-    monster monstro;
+    entity jogador;
+    entity monstro;
 
     // Inicia o menu 
     startMenu();
@@ -77,7 +36,7 @@ int main() {
 
         //Cria o jogador
         jogador = CreatePlayer(playerName, 90, 6, "Megumi");
-        shuffleCardStack(&jogador.deck);
+        shuffleCardStack(&jogador.player->deck);
     }
     
 
@@ -87,7 +46,7 @@ int main() {
 
     //Visualizar o deck
     printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
-    printCardStack(&jogador.deck);
+    printCardStack(&jogador.player->deck);
 
     //Imprime a introdução do jogo
     intro();
@@ -97,11 +56,13 @@ int main() {
     printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
-    monstro = CreateMonster(62, 5, 8, 7, 12);
+    tp_fila *tutorial = inicializa_fila();
+    monstro = CreateMonster(62, tutorial);
     printMonster(&monstro);
     printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
 
     printf("\n\nObrigado por jogar!\nNovas versões virão em breve!");
+
     do {
         // Realize um round de combate
         Round(&jogador, &monstro);

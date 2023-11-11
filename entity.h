@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "characters.h"
+#include "player.h"
 
 /*verifica se e um jogador*/
 /*1: e um jogador | 0: nao e um jogador*/
