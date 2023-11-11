@@ -37,8 +37,11 @@ int main() {
         printf("\nVocê escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
 
         //Cria o jogador
+        printf("\n1\n");
         entity temp = CreatePlayer(playerName, 90, 6, "Megumi", &j1);
+        printf("\n1\n");
         jogador = &temp;
+        printf("\n1\n");
     }
     
 
