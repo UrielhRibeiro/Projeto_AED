@@ -83,7 +83,6 @@ entity CreateMonster(char clas[32], int life, tp_fila *action){
         m = (monster *) malloc(sizeof(monster));
     }while(m == NULL);
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
-    printf("fds");
     m->action = action;
     strcpy(m->clas, clas);
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};

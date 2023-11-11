@@ -72,20 +72,24 @@ int main() {
     
     //Criação dos 5 Monstros
     tp_fila *cl4 = inicializa_fila();
+    //falta fila de acoes, senao o codigo n funciona
     entity classe4 = CreateMonster("cl4", 62, cl4);
 
     tp_fila *cl3 = inicializa_fila();
+    //falta fila de acoes, senao o codigo n funciona
     entity classe3 = CreateMonster("cl3", 84, cl3);
 
     tp_fila *cl2 = inicializa_fila();
+    //falta fila de acoes, senao o codigo n funciona
     entity classe2 = CreateMonster("cl2", 98, cl2);
 
     tp_fila *cl1 = inicializa_fila();
+    //falta fila de acoes, senao o codigo n funciona
     entity classe1 = CreateMonster("cl1", 110, cl1);
 
     tp_fila *clesp = inicializa_fila();
+    //falta fila de acoes, senao o codigo n funciona
     entity classeEsp = CreateMonster("clesp", 135, clesp);
-
     continuar();
 
     //Criando o caminho

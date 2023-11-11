@@ -20,12 +20,8 @@ typedef struct tp_caminho {
 } tp_caminho;
 
 // Inicialização do caminho
-tp_caminho *inicializa_caminho() {
-    tp_caminho *cam =(tp_caminho*) malloc(sizeof(tp_caminho));
-
+void inicializa_caminho(tp_caminho *cam) {
     cam->ini = NULL;
-
-    return cam; // Retorna NULL indicando que o caminho está vazio
 }
 
 int caminho_vazio(tp_caminho *caminho) {
