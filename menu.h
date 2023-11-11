@@ -107,4 +107,24 @@ void startMenu(){
     SetConsoleOutputCP(CPAGE_DEFAULT);
 }
 
+void continuar(){
+
+    // Configuração da página de código para UTF-8
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
+    int conf=0;
+    do{
+
+        printf("/nDigite 1 para continuar...\n");
+        scanf("%d", &conf);
+
+    }while(!conf);
+
+    // Restaura a página de código padrão
+    SetConsoleOutputCP(CPAGE_DEFAULT);
+
+}
+
 #endif
