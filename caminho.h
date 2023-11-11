@@ -46,6 +46,7 @@ int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
         caminho->ini = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
     } else {
         atu = caminho->ini;
+        atu = caminho->ini;
         while (atu->prox != NULL) {
             atu = atu->prox;
         }
@@ -75,6 +76,7 @@ int remove_caminho(tp_caminho *caminho, tp_item *e) {
     if (atu == NULL)
         return 0; // Retorna 0 se o elemento não foi encontrado no caminho
     if (ant == NULL) {
+        caminho->ini = atu->prox; // Remove o primeiro nó
         caminho->ini = atu->prox; // Remove o primeiro nó
     } else {
         ant->prox = atu->prox; // Remove um nó que não é o primeiro
