@@ -4,13 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Ientity.h"
+#include "entity.h"
 
-typedef char tp_item; // Define o tipo de dado que será armazenado no caminho
+typedef entity tp_item; // Define o tipo de dado que será armazenado no caminho
 
 typedef struct tp_no {
-    tp_item info[10];
-    entity monster;
+    tp_item *monster;
     struct tp_no *prox;
 } tp_caminho;
 
@@ -31,12 +30,11 @@ tp_caminho *aloc_caminho() {
     return novo_no;
 }
 
-int insere_caminho_no_fim(tp_caminho **caminho, tp_item e[]) {
+int insere_caminho_no_fim(tp_caminho **caminho, tp_item *e) {
     tp_caminho *novo_no, *atu;
     novo_no = aloc_caminho(); // Aloca um novo nó
-    if (novo_no == NULL)
-        return 0; // Retorna 0 se a alocação falhar
-    strcpy(e, novo_no->info);
+    if (novo_no == NULL || !isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
+    novo_no->monster = e;
     novo_no->prox = NULL;
     if (caminho_vazio(*caminho)) {
         *caminho = novo_no; // Se o caminho estiver vazio, o novo nó torna-se o primeiro
@@ -54,16 +52,16 @@ void imprime_caminho(tp_caminho *caminho) {
     tp_caminho *atu;
     atu = caminho;
     while (atu != NULL) {
-        printf("%d\n", atu->info); // Imprime o valor do nó
+        printf("%d\n", atu->monster->monster->clas); // Imprime o valor do nó
         atu = atu->prox;
     }
 }
 
-int remove_caminho(tp_caminho **caminho, tp_item e[]) {
+int remove_caminho(tp_caminho **caminho, tp_item *e) {
     tp_caminho *ant, *atu;
     atu = *caminho;
     ant = NULL;
-    while ((atu != NULL) && (atu->info != e)) {
+    while ((atu != NULL) && (atu->monster != e)) {
         ant = atu;
         atu = atu->prox;
     }
@@ -79,10 +77,10 @@ int remove_caminho(tp_caminho **caminho, tp_item e[]) {
     return 1; // Retorna 1 indicando sucesso na remoção
 }
 
-tp_caminho *busca_caminho(tp_caminho *caminho, tp_item e[]) {
+tp_caminho *busca_caminho(tp_caminho *caminho, tp_item *e) {
     tp_caminho *atu;
     atu = caminho;
-    while ((atu != NULL) && (atu->info != e)) {
+    while ((atu != NULL) && (atu->monster != e)) {
         atu = atu->prox;
     }
     if (atu == NULL)

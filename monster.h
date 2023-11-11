@@ -17,7 +17,7 @@ typedef struct {
 
 typedef struct monster{
     tp_fila action;     
-    char class[32]; 
+    char clas[32]; 
 }monster;
 
 // a fila de acoes do monstro
