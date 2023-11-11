@@ -52,12 +52,12 @@ void imprime_caminho(tp_caminho *caminho) {
     tp_caminho *atu;
     atu = caminho;
     while (atu != NULL) {
-        printf("%d\n", atu->monster->monster->clas); // Imprime o valor do nó
+        printf("%s\n", atu->monster->monster->clas); // Imprime o valor do nó
         atu = atu->prox;
     }
 }
 
-int remove_caminho(tp_caminho **caminho, tp_item e) {
+int remove_caminho(tp_caminho **caminho, tp_item *e) {
     tp_caminho *ant, *atu;
     atu = *caminho;
     ant = NULL;
@@ -77,7 +77,7 @@ int remove_caminho(tp_caminho **caminho, tp_item e) {
     return 1; // Retorna 1 indicando sucesso na remoção
 }
 
-tp_caminho *busca_caminho(tp_caminho *caminho, tp_item e) {
+tp_caminho *busca_caminho(tp_caminho *caminho, tp_item *e) {
     tp_caminho *atu;
     atu = caminho;
     while ((atu != NULL) && (atu->monster != e)) {

@@ -86,11 +86,12 @@ int main() {
 
     //Criando o caminho
     tp_caminho *game = inicializa_caminho();
-    insere_caminho_no_fim(&game, "cl4");
-    insere_caminho_no_fim(&game, "cl3");
-    insere_caminho_no_fim(&game, "cl2");
-    insere_caminho_no_fim(&game, "cl1");
-    insere_caminho_no_fim(&game, "clesp");
+    insere_caminho_no_fim(&game, &classe4);
+    insere_caminho_no_fim(&game, &classe3);
+    insere_caminho_no_fim(&game, &classe2);
+    insere_caminho_no_fim(&game, &classe1);
+    insere_caminho_no_fim(&game, &classeEsp);
+    
 
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
