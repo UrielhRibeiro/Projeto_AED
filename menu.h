@@ -119,6 +119,7 @@ void continuar(){
 
         printf("/nDigite 1 para continuar...\n");
         scanf("%d", &conf);
+        printf("\n");
 
     }while(!conf);
 
