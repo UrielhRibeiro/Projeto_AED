@@ -73,6 +73,7 @@ entity CreateMonster(char class[], int life, tp_fila *action){
     }while(m == NULL);
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
     *m->action = *action;
+    strcpy(m->class, class);
     entity e = {.life = life, .shield = 0, .player = NULL, .monster = m};
     return e;
 }
