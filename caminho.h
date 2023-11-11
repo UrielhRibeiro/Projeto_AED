@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "Ientity.h"
 
-typedef int tp_item; // Define o tipo de dado que será armazenado no caminho
+typedef entity tp_item; // Define o tipo de dado que será armazenado no caminho
 
 typedef struct tp_no {
     tp_item info;

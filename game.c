@@ -46,12 +46,18 @@ int main() {
     printf("\nO seu jogador foi criado!\nVeja como ficou:\n");
     printPlayer(jogador);
 
+    continuar();
+
     //Visualizar o deck
     printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
     printCardStack(&jogador->player->deck);
 
+    continuar();
+
     //Imprime a introdução do jogo
     intro();
+
+    continuar();
 
     printf("\nSeja bem-vindo ao tutorial!\n");
     printPlayer(&jogador);

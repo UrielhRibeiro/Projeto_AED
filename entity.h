@@ -66,7 +66,7 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(int life, tp_fila *action){
+entity CreateMonster(char class[], int life, tp_fila *action){
     monster *m;
     do {
         m = (monster *) malloc(sizeof(monster));
