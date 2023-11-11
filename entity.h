@@ -53,7 +53,7 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
     entity e = {.life = life, .shield = 0, .player = p, .monster = NULL};
 
     // Adicione cartas da pilha de cartas do jogador à sua mão
-    for (int i = 0; i < NUM_INITIAL_CARDS; i++) {
+    for (int i = 0; i < 5; i++) {
         Card drawnCard;
         if (drawCardFromDeck(&p->deck, &drawnCard)) {
             insertPlayerHandCard(&p->hand, drawnCard);
@@ -138,16 +138,17 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
         selected_card = (Card *) action;// converte o ponteiro
         //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
         if(!( (serchPlayerHandCard(&cause->player->hand, selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
-        strcpy(actiontxt, selected_card->type);
+        strcpy(actiontxt, selected_card->type);//copia o nome da acao
 
     }else if(isEntityAMonster(cause)){
 
         queue_action = (tp_fila *) action;
         if(fila_vazia(queue_action)) return 0;
-        strcpy(actiontxt, queue_action->ini->type);
+        strcpy(actiontxt, queue_action->ini->type);//copia o nome da acao
 
     }else { return 0; }
 
+    //vai usar o nome da acao para ver que tipo ela deve executar
     if(!strcmp(actiontxt, "ATAQUE")){
 
         if (isEntityAPlayer(cause)){
@@ -168,12 +169,14 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
         }
 
 
-    } else if(!strcmp(actiontxt, "DEEFESA")){
+    } else if(!strcmp(actiontxt, "DEFESA")){
 
         if (isEntityAPlayer(cause)){
             int ans = addEntityShield(cause, takes, selected_card->power);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
+                //falta o descarte
+                //vai remover a carta da mao do jogador
                 return 1;
             }
         }else if(isEntityAMonster(cause)){
@@ -183,6 +186,7 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
                 char old_type[20];
                 remove_fila(queue_action, old_type, &old_power);
                 insere_fila(queue_action, old_type, old_power);
+                //vai remover a ja ultilizada e inserir no final da fila
                 return 1;
             }
         }
@@ -191,7 +195,7 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
     } else if(!strcmp(actiontxt, "SUPORTE")){
 
         if (isEntityAPlayer(cause)){
-            int ans = executeSupFunc(sup_func, selected_card->name, cause, takes); //falta a funcao
+            int ans = executeSupFunc(sup_func, selected_card->name, cause, takes);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
                 return 1;
