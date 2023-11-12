@@ -38,9 +38,10 @@ tp_no *aloc_caminho() {
 
 int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
     tp_no *novo_no, *atu;
-    
-    novo_no = aloc_caminho(); // Aloca um novo nó
-    if (novo_no == NULL || !isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
+    do{
+        novo_no = aloc_caminho(); // Aloca um novo nó
+    }while(novo_no == NULL);
+    if (!isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
     novo_no->monster = e;
     novo_no->prox = NULL;
     if (caminho_vazio(caminho)) {

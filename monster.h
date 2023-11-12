@@ -125,7 +125,7 @@ int preencher_fila(tp_fila *f){
         srand(time(NULL));
         for(int i = 0; i < 5; i++){
             int type = rand() %2;
-            int power = (rand() %12 ) +5;
+            int power = (rand() %13 ) +5;
             if(type){//verifica se o tipo e de ataque ou defesa
                 insere_fila(f, "ATAQUE", power);
             }else{
