@@ -95,7 +95,7 @@ int main() {
     //Criando o caminho
     tp_caminho game;
     inicializa_caminho(&game);
-    insere_caminho_no_fim(&game, &classe4);
+    int r = insere_caminho_no_fim(&game, &classe4);
     insere_caminho_no_fim(&game, &classe3);
     insere_caminho_no_fim(&game, &classe2);
     insere_caminho_no_fim(&game, &classe1);
@@ -116,14 +116,17 @@ int main() {
     Card drawnCard;
 
     do{
-
+        printf("\n1\n");
         //Mantém o jogador sempre com 5 cartas
         for(int i=5; i>countPlayerHand(&jogador->player->hand); i--){
             if (popCard(&jogador->player->deck, &drawnCard)) {
             insertPlayerHandCard(&jogador->player->hand, drawnCard);
             }
+            printf("\n2\n");
         }
 
+        printf("\n1\n");
+        
         printMonster(&classe4);
 
 
@@ -156,6 +159,8 @@ int main() {
         printf("Você perdeu...\n");
         GameCredits(); // Exiba os créditos do jogo 
     }
+
+    destroi_caminho(&game);
 
     SetConsoleOutputCP(CPAGE_DEFAULT);
     return 0;
