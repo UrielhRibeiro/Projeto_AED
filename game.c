@@ -139,7 +139,7 @@ int main() {
             printf("\nQual carta deseja utilizar?\n");
             scanf("%d", &op);
 
-            EntityAction(&jogador, &classe4, searchPlayerHandCard2(&jogador->player->hand, op), &j1);
+            EntityAction(&jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
             jogador->player->energy = jogador->player->energy - (searchPlayerHandCard2(&jogador->player->hand, op)->energy_cost);
 
