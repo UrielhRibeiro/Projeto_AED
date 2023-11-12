@@ -36,8 +36,14 @@ int insertPlayerHandCard(phand *ph, Card e){
     aux->card = e;
     aux->next = ph->first;
     aux->befo = NULL;
-    ph->first->befo = aux;
+
     ph->first = aux;
+
+    // Se a lista não estiver vazia, atualiza o ponteiro befo do próximo nó
+    if (ph->first->next != NULL) {
+        ph->first->next->befo = aux;
+    }
+
     return 1;
 }
 
@@ -55,11 +61,13 @@ int countPlayerHand (phand *ph){
 
     int c=0;
     phand_no *aux = ph->first;
-    if(aux == NULL) return 0;
+    printf("\n2\n");
+    printf("\n2\n");
     while(aux != NULL){
         aux=aux->next;
         c++;
     }
+    printf("\n-%d-\n", c);
 
     return c;
 

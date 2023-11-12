@@ -118,7 +118,10 @@ int main() {
     do{
         printf("\n1\n");
         //Mantém o jogador sempre com 5 cartas
-        for(int i=5; i>countPlayerHand(&jogador->player->hand); i--){
+        int v = countPlayerHand(&jogador->player->hand);
+        printf("\n-%d-\n", v);
+        for(int i=5; i>v; i--){
+            printf("\n3\n");
             if (popCard(&jogador->player->deck, &drawnCard)) {
             insertPlayerHandCard(&jogador->player->hand, drawnCard);
             }
@@ -126,7 +129,7 @@ int main() {
         }
 
         printf("\n1\n");
-        
+
         printMonster(&classe4);
 
 
