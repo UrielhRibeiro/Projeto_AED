@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct tp_no_aux {
     char type[20];
@@ -119,5 +120,21 @@ void imprime_primeiro_fila(tp_fila *fila){
     printf("\n");
 }
 
+int preencher_fila(tp_fila *f){
+    if(fila_vazia(f)){
+        srand(time(NULL));
+        for(int i = 0; i < 5; i++){
+            int type = rand() %2;
+            int power = (rand() %12 ) +5;
+            if(type){//verifica se o tipo e de ataque ou defesa
+                insere_fila(f, "ATAQUE", power);
+            }else{
+                insere_fila(f, "DEFESA", power);
+            }
+        }
+        return 1;
+    }
+    return 0;//fila ja preenchida
+}
 
 #endif
