@@ -145,7 +145,7 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
         if(fila_vazia(queue_action)) return 0;
         strcpy(actiontxt, queue_action->ini->type);//copia o nome da acao
 
-    }else { return 0; }
+    }else return 0;
 
     //vai usar o nome da acao para ver que tipo ela deve executar
     if(!strcmp(actiontxt, "ATAQUE")){

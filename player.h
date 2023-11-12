@@ -50,11 +50,23 @@ int insertPlayerHandCard(phand *ph, Card e){
 int searchPlayerHandCard (phand *ph, Card *e){
     if(ph->first == NULL) return 0;
     phand_no *aux = ph->first;
-    do{
+    while((aux != NULL) && !areCardsEqual(&aux->card, e)){
         aux = aux->next;
-    }while((aux != NULL) && !areCardsEqual(&aux->card, e));
+    }
     if(aux == NULL) return 0;
     return 1;
+}
+
+Card *searchPlayerHandCard2(phand *ph, int times){
+    if(ph->first == NULL) return NULL;
+    phand_no *aux = ph->first;
+    int t = 1;
+    while((aux != NULL) && t != times){
+        aux = aux->next;
+        t++;
+    }
+    if(aux == NULL) return NULL;
+    return &aux->card;
 }
 
 void printPlayerHand(phand *ph){

@@ -124,27 +124,33 @@ int main() {
             }
             
         }
-
         printMonster(&classe4);
-
         printPlayer(jogador);
-
         printf("\nSua mão:");
         printPlayerHand(&jogador->player->hand);
+        int aux=jogador->player->energy;
 
+        while(1){
+            int op=0, resp=1;
+            printf("\nEA restante = %d\n", jogador->player->energy);
+            printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
+            scanf("%d", &resp);
+            if(!resp) break;
+            printf("\nQual carta deseja utilizar?\n");
+            scanf("%d", &op);
 
+            EntityAction(&jogador, &classe4, searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
+            jogador->player->energy = jogador->player->energy - (searchPlayerHandCard2(&jogador->player->hand, op)->energy_cost);
+
+            printMonster(&classe4);
+            
+        }
+        jogador->player->energy=aux;
         Megumi_Reset(jogador);
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
 
     }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));
-
-
-    
-
-    
-
-
 
 
 
