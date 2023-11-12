@@ -57,18 +57,37 @@ int searchPlayerHandCard (phand *ph, Card *e){
     return 1;
 }
 
+void printPlayerHand(phand *ph){
+
+    //Modifica a linguagem na qual o texto sai no terminal, aceitando assim os assentos e caracteres especiais
+    UINT CPAGE_UTF8 = 65001;
+    UINT CPAGE_DEFAULT = GetConsoleOutputCP();
+    SetConsoleOutputCP(CPAGE_UTF8);
+
+    //Copia a carta no topo da stack para realizar a impressão
+    phand_no *aux;
+    int cont=1;
+    aux = ph->first;
+    while (aux != NULL)
+    {
+        //Imprime a carta e passa para a próxima
+        printf("\nCARTA %d %s\nNome: %s\nCusto: %d EA\nForça: %d\n", cont, aux->card.type, aux->card.name, aux->card.energy_cost, aux->card.power);
+        aux = aux->next;
+        cont ++;
+    }
+
+    //Volta a linguagem do terminal para o padrão
+    SetConsoleOutputCP(CPAGE_DEFAULT);
+}
+
 int countPlayerHand (phand *ph){
 
     int c=0;
     phand_no *aux = ph->first;
-    printf("\n2\n");
-    printf("\n2\n");
     while(aux != NULL){
         aux=aux->next;
         c++;
     }
-    printf("\n-%d-\n", c);
-
     return c;
 
 }

@@ -110,29 +110,27 @@ int main() {
 
     //Primeiro combate
     printf("Vamos ver como você se sai no   \nseu primeiro combate.\n");
-
+    printf("\nOs monstros possuem valores mí- \nnimos e máximos de ataque e es- \ncudo. Eles podem efetuar uma jo-\ngada por rodada utilizando esses\nvalores.\n\n");
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
 
     do{
-        printf("\n1\n");
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
-        printf("\n-%d-\n", v);
         for(int i=5; i>v; i--){
-            printf("\n3\n");
             if (popCard(&jogador->player->deck, &drawnCard)) {
             insertPlayerHandCard(&jogador->player->hand, drawnCard);
             }
-            printf("\n2\n");
+            
         }
-
-        printf("\n1\n");
 
         printMonster(&classe4);
 
+        printPlayer(jogador);
 
+        printf("\nSua mão:");
+        printPlayerHand(&jogador->player->hand);
 
 
 
@@ -144,7 +142,7 @@ int main() {
 
     
 
-    printf("\nOs monstros possuem valores mí-\nnimos e máximos de ataque e es-\ncudo. Eles podem efetuar um jo-\ngada por rodada utilizando esses\nvalores.");
+    
 
 
 
