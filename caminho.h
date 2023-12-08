@@ -11,6 +11,7 @@ typedef entity tp_item; // Define o tipo de dado que será armazenado no caminho
 typedef struct tp_no {
     tp_item *monster;
     struct tp_no *prox;
+    struct tp_no *desv;
 } tp_no;
 
 typedef struct tp_caminho {
@@ -36,12 +37,17 @@ tp_no *aloc_caminho() {
     return novo_no;
 }
 
-int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e) {
+int insere_caminho_no_fim(tp_caminho *caminho, tp_item *e, bool d) {
     tp_no *novo_no, *atu;
     do{
         novo_no = aloc_caminho(); // Aloca um novo nó
     }while(novo_no == NULL);
     if (!isEntityAMonster(e)) return 0; // Retorna 0 se a alocação falhar
+    if(d){
+        novo_no->desv->monster = e;
+    } else{
+        novo_no->desv = NULL;
+    }
     novo_no->monster = e;
     novo_no->prox = NULL;
     if (caminho_vazio(caminho)) {
@@ -60,6 +66,9 @@ void imprime_caminho(tp_caminho *caminho) {
     tp_no *atu;
     atu = caminho->ini;
     while (atu != NULL) {
+        if(atu->desv != NULL){
+            printf("%s\n   %s\n", atu->monster->monster->clas, atu->desv->monster->monster->clas);
+        }
         printf("%s\n", atu->monster->monster->clas); // Imprime o valor do nó
         atu = atu->prox;
     }
