@@ -61,11 +61,13 @@ Card *searchPlayerHandCard2(phand *ph, int times){
     if(ph->first == NULL) return NULL;
     phand_no *aux = ph->first;
     int t = 1;
-    while((aux != NULL) && t != times){
+    while((aux != NULL) && t < times){
         aux = aux->next;
         t++;
     }
+    printf(" %s",aux->card.name);
     if(aux == NULL) return NULL;
+    printf(" %s",aux->card.name);
     return &aux->card;
 }
 
@@ -107,6 +109,12 @@ int countPlayerHand (phand *ph){
 int deletePlayerHandCard(phand *ph, Card *e){
     if(ph->first == NULL) return 0;
     phand_no *aux = ph->first;
+    if(areCardsEqual(&aux->card, e)){
+        ph->first = aux->next;
+        aux->next = NULL;
+        free(aux);
+        return 1;
+    }
     do{
         aux = aux->next;
     }while( (aux != NULL) && !areCardsEqual(&aux->card, e) );

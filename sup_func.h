@@ -29,13 +29,16 @@ int insertSupFunc(sup_func *sf, char key[], int (*func) (entity *, entity *)){
 //executar a funcao com um nome especifico(key)
 int executeSupFunc(sup_func *sf, char key[], entity *cause, entity *takes){
     sup_func_no *aux = sf->no;
-    while( ( !strcmp(aux->key, key) ) && ( aux != NULL ) ){
+    printf("teste");
+    while( ( strcmp(aux->key, key) ) && ( aux != NULL ) ){
         printf("%s", aux->key);
         aux = aux->prox;
         Sleep(10);
     }
+    printf("teste2");
     if(aux == NULL) return 0;
-    int (*func2) (entity *, entity *) = aux->func;
+    int (*func2) (entity *, entity *);
+    func2 =  aux->func;
     func2(cause, takes);
     return 1;
 }
