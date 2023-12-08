@@ -1,5 +1,10 @@
+#ifndef SAVE_H
+#define SAVE_H
+
+#include <stdio.h>
 #include "carta.h"
 #include "entity.h"
+
 
 struct SaveData {
     CardStack playedCards;
@@ -29,3 +34,10 @@ void load_savedCard(const char *nomeArquivo, struct SaveData *dados){
         printf("Erro ao abrir o arquivo para leitura.\n");
     }
 }
+//função para printar as cartas jogadas
+void print_playedCard(entity *jogador,const char *nomeArquivo, struct SaveData *dados){ 
+    printf("essas foram as cartas jogadas ao longo do jogo:");
+    printCardStack(&dados->playedCards);
+}
+
+#endif
