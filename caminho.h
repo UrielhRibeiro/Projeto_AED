@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctime>
-#include "Ientity.h"
 #include <string.h>
+#include <time.h>
+#include "Ientity.h"
 
 typedef struct tp_no {
    entity info;
@@ -23,7 +23,7 @@ Caminho inicializa_caminho(){
 tp_no *aloca(){
 
     tp_no *novo;
-    novo(tp_no*)malloc(sizeof(tp_no));
+    novo = (tp_no*)malloc(sizeof(tp_no));
     return novo;
 
 }
@@ -79,10 +79,10 @@ int insere_caminho_desv(tp_no *a, entity e){
 //como vamos imprimir? IDEIAS
 
 void imprime_caminho(tp_no *a){
-    printf("\n")
+    printf("\n");
     if(a!=NULL){
         
-        printf("%s ", a->info->monster->monster->clas);
+        printf("%s ", a->info.monster->clas);
         imprime_caminho(a->prox);
         imprime_caminho(a->desv);
 
