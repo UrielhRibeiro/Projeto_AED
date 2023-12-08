@@ -15,12 +15,12 @@ typedef struct entity{
 
 typedef struct sup_func_no{
     char key[20];
-    int (*func) (entity *, entity *);
+    int (*func) (entity *causes, entity *takes);
     struct sup_func_no *prox;
 } sup_func_no;
 
 typedef struct sup_func{
-    sup_func_no *sup_func_no;
+    sup_func_no *no;
 }sup_func;
 
 /*cria um monstro*/

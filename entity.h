@@ -42,9 +42,9 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
     if (!strcmp(character, "Megumi")) { // Personagem Megumi
 
      // Insira as funções do Megumi na lista de funções de suporte
-        insertSupFunc(sup_func, "Megumi_EA", Megumi_supfunc_EA);
-        insertSupFunc(sup_func, "Megumi_attack", Megumi_supfunc_attack);
-        insertSupFunc(sup_func, "Megumi_shield", Megumi_supfunc_shield);
+        insertSupFunc(sup_func, "CONCENTRAR", Megumi_supfunc_EA);
+        insertSupFunc(sup_func, "OROCHI", Megumi_supfunc_attack);
+        insertSupFunc(sup_func, "BANSHO", Megumi_supfunc_shield);
 
         strcpy(p->character, "Megumi");
         MegumiCards(&p->deck);
@@ -64,10 +64,11 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
 
 /*cria um monstro*/
 /*e retorna a entidade monstro*/
-entity CreateMonster(char clas[32], int life, tp_fila *action){
+entity CreateMonster(char clas[], int life, tp_fila *action){
     monster *m;
     do {
         m = (monster *) malloc(sizeof(monster));
+        Sleep(100);
     }while(m == NULL); 
     if(fila_vazia(action)) return (entity){-1, -1, NULL, NULL};
     m->action = action;
@@ -90,7 +91,7 @@ void DeleteEntity(entity *e){
 //Imprime o jogador
 int printPlayer(entity *e){
     if(isEntityAMonster(e)) return 0;
-    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | EA: %d\n", e->player->name, e->player->character, e->life, e->player->energy);
+    printf("\nJogador: %s\nPersonagem: %s\nVida: %d | Escudo: %d | EA: %d\n", e->player->name, e->player->character, e->life, e->shield, e->player->energy);
     return 1;
 }
 

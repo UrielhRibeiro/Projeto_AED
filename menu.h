@@ -101,6 +101,7 @@ void startMenu(){
         } else {
             printf("Opção inválida, tente novamente.");
         }
+        Sleep(10);
     } while (!validOption);
 
     // Restaura a página de código padrão
@@ -118,9 +119,9 @@ void continuar(){
     do{
 
         printf("\nDigite 1 para continuar...\n");
-        scanf("%d", &conf);
+        scanf(" %d", &conf);
         printf("\n");
-
+        Sleep(10);
     }while(!conf);
 
     // Restaura a página de código padrão

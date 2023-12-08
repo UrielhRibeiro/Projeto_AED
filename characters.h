@@ -112,11 +112,11 @@ void MegumiCards(CardStack *deck){
 
 int Megumi_supfunc_EA(entity *causes, entity *takes){
     int r1 = isEntityAPlayer(causes);
-    int r2 = isEntityAPlayer(takes);
-    if(r1 == r2 && r1 == 1){
+    if(r1 == 1){
         causes->player->energy++;
         return 1;
     }
+    printf("\n%s | %s\n", causes->player->character, takes->monster->clas);
     return 0;
 }
 
@@ -124,12 +124,13 @@ int aumentou_dano = 0;
 
 int Megumi_supfunc_attack(entity *causes,entity *takes) {
     int r1 = isEntityAPlayer(causes);
-    int r2 = isEntityAMonster(takes); 
 
-    if (r1 == 1 && r2 == 0) { //Verificação 
+    if (r1 == 1) { //Verificação 
         for (phand_no *card_node = causes->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Aumenta o dano da carta multiplicando por 1.5
-            card_node->card.power *= 1.5;
+            if( !(card_node->card.type == "DEFESA") ){
+                card_node->card.power *= 1.5;
+            }
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
         }
@@ -138,19 +139,19 @@ int Megumi_supfunc_attack(entity *causes,entity *takes) {
 
         return 1;//Funcionou
     }
-
+    printf("\n%s | %s\n", causes->player->character, takes->monster->clas);
     return 0;//Não funcionou 
 }
 
 
 int Megumi_supfunc_shield(entity *causes, entity *takes){
     int r1 = isEntityAPlayer(causes);
-    int r2 = isEntityAPlayer(takes);
-    if(r1 == r2 && r1 == 1){
+    if(r1 == 1){
         initialshield = causes->shield; //Vai definir o escudo inicial 
         causes->shield = ceil(causes->shield*1.5);
         return 1;
     }
+    printf("\n%s | %s\n", causes->player->character, takes->monster->clas);
     return 0;
 }
 
@@ -162,7 +163,9 @@ void Megumi_Reset(entity *player){
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
-            card_node->card.power /= 1.5;
+            if( !(card_node->card.type == "DEFESA") ){
+                card_node->card.power /= 1.5;
+            }
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
             }

@@ -36,9 +36,7 @@ int insertPlayerHandCard(phand *ph, Card e){
     aux->card = e;
     aux->next = ph->first;
     aux->befo = NULL;
-
     ph->first = aux;
-
     // Se a lista não estiver vazia, atualiza o ponteiro befo do próximo nó
     if (ph->first->next != NULL) {
         ph->first->next->befo = aux;
@@ -61,7 +59,7 @@ Card *searchPlayerHandCard2(phand *ph, int times){
     if(ph->first == NULL) return NULL;
     phand_no *aux = ph->first;
     int t = 1;
-    while((aux != NULL) && t != times){
+    while((aux != NULL) && t < times){
         aux = aux->next;
         t++;
     }
@@ -107,10 +105,24 @@ int countPlayerHand (phand *ph){
 int deletePlayerHandCard(phand *ph, Card *e){
     if(ph->first == NULL) return 0;
     phand_no *aux = ph->first;
+    if(areCardsEqual(&aux->card, e)){
+        ph->first = aux->next;
+        aux->next = NULL;
+        free(aux);
+        return 1;
+    }
     do{
         aux = aux->next;
-    }while( (aux != NULL) && !areCardsEqual(&aux->card, e) );
+    }while( (aux->next != NULL) && !areCardsEqual(&aux->card, e) );
     if(aux == NULL) return 0;
+    if(aux->next == NULL){
+        aux->befo->next = NULL;
+        *e = aux->card;
+        aux->befo = NULL;
+        aux->card.next = NULL;
+        free(aux);
+        return 1;
+    }
     aux->befo->next = aux->next;
     aux->next->befo = aux->befo;
     *e = aux->card;
