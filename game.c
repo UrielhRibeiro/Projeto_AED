@@ -83,29 +83,28 @@ int main() {
     
 
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
-    Sleep(10);
+    
     imprime_caminho(&game);
 
     continuar();
     //Primeiro combate
     printf("Vamos ver como você se sai no   \nseu primeiro combate.\n");
     printf("\nOs monstros possuem valores mí- \nnimos e máximos de ataque e es- \ncudo. Eles podem efetuar uma jo-\ngada por rodada utilizando esses\nvalores.\n\n");
-    Sleep(100);
+    
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
     do{
-        Sleep(10);
+        
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
         for(int i=5; i>v; i--){
             if (popCard(&jogador->player->deck, &drawnCard)) {
                 insertPlayerHandCard(&jogador->player->hand, drawnCard);
             }
-            Sleep(10);
+            
         }
         int aux=jogador->player->energy;
-        printf("fds");
         while(1){
             int op=0, resp=1;
             printf("\nSua mão:");
@@ -125,7 +124,6 @@ int main() {
             EntityAction(jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
             printMonster(&classe4);
-            Sleep(10);
         }
         jogador->player->energy=aux;
         Megumi_Reset(jogador);
