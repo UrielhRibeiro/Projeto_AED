@@ -16,13 +16,13 @@ void initSupFunc(sup_func *sf){
 }
 
 //insere uma funcao com nome especifico(key) na lista
-int insertSupFunc(sup_func *sf, char key[], int (*func) (entity *cause, entity *takes)){
-    sup_func_no *no = (sup_func_no *) malloc(sizeof(sup_func_no));
+int insertSupFunc(sup_func *sf, char key[], int (*func) (entity *, entity *)){
+    sup_func_no *newno = (sup_func_no *) malloc(sizeof(sup_func_no));
     if(no == NULL) return 0;
     strcpy(no->key, key);
-    no->func = func;
-    no->prox = sf->sup_func_no;
-    sf->sup_func_no = no;
+    newno->func = func;
+    newno->prox = sf->no;
+    sf->no = newno;
     return 1;
 }
 
