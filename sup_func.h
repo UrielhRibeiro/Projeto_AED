@@ -16,7 +16,7 @@ void initSupFunc(sup_func *sf){
 }
 
 //insere uma funcao com nome especifico(key) na lista
-int insertSupFunc(sup_func *sf, char key[], int (*func) (entity *cause, entity *takes)){
+int insertSupFunc(sup_func *sf, char key[], int (*func) (entity *, entity *)){
     sup_func_no *no = (sup_func_no *) malloc(sizeof(sup_func_no));
     if(no == NULL) return 0;
     strcpy(no->key, key);

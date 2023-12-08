@@ -15,7 +15,7 @@ typedef struct entity{
 
 typedef struct sup_func_no{
     char key[20];
-    int (*func) (entity *cause, entity *takes);
+    int (*func) (entity *, entity *);
     struct sup_func_no *prox;
 } sup_func_no;
 
