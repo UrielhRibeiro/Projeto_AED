@@ -55,7 +55,7 @@ int printMonster(entity *e);
 int attackEntity(entity *attackentity, entity *defence_entity, int power);
 
 //retorna se foi possivel adicionar escudo ou n
-int addEntityShield(entity *entity1, entity *entity2, int qntshield);
+int addEntityShield(entity *entity1, int qntshield);
 
 /*a entidade cause e a que causa a acao, e a entidade takes e a q sofre a acao                     */
 /*o tipo do 3 parametro e void pq podem ser 2 tipos de variaveis, esta descrito abaixo             */

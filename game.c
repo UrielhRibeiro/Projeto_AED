@@ -124,24 +124,25 @@ int main() {
             }
             
         }
-        printMonster(&classe4);
-        printPlayer(jogador);
-        printf("\nSua mão:");
-        printPlayerHand(&jogador->player->hand);
         int aux=jogador->player->energy;
 
         while(1){
             int op=0, resp=1;
+            printf("\nSua mão:");
+            printPlayerHand(&jogador->player->hand);
+            printMonster(&classe4);
+            printPlayer(jogador);
             printf("\nEA restante = %d\n", jogador->player->energy);
             printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
             scanf("%d", &resp);
-            if(!resp) break;
+            if(!resp) continue;
             printf("\nQual carta deseja utilizar?\n");
             scanf("%d", &op);
-
-            EntityAction(&jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
-
-            jogador->player->energy = jogador->player->energy - (searchPlayerHandCard2(&jogador->player->hand, op)->energy_cost);
+            if(op > countPlayerHand(&jogador->player->hand)) {
+                printf("\nDigite novamente qual carta deseja utilizar?\n");
+                scanf("%d", &op);              
+            }
+            EntityAction(jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
             printMonster(&classe4);
             

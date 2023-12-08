@@ -117,10 +117,7 @@ int attackEntity(entity *attackentity, entity *defence_entity, int power){
 }
 
 //retorna se foi possivel adicionar escudo ou n
-int addEntityShield(entity *entity1, entity *entity2, int qntshield){
-    int pp = isEntityAPlayer(entity1); // pp = possivel jogador
-    int pm = isEntityAMonster(entity2); // pm = possivel monstro
-    if(pp == pm) return 0; 
+int addEntityShield(entity *entity1, int qntshield){
     entity1->shield += qntshield;
     return 1;
 }
@@ -132,14 +129,16 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
     char actiontxt[20];
     Card *selected_card;
     tp_fila *queue_action;
-    if(isEntityAPlayer(cause)){
+    int isp = isEntityAPlayer(cause);
+    int ism = isEntityAMonster(cause);
+    if(isp){
 
         selected_card = (Card *) action;// converte o ponteiro
         //ve se tem a carta no pilha de cartas e se ele tem energia pra isso
         if(!( (searchPlayerHandCard(&cause->player->hand, selected_card)) && (cause->player->energy -selected_card->energy_cost >= 0) ) ) return 0;
         strcpy(actiontxt, selected_card->type);//copia o nome da acao
 
-    }else if(isEntityAMonster(cause)){
+    }else if(ism){
 
         queue_action = (tp_fila *) action;
         if(fila_vazia(queue_action)) return 0;
@@ -150,13 +149,14 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
     //vai usar o nome da acao para ver que tipo ela deve executar
     if(!strcmp(actiontxt, "ATAQUE")){
 
-        if (isEntityAPlayer(cause)){
+        if (isp){
             int ans = attackEntity(cause, takes, selected_card->power);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
+                cause->player->energy -= selected_card->energy_cost;
                 return 1;
             }
-        }else if(isEntityAMonster(cause)){
+        }else if(ism){
             int ans = attackEntity(cause, takes, queue_action->ini->power);
             if (ans) {
                 int old_power;
@@ -170,16 +170,17 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
 
     } else if(!strcmp(actiontxt, "DEFESA")){
 
-        if (isEntityAPlayer(cause)){
-            int ans = addEntityShield(cause, takes, selected_card->power);
+        if (isp){
+            int ans = addEntityShield(cause, selected_card->power);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
+                cause->player->energy -= selected_card->energy_cost;
                 //falta o descarte
                 //vai remover a carta da mao do jogador
                 return 1;
             }
-        }else if(isEntityAMonster(cause)){
-            int ans = addEntityShield(cause, takes, queue_action->ini->power);
+        }else if(ism){
+            int ans = addEntityShield(cause, queue_action->ini->power);
             if (ans) {
                 int old_power;
                 char old_type[20];
@@ -193,10 +194,11 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func)
 
     } else if(!strcmp(actiontxt, "SUPORTE")){
 
-        if (isEntityAPlayer(cause)){
+        if (isp){
             int ans = executeSupFunc(sup_func, selected_card->name, cause, takes);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
+                cause->player->energy -= selected_card->energy_cost;
                 return 1;
             }
         }
