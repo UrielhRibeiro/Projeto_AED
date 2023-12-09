@@ -8,19 +8,19 @@
 #define MAX_PLAYER_NAME 50
 
 
-struct SaveData {
+typedef struct SaveData {
     char playerName[MAX_PLAYER_NAME]; // Nome do jogador
     int playerLevel; // Nível alcançado pelo jogador
     CardStack playedCards; // Pilha de cartas jogadas
-};
+} SaveData;
 
 // Função para salvar os dados do jogo em um arquivo
-void save_playedCard(const char *nomeArquivo, const struct SaveData *dados) {
+void save_playedCard(const char *nomeArquivo, const SaveData *dados) {
     FILE *arquivo = fopen(nomeArquivo, "wb"); // Abre o arquivo em modo de escrita binária
 
     if (arquivo != NULL) {
         // Escreve os dados da estrutura SaveData no arquivo
-        fwrite(dados, sizeof(struct SaveData), 1, arquivo);
+        fwrite(dados, sizeof(SaveData), 1, arquivo);
         fclose(arquivo); // Fecha o arquivo após a escrita
     } else {
         printf("Erro ao abrir o arquivo para escrita.\n");
@@ -28,25 +28,22 @@ void save_playedCard(const char *nomeArquivo, const struct SaveData *dados) {
 }
 
 // Função para carregar os dados do jogo de um arquivo
-void load_savedCard(const char *nomeArquivo, struct SaveData *dados) {
+void load_savedCard(const char *nomeArquivo, SaveData *dados) {
     FILE *arquivo = fopen(nomeArquivo, "rb"); // Abre o arquivo em modo de leitura binária
 
     if (arquivo != NULL) {
         // Lê os dados da estrutura SaveData do arquivo
-        fread(dados, sizeof(struct SaveData), 1, arquivo);
+        fread(dados, sizeof(SaveData), 1, arquivo);
         fclose(arquivo); // Fecha o arquivo após a leitura
     } else {
         printf("Erro ao abrir o arquivo para leitura.\n");
     }
 }
 
-
-
 // Função para imprimir as informações das cartas jogadas e do jogador
-void print_playedCard(const struct SaveData *dados) {
+void print_playedCard(SaveData *dados) {
     printf("Essas foram as cartas jogadas ao longo do jogo:\n");
-    CardStack playerCards = dados->playedCards;
-    printCardStack(&playerCards); // Chama a função para imprimir a pilha de cartas
+    printCardStack(&dados->playedCards); // Chama a função para imprimir a pilha de cartas
     printf("Nome do jogador: %s\n", dados->playerName); // Imprime o nome do jogador
     printf("Nível alcançado: %d\n", dados->playerLevel); // Imprime o nível alcançado pelo jogador
 }
