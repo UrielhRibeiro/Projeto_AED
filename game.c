@@ -1,4 +1,3 @@
-#include <time.h>
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
@@ -70,41 +69,42 @@ int main() {
     printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
     printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
     
-    //Criação dos 5 Monstros
-    tp_fila *cl4 = inicializa_fila();
-    preencher_fila(cl4);
-    entity classe4 = CreateMonster("cl4", 62, cl4);
-    
-    //Criando o caminho
-    tp_caminho game;
-    inicializa_caminho(&game);
-    insere_caminho_no_fim(&game, &classe4);
+    continuar();
 
+    //Criando o caminho
+    tp_no *game;
+    game = cria_caminho();
     
 
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
-    
-    imprime_caminho(&game);
+
+    imprime_caminho(game);
 
     continuar();
+
+    tp_fila *cl4 = inicializa_fila();
+    preencher_fila(cl4);
+    entity classe4 = CreateMonster("cl4", 62, cl4);
+    Sleep(1);
+
     //Primeiro combate
     printf("Vamos ver como você se sai no   \nseu primeiro combate.\n");
     printf("\nOs monstros possuem valores mí- \nnimos e máximos de ataque e es- \ncudo. Eles podem efetuar uma jo-\ngada por rodada utilizando esses\nvalores.\n\n");
-    
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
+
     do{
-        
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
         for(int i=5; i>v; i--){
             if (popCard(&jogador->player->deck, &drawnCard)) {
-                insertPlayerHandCard(&jogador->player->hand, drawnCard);
+            insertPlayerHandCard(&jogador->player->hand, drawnCard);
             }
             
         }
         int aux=jogador->player->energy;
+
         while(1){
             int op=0, resp=1;
             printf("\nSua mão:");
@@ -113,21 +113,23 @@ int main() {
             printPlayer(jogador);
             printf("\nEA restante = %d\n", jogador->player->energy);
             printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
-            scanf(" %d", &resp);
+            scanf("%d", &resp);
             if(!resp) continue;
             printf("\nQual carta deseja utilizar?\n");
-            scanf(" %d", &op);
+            scanf("%d", &op);
             if(op > countPlayerHand(&jogador->player->hand)) {
                 printf("\nDigite novamente qual carta deseja utilizar?\n");
-                scanf(" %d", &op);              
+                scanf("%d", &op);              
             }
             EntityAction(jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
             printMonster(&classe4);
+            
         }
         jogador->player->energy=aux;
         Megumi_Reset(jogador);
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
+
     }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));
 
 
