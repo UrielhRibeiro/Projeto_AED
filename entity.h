@@ -45,6 +45,7 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
         insertSupFunc(sup_func, "CONCENTRAR", Megumi_supfunc_EA);
         insertSupFunc(sup_func, "OROCHI", Megumi_supfunc_attack);
         insertSupFunc(sup_func, "BANSHO", Megumi_supfunc_shield);
+        insertSupFunc(sup_func, "SEITEI", Megumi_supfunc_hitshield);
 
         strcpy(p->character, "Megumi");
         MegumiCards(&p->deck);

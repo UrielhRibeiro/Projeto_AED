@@ -8,7 +8,7 @@
 #include "Ientity.h"
 
 typedef struct tp_no {
-   entity info;
+   entity *info;
    struct tp_no *ant;
    struct tp_no *prox;
    struct tp_no *desv;
@@ -20,7 +20,7 @@ Caminho inicializa_caminho(){
     return NULL;
 }
 
-tp_no *aloca(){
+tp_no *aloca_no(){
 
     tp_no *novo;
     novo = (tp_no*)malloc(sizeof(tp_no));

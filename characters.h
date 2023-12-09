@@ -155,6 +155,17 @@ int Megumi_supfunc_shield(entity *causes, entity *takes){
     return 0;
 }
 
+int Megumi_supfunc_hitshield(entity *causes, entity *takes){
+    int r1 = isEntityAPlayer(causes);
+    int r2 = isEntityAMonster(takes);
+    if(r1 == r2 && r1 = 1){
+        takes->shield /= 1.5;
+        return 1;
+    }
+
+    return 0;
+}
+
 
 void Megumi_Reset(entity *player){
     if(isEntityAPlayer(player)){
