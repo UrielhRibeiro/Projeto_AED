@@ -77,19 +77,5 @@ void imprime_caminho(caminho *cam){
     
 }
 
-void cria_caminho(caminho *cam){
-
-    start_caminnho(cam);
-
-    //Criação dos 5 Monstros
-    tp_fila *cl4 = inicializa_fila();
-    preencher_fila(cl4);
-    char str1[20] = "cl4";
-    entity classe4 = CreateMonster(str1, 62, cl4);
-    addCaminho(&classe4, cam); 
-    
-
-}
-
 
 #endif

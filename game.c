@@ -72,9 +72,15 @@ int main() {
 
     //Criando o caminho
     caminho cam;
-    cria_caminho(&cam);
+    start_caminnho(&cam);
 
-    setbuf(stdout, 0);
+    //Criação dos 5 Monstros
+    tp_fila *cl4 = inicializa_fila();
+    preencher_fila(cl4);
+    char str1[20] = "cl4";
+    entity classe4 = CreateMonster(str1, 62, cl4);
+    addCaminho(&classe4, &cam); 
+
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
     imprime_caminho(&cam);

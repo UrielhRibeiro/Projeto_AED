@@ -175,9 +175,9 @@ void Megumi_Reset(entity *player, entity *monster){
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
-            if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
-                card_node->card.power /= 1.5;
-            } 
+                if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
+                    card_node->card.power /= 1.5;
+                } 
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
             }
