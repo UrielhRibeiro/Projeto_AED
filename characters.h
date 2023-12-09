@@ -11,12 +11,12 @@ void MegumiCards(CardStack *deck){
     Card MegumiAtaque[4];
 
     //Preenchendo cada elemento das cartas de ataque
-    for(int i=0; i<4; i++) strcpy(MegumiAtaque[i].type, "ATAQUE");
+    for(int i=0; i<4; i++) strcpy(MegumiAtaque[i].type,(char *) "ATAQUE");
     
-    strcpy(MegumiAtaque[0].name, "GOLPE");
-    strcpy(MegumiAtaque[1].name, "CÃES DIVINOS");
-    strcpy(MegumiAtaque[2].name, "NUE");
-    strcpy(MegumiAtaque[3].name, "CÃO DIVINO-TOTAL");
+    strcpy(MegumiAtaque[0].name,(char *) "GOLPE");
+    strcpy(MegumiAtaque[1].name,(char *) "CÃES DIVINOS");
+    strcpy(MegumiAtaque[2].name,(char *) "NUE");
+    strcpy(MegumiAtaque[3].name,(char *) "CÃO DIVINO-TOTAL");
 
     /*strcpy(MegumiAtaque[0].desc, "Golpeia o inimigo.");
     strcpy(MegumiAtaque[1].desc, "Invoca dois cães gêmeos, um preto e um branco, que atacam o alvo juntos.");
@@ -42,12 +42,12 @@ void MegumiCards(CardStack *deck){
     Card MegumiDefesa[4];
 
     //Preenchendo cada elemento das cartas de defesa
-    for(int i=0; i<4; i++) strcpy(MegumiDefesa[i].type, "DEFESA");
+    for(int i=0; i<4; i++) strcpy(MegumiDefesa[i].type,(char *) "DEFESA");
     
-    strcpy(MegumiDefesa[0].name, "DEFENDER");
-    strcpy(MegumiDefesa[1].name, "ESCUDO DE ENERGIA AMALDIÇOADA");
-    strcpy(MegumiDefesa[2].name, "GAMA");
-    strcpy(MegumiDefesa[3].name, "FUGA DOS COELHOS");
+    strcpy(MegumiDefesa[0].name,(char *) "DEFENDER");
+    strcpy(MegumiDefesa[1].name,(char *) "ESCUDO DE ENERGIA AMALDIÇOADA");
+    strcpy(MegumiDefesa[2].name,(char *)"GAMA");
+    strcpy(MegumiDefesa[3].name,(char *) "FUGA DOS COELHOS");
 
     /*strcpy(MegumiDefesa[0].desc, "Defenda o golpe do adversário.");
     strcpy(MegumiDefesa[1].desc, "Envolve o usuário em energia amaldiçoada que amortece o próximo ataque inimigo.");
@@ -74,12 +74,12 @@ void MegumiCards(CardStack *deck){
     //int att, def, ec;
 
     //Preenchendo cada elemento das cartas de suporte
-    for(int i=0; i<4; i++) strcpy(MegumiSuporte[i].type, "SUPORTE");
+    for(int i=0; i<4; i++) strcpy(MegumiSuporte[i].type,(char *) "SUPORTE");
 
-    strcpy(MegumiSuporte[0].name, "CONCENTRAR");
-    strcpy(MegumiSuporte[1].name, "BANSHO");
-    strcpy(MegumiSuporte[2].name, "OROCHI");
-    strcpy(MegumiSuporte[3].name, "SEITEI");
+    strcpy(MegumiSuporte[0].name,(char *) "CONCENTRAR");
+    strcpy(MegumiSuporte[1].name,(char *) "BANSHO");
+    strcpy(MegumiSuporte[2].name,(char *) "OROCHI");
+    strcpy(MegumiSuporte[3].name,(char *) "SEITEI");
 
     /*strcpy(MegumiSuporte[0].desc, "Adiciona +1 de EA.");
     strcpy(MegumiSuporte[1].desc, "Invoca um elefante que inunda o ambiente, aumentando em 50% seu escudo nessa rodada.");
@@ -128,7 +128,7 @@ int Megumi_supfunc_attack(entity *causes,entity *takes) {
     if (r1 == 1) { //Verificação 
         for (phand_no *card_node = causes->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Aumenta o dano da carta multiplicando por 1.5
-            if( !strcmp(card_node->card.type , "DEFESA")){
+            if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
                 card_node->card.power *= 1.5;
             }
             //Comentado pra ver se vai arredondar ou não 
@@ -175,7 +175,7 @@ void Megumi_Reset(entity *player, entity *monster){
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
-            if( !strcmp(card_node->card.type , "DEFESA")){
+            if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
                 card_node->card.power /= 1.5;
             } 
             //Comentado pra ver se vai arredondar ou não 

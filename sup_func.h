@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "Ientity.h"
 
 #ifndef SUP_FUNC_H

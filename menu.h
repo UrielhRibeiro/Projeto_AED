@@ -89,6 +89,7 @@ void startMenu(){
     //fazendo checagem de validez da opção e chamando função de acordo com a escolha
     do {
         scanf("%s",option);
+        fflush(stdout);
         if (stricmp(option, "jogar") == 0) {
             //GameStart();
             validOption = 1;
@@ -120,8 +121,8 @@ void continuar(){
 
         printf("\nDigite 1 para continuar...\n");
         scanf(" %d", &conf);
+        fflush(stdout);
         printf("\n");
-        Sleep(10);
     }while(!conf);
 
     // Restaura a página de código padrão

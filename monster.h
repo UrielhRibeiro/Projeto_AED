@@ -18,7 +18,7 @@ typedef struct {
 
 typedef struct monster{
     tp_fila *action;     
-    char clas[]; 
+    char clas[20]; 
 }monster;
 
 // a fila de acoes do monstro
@@ -127,9 +127,9 @@ int preencher_fila(tp_fila *f){
             int type = rand() %2;
             int power = 5 + rand() %13;
             if(type){//verifica se o tipo e de ataque ou defesa
-                insere_fila(f, "ATAQUE", power);
+                insere_fila(f,(char *) "ATAQUE", power);
             }else{
-                insere_fila(f, "DEFESA", power);
+                insere_fila(f,(char *) "DEFESA", power);
             }
         }
         return 1;

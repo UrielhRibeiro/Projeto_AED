@@ -1,8 +1,7 @@
+#include "caminho.h"
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
-#include "caminho.h"
-#include "sup_func.h"
 
 int main() {
     
@@ -72,20 +71,16 @@ int main() {
     continuar();
 
     //Criando o caminho
-    tp_no *game;
-    game = cria_caminho();
-    
+    caminho cam;
+    cria_caminho(&cam);
 
+    setbuf(stdout, 0);
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
-    imprime_caminho(game);
+    imprime_caminho(&cam);
 
     continuar();
 
-    tp_fila *cl4 = inicializa_fila();
-    preencher_fila(cl4);
-    entity classe4 = CreateMonster("cl4", 62, cl4);
-    Sleep(1);
 
     //Primeiro combate
     printf("Vamos ver como você se sai no   \nseu primeiro combate.\n");
@@ -109,7 +104,7 @@ int main() {
             int op=0, resp=1;
             printf("\nSua mão:");
             printPlayerHand(&jogador->player->hand);
-            printMonster(&classe4);
+            printMonster(cam.cam_no->entity);
             printPlayer(jogador);
             printf("\nEA restante = %d\n", jogador->player->energy);
             printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
@@ -121,16 +116,16 @@ int main() {
                 printf("\nDigite novamente qual carta deseja utilizar?\n");
                 scanf("%d", &op);              
             }
-            EntityAction(jogador, &classe4, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
+            EntityAction(jogador, cam.cam_no->entity, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
 
-            printMonster(&classe4);
+            printMonster(cam.cam_no->entity);
             
         }
         jogador->player->energy=aux;
-        Megumi_Reset(jogador, &classe4);
+        Megumi_Reset(jogador, cam.cam_no->entity);
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
 
-    }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));
+    }while((!isEntityAlive(jogador)) && (!isEntityAlive(cam.cam_no->entity)));
 
 
 
