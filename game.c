@@ -81,6 +81,32 @@ int main() {
     entity classe4 = CreateMonster(str1, 62, cl4);
     addCaminho(&classe4, &cam); 
 
+    tp_fila *cl3 = inicializa_fila();
+    preencher_fila(cl3);
+    char str2[20] = "cl3";
+    entity classe3 = CreateMonster(str2, 62, cl3);
+    addCaminho(&classe3, &cam); 
+
+    tp_fila *cl2 = inicializa_fila();
+    preencher_fila(cl2);
+    entity classe2 = CreateMonster("cl2", 98, cl2);
+    addCaminho(&classe2, &cam); 
+    Sleep(1);
+
+    tp_fila *cl1 = inicializa_fila();
+    preencher_fila(cl1);
+    entity classe1 = CreateMonster("cl1", 110, cl1);
+    addCaminho(&classe1, &cam); 
+
+    tp_fila *clesp = inicializa_fila();
+    preencher_fila(clesp);
+    entity classeEsp = CreateMonster("clesp", 135, clesp);
+    addCaminho(&classeEsp, &cam); 
+    Sleep(1);
+
+    addRest(&cam); 
+    Sleep(1);
+
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
     imprime_caminho(&cam);
