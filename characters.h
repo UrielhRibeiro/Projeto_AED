@@ -170,7 +170,7 @@ int Megumi_supfunc_hitshield(entity *causes, entity *takes){
 void Megumi_Reset(entity *player, entity *monster){
     int isp = isEntityAPlayer(player);
     int ism = isEntityAMonster(monster);
-    if(ism){
+    if(isp){
         //Resetar Ataque
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
