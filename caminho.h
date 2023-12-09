@@ -50,7 +50,7 @@ int addRest(caminho *cam){
     while(aux2->prox != NULL){
         aux2 = aux2->prox;
         count++;
-        if(count % 2){
+        if(!(count % 2)){
             if(count2 == 0){
                 if(aux2->rest != NULL) continue;
                 aux->befo = aux2;

@@ -107,6 +107,9 @@ int main() {
     addRest(&cam); 
     Sleep(1);
 
+    addRest(&cam); 
+    Sleep(1);
+
     printf("Esse é o caminho pelo qual você \nirá percorrer:\n\n");
 
     imprime_caminho(&cam);
@@ -120,7 +123,7 @@ int main() {
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
-
+    //while(1); // controle de fase
     do{
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
