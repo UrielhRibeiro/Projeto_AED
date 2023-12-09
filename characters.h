@@ -167,20 +167,23 @@ int Megumi_supfunc_hitshield(entity *causes, entity *takes){
 }
 
 
-void Megumi_Reset(entity *player){
-    if(isEntityAPlayer(player)){
-        
+void Megumi_Reset(entity *player, entity *monster){
+    int isp = isEntityAPlayer(player);
+    int ism = isEntityAMonster(monster);
+    if(ism){
         //Resetar Ataque
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
             if( !(card_node->card.type == "DEFESA") ){
                 card_node->card.power /= 1.5;
-            }
+            } 
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
             }
         }
+        if(ism) monster->shield = 0;
+        player->shield = 0;
     }
 }  
 
