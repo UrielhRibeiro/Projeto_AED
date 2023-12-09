@@ -75,7 +75,7 @@ int insere_caminho_desv(tp_no *a, entity *e){
     return 1;
 }
 
-Caminho * cria_caminho(){
+Caminho cria_caminho(){
 
     Caminho novo;
     novo = inicializa_caminho();
@@ -143,19 +143,6 @@ void imprime_caminho(tp_no *a){
     printf("   %s   \n", a->prox->prox->prox->info->monster->clas);
     printf("   %s   \n", a->prox->prox->prox->prox->info->monster->clas);
     
-}
-
-tp_no * destroi_caminho(tp_no *a){
-    tp_no *atu, *aux;
-    atu=a;
-    while(atu!=NULL){
-        aux=atu;
-        free(atu);
-        atu=aux;
-        atu=atu->prox;
-    }
-    free(a);
-    return NULL;
 }
 
 #endif

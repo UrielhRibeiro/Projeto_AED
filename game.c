@@ -127,7 +127,7 @@ int main() {
             
         }
         jogador->player->energy=aux;
-        Megumi_Reset(jogador);
+        Megumi_Reset(jogador, &classe4);
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
 
     }while((!isEntityAlive(jogador)) && (!isEntityAlive(&classe4)));
@@ -146,8 +146,6 @@ int main() {
         printf("Você perdeu...\n");
         GameCredits(); // Exiba os créditos do jogo 
     }
-
-    destroi_caminho(&game);
 
     SetConsoleOutputCP(CPAGE_DEFAULT);
     return 0;
