@@ -183,7 +183,7 @@ int main() {
         shuffleCardStack(&jogador->player->deck);
         shuffleCardStack(&jogador->player->deck);
         shuffleCardStack(&jogador->player->deck);
-        
+
         int r;
         do{
             printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
