@@ -57,6 +57,8 @@ entity CreatePlayer(char name[], int life, int energy, char character[], sup_fun
     entity e = {.life = life, .shield = 0, .player = p, .monster = NULL};
 
     shuffleCardStack(&p->deck);
+    shuffleCardStack(&p->deck);
+    shuffleCardStack(&p->deck);
 
     initPlayerHand(&p->hand);
 

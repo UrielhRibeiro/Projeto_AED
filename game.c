@@ -142,7 +142,7 @@ int main() {
                         insertPlayerHandCard(&jogador->player->hand, drawnCard);
                     }    
                 }
-                while(1){
+                while(isEntityAlive(cam.cam_no->entity)){
                     int op=0, resp=1;
                     printf("\nSua mão:");
                     printPlayerHand(&jogador->player->hand);
@@ -173,7 +173,7 @@ int main() {
             do{
                 printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
                 scanf(" %d", &r);
-            }while(r == 1 || r == 0);
+            }while( ! (r == 1 || r == 0) );
             if(r){
                 cam.cam_no = cam.cam_no->rest;
                 continue;
