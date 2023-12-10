@@ -126,7 +126,6 @@ int main() {
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
-    savedData.playedCards = descarte;
     do{
         if(cam.cam_no->isrest){
             jogador->life = 90;
@@ -164,6 +163,9 @@ int main() {
 
         //adicionar a pilha de descarte
         //e adicionar o nivel
+        savedData.playedCards = descarte;
+        strcpy(savedData.playerName, playerName);
+        strcpy(savedData.playerLevel, cam.cam_no->entity->monster->clas);
         save_playedCard("save.data",&savedData);
 
 
@@ -177,6 +179,11 @@ int main() {
         }        
 
 
+        mergeCards(&jogador->player->deck, &descarte, &jogador->player->hand);
+        shuffleCardStack(&jogador->player->deck);
+        shuffleCardStack(&jogador->player->deck);
+        shuffleCardStack(&jogador->player->deck);
+        
         int r;
         do{
             printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
@@ -189,10 +196,6 @@ int main() {
 
 
         cam.cam_no = cam.cam_no->prox;
-        mergeCards(&jogador->player->deck, &descarte, &jogador->player->hand);
-        shuffleCardStack(&jogador->player->deck);
-        shuffleCardStack(&jogador->player->deck);
-        shuffleCardStack(&jogador->player->deck);
 
 
     }while(cam.cam_no !=  NULL);
