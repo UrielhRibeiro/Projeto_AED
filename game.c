@@ -22,62 +22,53 @@ int main() {
 
 
     //Seleção de personagem
-    int escolhaPersonagem, hasplayed = 0;
+    int escolhaPersonagem;
     entity *jogador;
     sup_func j1;
 
-    do{
-        
-    }while(1);
-
-    if(hasplayed){
-        printf("\nEscolha o personagem que deseja jogar:\n1.Fushiguro Megumi\n");
+    printf("\nEscolha o personagem que deseja jogar:\n1.Fushiguro Megumi\n");
+    scanf(" %d", &escolhaPersonagem);
+    while(escolhaPersonagem!=1){
+        printf("Escolha uma opção válida.");
         scanf(" %d", &escolhaPersonagem);
-        while(escolhaPersonagem!=1){
-            printf("Escolha uma opção válida.");
-            scanf(" %d", &escolhaPersonagem);
-        }
-
-        //cria um ponteiro para se refereciar aos personagens devido ao const em player na struct entity
-        initSupFunc(&j1);
-        if(escolhaPersonagem==1){
-
-            printf("\nVocê escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
-
-            //Cria o jogador
-            printf("\n1\n");
-            entity temp = CreatePlayer(playerName, 90, 6, "Megumi", &j1);
-            printf("\n1\n");
-            jogador = &temp;
-            printf("\n1\n");
-        }
-        
-
-        //Visualizar jogador
-        printf("\nO seu jogador foi criado!\nVeja como ficou:\n");
-        printPlayer(jogador);
-
-        continuar();
-
-        //Visualizar o deck
-        printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
-        printCardStack(&jogador->player->deck);
-
-        continuar();
-
-        //Imprime a introdução do jogo
-        intro();
-
-        continuar();
-
-        printf("\nSeja bem-vindo ao tutorial!\n");
-        printPlayer(jogador);
-        printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
-        printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
-        printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
-        
-        continuar();
     }
+
+    //cria um ponteiro para se refereciar aos personagens devido ao const em player na struct entity
+    initSupFunc(&j1);
+    if(escolhaPersonagem==1){
+
+        printf("\nVocê escolheu Fushiguro Megumi!\nVida: 90/90\nEA: 6/6\n");
+
+        //Cria o jogador
+        entity temp = CreatePlayer(playerName, 90, 6, "Megumi", &j1);
+        jogador = &temp;
+    }
+    
+
+    //Visualizar jogador
+    printf("\nO seu jogador foi criado!\nVeja como ficou:\n");
+    printPlayer(jogador);
+
+    continuar();
+
+    //Visualizar o deck
+    printf("\nVeja agora quais são as suas    \ncartas para esta aventura!\n");
+    printCardStack(&jogador->player->deck);
+
+    continuar();
+
+    //Imprime a introdução do jogo
+    intro();
+
+    continuar();
+
+    printf("\nSeja bem-vindo ao tutorial!\n");
+    printPlayer(jogador);
+    printf("\nPara começar, esses valores são \nsua vida e energia amaldiçoada.\n");
+    printf("\nA energia amaldiçoada é a fonte \nde seus ataques e sua principal \ndefesa contra maldições.\n");
+    printf("\nPara começar, vamos ver como vo-\ncê se sai contra uma maldição de\ngrau baixo.\n");
+    
+    continuar();
 
     //Criando o caminho
     caminho cam;

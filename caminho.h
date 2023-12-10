@@ -37,7 +37,7 @@ int addCaminho(entity *monster, caminho *cam){
     while(aux2->prox != NULL){
         aux2 = aux2->prox;
     }
-    aux->befo = aux->prox;
+    aux->befo = aux2;
     aux2->prox = aux;
     return 1;
 }
@@ -45,14 +45,15 @@ int addCaminho(entity *monster, caminho *cam){
 int addRest(caminho *cam){
     caminho_no *aux = (caminho_no *)malloc(sizeof(caminho_no));
     if(aux == NULL) return 0;
-    caminho_no *aux2 = cam->cam_no;
-    int count = 1, count2 = 0;
-    while(aux2->prox != NULL){
-        aux2 = aux2->prox;
+    int count = 0, count2 = 0;
+    for(caminho_no *aux2 = cam->cam_no; aux2 != NULL; aux2 = aux2->prox){
         count++;
-        if(!(count % 2)){
+        if(count % 2){
             if(count2 == 0){
-                if(aux2->rest != NULL) continue;
+                if(aux2->rest != NULL) {
+                    continue;
+                }
+                //printf("%s", aux2->entity->monster->clas);
                 aux->befo = aux2;
                 aux2->rest = aux;
                 count2++;
@@ -60,21 +61,25 @@ int addRest(caminho *cam){
             }
             count2 = 0;
             aux->prox = aux2;
+            //printf("%s", aux->prox->entity->monster->clas);
+            return 1;
         }
     }
-    return 1;
+    return 0;
 }
 
 void imprime_caminho(caminho *cam){
     caminho_no *aux = cam->cam_no;  
     while (aux != NULL){
         printf("\n%s", aux->entity->monster->clas);
-        if(aux->rest != NULL){
-            printf(" | Descanco");
+        if(aux->befo != NULL){
+            if(aux->befo->rest != NULL){
+                printf(" | Descanco");
+            }
         }
         aux = aux->prox;
     }
-    
+    printf("\n");
 }
 
 
