@@ -165,9 +165,6 @@ int main() {
             //adicionar a pilha de descarte
             //e adicionar o nivel
             if(!isEntityAlive(jogador)) break;
-            if(0){
-                //logica de selecionar se vai querer continuar no combate ou vai pro descanco
-            }
             save_playedCard("save.data",&savedData);
             int r;
             do{
@@ -181,40 +178,6 @@ int main() {
             cam.cam_no = cam.cam_no->prox;
             //merge da mao do jogador com a pilha de cartas com a pilha de descarte
         }while(cam.cam_no !=  NULL);
-        /*
-        while(1){
-            int op=0, resp=1;
-            printf("\nSua mão:");
-            printPlayerHand(&jogador->player->hand);
-            printMonster(cam.cam_no->entity);
-            printPlayer(jogador);
-            printf("\nEA restante = %d\n", jogador->player->energy);
-            printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
-            scanf("%d", &resp);
-            if(!resp) continue;
-            printf("\nQual carta deseja utilizar?\n");
-            scanf("%d", &op);
-            if(op > countPlayerHand(&jogador->player->hand)) {
-                printf("\nDigite novamente qual carta deseja utilizar?\n");
-                scanf("%d", &op);              
-            }
-            EntityAction(jogador, cam.cam_no->entity, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1);
-
-            printMonster(cam.cam_no->entity);
-            
-        }
-        jogador->player->energy=aux;
-        Megumi_Reset(jogador, cam.cam_no->entity);
-        if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
-
-    }while((!isEntityAlive(jogador)) && (!isEntityAlive(cam.cam_no->entity)));
-    */
-
-
-    /*do {
-        // Realize um round de combate
-        Round(&jogador, &monstro);
-    } while (isEntityAlive(&jogador) && !isEntityAlive(&monstro));*/
 
     // Verifique o resultado da partida e exiba uma mensagem apropriada
     if (isEntityAlive(jogador)) {
