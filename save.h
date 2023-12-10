@@ -10,16 +10,22 @@
 typedef struct SaveData {
     char playerName[MAX_PLAYER_NAME]; // Nome do jogador
     char playerLevel[10]; // Nível alcançado pelo jogador
-    CardStack playedCards; // Pilha de cartas jogadas
+    CardStack *playedCards; // Pilha de cartas jogadas
 } SaveData;
 
 // Função para salvar os dados do jogo em um arquivo
-void save_playedCard(const char *nomeArquivo, const SaveData *dados) {
-    FILE *arquivo = fopen(nomeArquivo, "wb"); // Abre o arquivo em modo de escrita binária
-
+void save_playedCard(const char *nomeArquivo, SaveData *dados) {
+    FILE *arquivo = fopen(nomeArquivo, "a+"); // Abre o arquivo em modo de escrita binária
     if (arquivo != NULL) {
         // Escreve os dados da estrutura SaveData no arquivo
-        fwrite(dados, sizeof(SaveData), 1, arquivo);
+        fprintf(arquivo, "\nNome do Jogador: %s | Nivel alcancado: %s", dados->playerName, dados->playerLevel);
+        Card *aux = dados->playedCards->top;
+        while (aux != NULL)
+        {
+            //Imprime a carta e passa para a próxima
+            fprintf(arquivo, "\nType: %s | Nome: %s | Custo: %d EA | Força: %d\n", aux->type, aux->name, aux->energy_cost, aux->power);
+            aux = aux->next;
+        }
         fclose(arquivo); // Fecha o arquivo após a escrita
     } else {
         printf("Erro ao abrir o arquivo para escrita.\n");

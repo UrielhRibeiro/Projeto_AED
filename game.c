@@ -10,6 +10,8 @@ int main() {
     UINT CPAGE_DEFAULT = GetConsoleOutputCP();
     SetConsoleOutputCP(CPAGE_UTF8);
 
+    FILE *arquivo = fopen("save.data", "w");
+    fclose(arquivo);
 
     // Inicia o menu 
     startMenu();
@@ -81,29 +83,29 @@ int main() {
     tp_fila *cl4 = inicializa_fila();
     preencher_fila(cl4);
     char str1[20] = "cl4";
-    entity classe4 = CreateMonster(str1, 40, cl4);
+    entity classe4 = CreateMonster(str1, 1, cl4);
     addCaminho(&classe4, &cam); 
 
     tp_fila *cl3 = inicializa_fila();
     preencher_fila(cl3);
     char str2[20] = "cl3";
-    entity classe3 = CreateMonster(str2, 50, cl3);
+    entity classe3 = CreateMonster(str2, 1, cl3);
     addCaminho(&classe3, &cam); 
 
     tp_fila *cl2 = inicializa_fila();
     preencher_fila(cl2);
-    entity classe2 = CreateMonster("cl2", 55, cl2);
+    entity classe2 = CreateMonster("cl2", 1, cl2);
     addCaminho(&classe2, &cam); 
     Sleep(1);
 
     tp_fila *cl1 = inicializa_fila();
     preencher_fila(cl1);
-    entity classe1 = CreateMonster("cl1", 65, cl1);
+    entity classe1 = CreateMonster("cl1", 1, cl1);
     addCaminho(&classe1, &cam); 
 
     tp_fila *clesp = inicializa_fila();
     preencher_fila(clesp);
-    entity classeEsp = CreateMonster("clesp", 70, clesp);
+    entity classeEsp = CreateMonster("clesp", 1, clesp);
     addCaminho(&classeEsp, &cam); 
     Sleep(1);
 
@@ -163,10 +165,10 @@ int main() {
 
         //adicionar a pilha de descarte
         //e adicionar o nivel
-        savedData.playedCards = descarte;
+        savedData.playedCards = &descarte;
         strcpy(savedData.playerName, playerName);
         strcpy(savedData.playerLevel, cam.cam_no->entity->monster->clas);
-        save_playedCard("save.txt",&savedData);
+        save_playedCard("save.data",&savedData);
 
         // Verifique o resultado da partida e exiba uma mensagem apropriada
 
@@ -201,13 +203,11 @@ int main() {
             continue;
         }   
 
-
         cam.cam_no = cam.cam_no->prox;
         printf("\nVocê ira batalhar com o monstro: %s\n", cam.cam_no->entity->monster->clas);
         continuar();
 
     }while(cam.cam_no !=  NULL);
-
     SetConsoleOutputCP(CPAGE_DEFAULT);
     return 0;
 }

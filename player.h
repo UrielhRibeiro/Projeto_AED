@@ -117,19 +117,17 @@ int deletePlayerHandCard(phand *ph, Card *e){
     if(aux == NULL) return 0;
     if(aux->next == NULL){
         aux->befo->next = NULL;
-        *e = aux->card;
+        //*e = aux->card;
         aux->befo = NULL;
         aux->card.next = NULL;
-        free(aux);
         return 1;
     }
     aux->befo->next = aux->next;
     aux->next->befo = aux->befo;
-    *e = aux->card;
+    //*e = aux->card;
     aux->next = NULL;
     aux->befo = NULL;
     aux->card.next = NULL;
-    free(aux);
     return 1;
 }
 
