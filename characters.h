@@ -104,9 +104,9 @@ void MegumiCards(CardStack *deck){
     //Passando todas as cartas pro deck
     for(int i=0; i<4; i++){
         //Passa as cartas repetidamente N número de vezes para o deck, N = quantidade pré-definida
-        for(int j=0; j<MegumiAtaque[i].quantity*2; j++)  pushCard(deck, &MegumiAtaque[i]);  
+        for(int j=0; j<MegumiAtaque[i].quantity*5; j++)  pushCard(deck, &MegumiAtaque[i]);  
         for(int j=0; j<MegumiDefesa[i].quantity*2; j++)  pushCard(deck, &MegumiDefesa[i]);
-        for(int j=0; j<MegumiSuporte[i].quantity*2; j++) pushCard(deck, &MegumiSuporte[i]);   
+        for(int j=0; j<MegumiSuporte[i].quantity; j++) pushCard(deck, &MegumiSuporte[i]);   
     }
 }
 

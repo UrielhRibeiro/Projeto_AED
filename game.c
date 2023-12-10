@@ -81,29 +81,29 @@ int main() {
     tp_fila *cl4 = inicializa_fila();
     preencher_fila(cl4);
     char str1[20] = "cl4";
-    entity classe4 = CreateMonster(str1, 55, cl4);
+    entity classe4 = CreateMonster(str1, 1, cl4);
     addCaminho(&classe4, &cam); 
 
     tp_fila *cl3 = inicializa_fila();
     preencher_fila(cl3);
     char str2[20] = "cl3";
-    entity classe3 = CreateMonster(str2, 60, cl3);
+    entity classe3 = CreateMonster(str2, 1, cl3);
     addCaminho(&classe3, &cam); 
 
     tp_fila *cl2 = inicializa_fila();
     preencher_fila(cl2);
-    entity classe2 = CreateMonster("cl2", 70, cl2);
+    entity classe2 = CreateMonster("cl2", 1, cl2);
     addCaminho(&classe2, &cam); 
     Sleep(1);
 
     tp_fila *cl1 = inicializa_fila();
     preencher_fila(cl1);
-    entity classe1 = CreateMonster("cl1", 85, cl1);
+    entity classe1 = CreateMonster("cl1", 1, cl1);
     addCaminho(&classe1, &cam); 
 
     tp_fila *clesp = inicializa_fila();
     preencher_fila(clesp);
-    entity classeEsp = CreateMonster("clesp", 100, clesp);
+    entity classeEsp = CreateMonster("clesp", 1, clesp);
     addCaminho(&classeEsp, &cam); 
     Sleep(1);
 
@@ -166,12 +166,15 @@ int main() {
         savedData.playedCards = descarte;
         strcpy(savedData.playerName, playerName);
         strcpy(savedData.playerLevel, cam.cam_no->entity->monster->clas);
-        save_playedCard("save.data",&savedData);
-
+        save_playedCard("save.txt",&savedData);
 
         // Verifique o resultado da partida e exiba uma mensagem apropriada
-        if (isEntityAlive(jogador)) {
-            printf("\n Parabéns %s! Você venceu o monstro: %s!\n", playerName, cam.cam_no->entity->monster->clas);
+
+        if(!strcmp(cam.cam_no->entity->monster->clas, "clesp")){
+            printf("\nParabéns %s! Você venceu o jogo!\n", playerName);
+            break;
+        }else if (isEntityAlive(jogador)) {
+            printf("\nParabéns %s! Você venceu o monstro: %s!\n", playerName, cam.cam_no->entity->monster->clas);
         } else {
             printf("Você perdeu...\n");
             GameCredits(); // Exiba os créditos do jogo 
@@ -179,24 +182,29 @@ int main() {
         }        
 
 
-        mergeCards(&jogador->player->deck, &descarte, &jogador->player->hand);
+        mergeCards(&jogador->player->deck, &descarte, jogador->player);
         shuffleCardStack(&jogador->player->deck);
         shuffleCardStack(&jogador->player->deck);
         shuffleCardStack(&jogador->player->deck);
 
         int r;
         do{
-            printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
-            scanf(" %d", &r);
-        }while( ! (r == 1 || r == 0) );
+            if(cam.cam_no->rest != NULL){
+                printf("\nVocê deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
+                scanf(" %d", &r);
+            }else r = 0;
+        }while( ! (r == 1 || r == 0));
         if(r){
             cam.cam_no = cam.cam_no->rest;
+            printf("\nVocê ira batalhar com o monstro: %s\n", cam.cam_no->prox->entity->monster->clas);
+            continuar();
             continue;
         }   
 
 
         cam.cam_no = cam.cam_no->prox;
-
+        printf("\nVocê ira batalhar com o monstro: %s\n", cam.cam_no->entity->monster->clas);
+        continuar();
 
     }while(cam.cam_no !=  NULL);
 

@@ -44,7 +44,7 @@ void print_playedCard(SaveData *dados) {
     printf("Essas foram as cartas jogadas ao longo do jogo:\n");
     printCardStack(&dados->playedCards); // Chama a função para imprimir a pilha de cartas
     printf("Nome do jogador: %s\n", dados->playerName); // Imprime o nome do jogador
-    printf("Nível alcançado: %d\n", dados->playerLevel); // Imprime o nível alcançado pelo jogador
+    printf("Nível alcançado: %s\n", dados->playerLevel); // Imprime o nível alcançado pelo jogador
 }
 
 #endif // SAVE_H
