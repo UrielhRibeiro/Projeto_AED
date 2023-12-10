@@ -133,4 +133,27 @@ int deletePlayerHandCard(phand *ph, Card *e){
     return 1;
 }
 
+void mergeCards(CardStack *mergeCard, CardStack *descarte, player *p) {
+    // Verifica se a mão do jogador não está vazia antes de realizar a mesclagem
+    if (p->hand.first != NULL) {
+
+        // Percorre a mão do jogador e adiciona as cartas à pilha de cartas
+        phand_no *handNode = p->hand.first;
+        while (handNode != NULL) {
+            pushCard(mergeCard, &handNode->card);
+            phand_no *temp = handNode;
+            handNode = handNode->next;
+            free(temp); //Libera o nó da mão do jogador
+        }
+        initPlayerHand(&p->hand); //Reinicializa a mão do jogador
+    }
+
+    // Percorre a pilha de descarte e adiciona as cartas à pilha de cartas
+    while (descarte->top != NULL) {
+        Card tempCard;
+        popCard(descarte, &tempCard);
+        pushCard(mergeCard, &tempCard); 
+    }
+}
+
 #endif
