@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "characters.h"
 #include "intro.h"
+#include "save.h"
 
 int main() {
     
@@ -15,7 +16,9 @@ int main() {
     
     // Obtenha o nome do jogador
     char playerName[20];
-
+    struct SaveData savedData;
+    strcpy(savedData.playerName, "Jogador1");
+    
     strcpy(playerName, GameStart());
 
     
@@ -123,6 +126,7 @@ int main() {
     CardStack descarte;
     initCardStack(&descarte);
     Card drawnCard;
+    savedData.playedCards = descarte;
     //while(1); // controle de fase
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
@@ -161,6 +165,10 @@ int main() {
             //adicionar a pilha de descarte
             //e adicionar o nivel
             if(!isEntityAlive(jogador)) break;
+            if(0){
+                //logica de selecionar se vai querer continuar no combate ou vai pro descanco
+            }
+            save_playedCard("save.data",&savedData);
             int r;
             do{
                 printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
