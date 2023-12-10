@@ -128,6 +128,10 @@ int main() {
         int v = countPlayerHand(&jogador->player->hand);
 
         do{
+            if(cam.cam_no->isrest){
+                jogador->life = 100;
+                cam.cam_no = cam.cam_no->prox;
+            }
             while(isEntityAlive(jogador) && isEntityAlive(cam.cam_no->entity)){
                 for(int i=5; i>v; i--){
                     if (popCard(&jogador->player->deck, &drawnCard)) {
@@ -149,15 +153,24 @@ int main() {
                         printf("\nDigite novamente qual carta deseja utilizar?\n");
                         scanf("%d", &op);              
                     }
-                    EntityAction(jogador, cam.cam_no->entity, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1, &descarte);
+                    EntityAction(jogador, cam.cam_no->entity, (void*) searchPlayerHandCard2(&jogador->player->hand, op), &j1, &descarte);
                 }
+                EntityAction(cam.cam_no->entity, jogador, (void*) cam.cam_no->entity->monster->action, NULL, NULL);
+                Megumi_Reset(jogador, cam.cam_no->entity);
             } 
             //adicionar a pilha de descarte
             //e adicionar o nivel
             if(!isEntityAlive(jogador)) break;
-            if(0){
-                //logica de selecionar se vai querer continuar no combate ou vai pro descanco
+            int r;
+            do{
+                printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
+                scanf(" %d", r);
+            }while(r == 1 || r == 0);
+            if(r){
+                cam.cam_no = cam.cam_no->rest;
+                continue;
             }   
+            cam.cam_no = cam.cam_no->prox;
             //merge da mao do jogador com a pilha de cartas com a pilha de descarte
         }while(cam.cam_no !=  NULL);
         /*

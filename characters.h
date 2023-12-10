@@ -178,11 +178,11 @@ void Megumi_Reset(entity *player, entity *monster){
                 if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
                     card_node->card.power /= 1.5;
                 } 
+                aumentou_dano = 0;
             //Comentado pra ver se vai arredondar ou não 
             //card_node->card.damage = ceil(card_node->card.damage * 1.5);
             }
         }
-        if(ism) monster->shield = 0;
         player->shield = 0;
     }
 }  

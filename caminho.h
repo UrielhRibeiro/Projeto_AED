@@ -12,6 +12,7 @@ typedef struct caminho_no{
     struct caminho_no *prox;
     struct caminho_no *befo;
     struct caminho_no *rest; 
+    int isrest;
 
 }caminho_no;
 typedef struct caminho{
@@ -28,6 +29,7 @@ int addCaminho(entity *monster, caminho *cam){
     aux->entity = monster;
     aux->rest = NULL;
     aux->prox = NULL;
+    aux->isrest = 0;
     if(cam->cam_no == NULL){
         aux->befo = NULL;
         cam->cam_no = aux;
@@ -55,6 +57,7 @@ int addRest(caminho *cam){
                 }
                 //printf("%s", aux2->entity->monster->clas);
                 aux->befo = aux2;
+                aux->isrest = 1;
                 aux2->rest = aux;
                 count2++;
                 continue;
