@@ -10,7 +10,7 @@
 
 typedef struct SaveData {
     char playerName[MAX_PLAYER_NAME]; // Nome do jogador
-    int playerLevel; // Nível alcançado pelo jogador
+    char playerLevel; // Nível alcançado pelo jogador
     CardStack playedCards; // Pilha de cartas jogadas
 } SaveData;
 
