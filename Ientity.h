@@ -60,6 +60,6 @@ int addEntityShield(entity *entity1, int qntshield);
 /*a entidade cause e a que causa a acao, e a entidade takes e a q sofre a acao                     */
 /*o tipo do 3 parametro e void pq podem ser 2 tipos de variaveis, esta descrito abaixo             */
 /*valores de entrada (entity, entity, tp_fila * ou Card *, funcao de suporte[apenas para player] ) */
-int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func);
+int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func, CardStack *descarte);
 
 #endif

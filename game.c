@@ -124,17 +124,43 @@ int main() {
     initCardStack(&descarte);
     Card drawnCard;
     //while(1); // controle de fase
-    do{
         //Mantém o jogador sempre com 5 cartas
         int v = countPlayerHand(&jogador->player->hand);
-        for(int i=5; i>v; i--){
-            if (popCard(&jogador->player->deck, &drawnCard)) {
-                insertPlayerHandCard(&jogador->player->hand, drawnCard);
-            }
-            
-        }
-        int aux=jogador->player->energy;
 
+        do{
+            while(isEntityAlive(jogador) && isEntityAlive(cam.cam_no->entity)){
+                for(int i=5; i>v; i--){
+                    if (popCard(&jogador->player->deck, &drawnCard)) {
+                        insertPlayerHandCard(&jogador->player->hand, drawnCard);
+                    }    
+                }
+                while(1){
+                    int op=0, resp=1;
+                    printf("\nSua mão:");
+                    printPlayerHand(&jogador->player->hand);
+                    printMonster(cam.cam_no->entity);
+                    printPlayer(jogador);
+                    printf("Deseja continuar?\n(1)-SIM\n(0)-NÃO\n");
+                    scanf("%d", &resp);
+                    if(!resp) break;
+                    printf("\nQual carta deseja utilizar?\n");
+                    scanf("%d", &op);
+                    if(op > countPlayerHand(&jogador->player->hand)) {
+                        printf("\nDigite novamente qual carta deseja utilizar?\n");
+                        scanf("%d", &op);              
+                    }
+                    EntityAction(jogador, cam.cam_no->entity, (void*)searchPlayerHandCard2(&jogador->player->hand, op), &j1, &descarte);
+                }
+            } 
+            //adicionar a pilha de descarte
+            //e adicionar o nivel
+            if(!isEntityAlive(jogador)) break;
+            if(0){
+                //logica de selecionar se vai querer continuar no combate ou vai pro descanco
+            }   
+            //merge da mao do jogador com a pilha de cartas com a pilha de descarte
+        }while(cam.cam_no !=  NULL);
+        /*
         while(1){
             int op=0, resp=1;
             printf("\nSua mão:");
@@ -161,7 +187,7 @@ int main() {
         if(!isEntityAlive(jogador)) printf("GAME OVER!\n");
 
     }while((!isEntityAlive(jogador)) && (!isEntityAlive(cam.cam_no->entity)));
-
+    */
 
 
     /*do {
