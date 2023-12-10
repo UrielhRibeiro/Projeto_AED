@@ -6,6 +6,7 @@
 #include "Ientity.h"
 
 #define MAX_PLAYER_NAME 50
+#define MAX_PLAYER_LEVEL 10
 
 typedef struct SaveData {
     char playerName[MAX_PLAYER_NAME]; // Nome do jogador
