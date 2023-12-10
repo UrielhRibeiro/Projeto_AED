@@ -104,9 +104,9 @@ void MegumiCards(CardStack *deck){
     //Passando todas as cartas pro deck
     for(int i=0; i<4; i++){
         //Passa as cartas repetidamente N número de vezes para o deck, N = quantidade pré-definida
-        for(int j=0; j<MegumiAtaque[i].quantity; j++)  pushCard(deck, &MegumiAtaque[i]);  
-        for(int j=0; j<MegumiDefesa[i].quantity; j++)  pushCard(deck, &MegumiDefesa[i]);
-        for(int j=0; j<MegumiSuporte[i].quantity; j++) pushCard(deck, &MegumiSuporte[i]);   
+        for(int j=0; j<MegumiAtaque[i].quantity*2; j++)  pushCard(deck, &MegumiAtaque[i]);  
+        for(int j=0; j<MegumiDefesa[i].quantity*2; j++)  pushCard(deck, &MegumiDefesa[i]);
+        for(int j=0; j<MegumiSuporte[i].quantity*2; j++) pushCard(deck, &MegumiSuporte[i]);   
     }
 }
 
@@ -128,7 +128,7 @@ int Megumi_supfunc_attack(entity *causes,entity *takes) {
     if (r1 == 1) { //Verificação 
         for (phand_no *card_node = causes->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Aumenta o dano da carta multiplicando por 1.5
-            if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
+            if( strcmp(card_node->card.type ,(char *) "DEFESA")){
                 card_node->card.power *= 1.5;
             }
             //Comentado pra ver se vai arredondar ou não 
@@ -175,7 +175,7 @@ void Megumi_Reset(entity *player, entity *monster){
         if(aumentou_dano){
             for (phand_no *card_node = player->player->hand.first; card_node != NULL; card_node = card_node->next) {
             //Diminui o dano da carta dividindo por 1.5
-                if( !strcmp(card_node->card.type ,(char *) "DEFESA")){
+                if( strcmp(card_node->card.type ,(char *) "DEFESA")){
                     card_node->card.power /= 1.5;
                 } 
                 aumentou_dano = 0;
@@ -184,6 +184,7 @@ void Megumi_Reset(entity *player, entity *monster){
             }
         }
         player->shield = 0;
+        player->player->energy = 6;
     }
 }  
 

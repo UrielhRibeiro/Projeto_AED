@@ -81,29 +81,29 @@ int main() {
     tp_fila *cl4 = inicializa_fila();
     preencher_fila(cl4);
     char str1[20] = "cl4";
-    entity classe4 = CreateMonster(str1, 62, cl4);
+    entity classe4 = CreateMonster(str1, 55, cl4);
     addCaminho(&classe4, &cam); 
 
     tp_fila *cl3 = inicializa_fila();
     preencher_fila(cl3);
     char str2[20] = "cl3";
-    entity classe3 = CreateMonster(str2, 62, cl3);
+    entity classe3 = CreateMonster(str2, 60, cl3);
     addCaminho(&classe3, &cam); 
 
     tp_fila *cl2 = inicializa_fila();
     preencher_fila(cl2);
-    entity classe2 = CreateMonster("cl2", 98, cl2);
+    entity classe2 = CreateMonster("cl2", 70, cl2);
     addCaminho(&classe2, &cam); 
     Sleep(1);
 
     tp_fila *cl1 = inicializa_fila();
     preencher_fila(cl1);
-    entity classe1 = CreateMonster("cl1", 110, cl1);
+    entity classe1 = CreateMonster("cl1", 85, cl1);
     addCaminho(&classe1, &cam); 
 
     tp_fila *clesp = inicializa_fila();
     preencher_fila(clesp);
-    entity classeEsp = CreateMonster("clesp", 135, clesp);
+    entity classeEsp = CreateMonster("clesp", 100, clesp);
     addCaminho(&classeEsp, &cam); 
     Sleep(1);
 
@@ -129,14 +129,14 @@ int main() {
     savedData.playedCards = descarte;
     //while(1); // controle de fase
         //Mantém o jogador sempre com 5 cartas
-        int v = countPlayerHand(&jogador->player->hand);
 
         do{
             if(cam.cam_no->isrest){
-                jogador->life = 100;
+                jogador->life = 90;
                 cam.cam_no = cam.cam_no->prox;
             }
             while(isEntityAlive(jogador) && isEntityAlive(cam.cam_no->entity)){
+                int v = countPlayerHand(&jogador->player->hand);
                 for(int i=5; i>v; i--){
                     if (popCard(&jogador->player->deck, &drawnCard)) {
                         insertPlayerHandCard(&jogador->player->hand, drawnCard);
@@ -172,7 +172,7 @@ int main() {
             int r;
             do{
                 printf("Você deseja continuar o proximo combate ou descaçar (0: Combate | 1: Descançar): ");
-                scanf(" %d", r);
+                scanf(" %d", &r);
             }while(r == 1 || r == 0);
             if(r){
                 cam.cam_no = cam.cam_no->rest;

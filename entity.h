@@ -100,7 +100,7 @@ int printPlayer(entity *e){
 //Imprime o monstro
 int printMonster(entity *e){
     if(isEntityAPlayer(e)) return 0;
-    printf("\nMonstro %s\nVida: %d\nAction: %s - %d\n", e->monster->clas, e->life, e->monster->action->ini->type, e->monster->action->ini->power);
+    printf("\nMonstro %s\nVida: %d | Escudo: %d \nAction: %s - %d\n", e->monster->clas, e->life, e->shield, e->monster->action->ini->type, e->monster->action->ini->power);
     return 1;
 }
 

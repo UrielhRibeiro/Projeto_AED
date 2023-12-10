@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "carta.h"
-#include "entity.h"
+#include "Ientity.h"
 
 #define MAX_PLAYER_NAME 50
 
