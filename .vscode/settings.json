@@ -3,5 +3,6 @@
         "type_traits": "c",
         "characters.h": "c",
         "typeinfo": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

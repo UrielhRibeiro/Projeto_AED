@@ -158,7 +158,6 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func,
             int ans = attackEntity(cause, takes, selected_card->power);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
-                strcpy(selected_card->type, actiontxt);
                 pushCard(descarte, selected_card);
                 cause->player->energy -= selected_card->energy_cost;
                 return 1;
@@ -181,7 +180,6 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func,
             int ans = addEntityShield(cause, selected_card->power);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
-                strcpy(selected_card->type, actiontxt);
                 pushCard(descarte, selected_card);
                 cause->player->energy -= selected_card->energy_cost;
                 //falta o descarte
@@ -207,7 +205,6 @@ int EntityAction(entity *cause, entity *takes, void *action, sup_func *sup_func,
             int ans = executeSupFunc(sup_func, selected_card->name, cause, takes);
             if (ans) {
                 deletePlayerHandCard(&cause->player->hand, selected_card);
-                strcpy(selected_card->type, actiontxt);
                 pushCard(descarte, selected_card);
                 cause->player->energy -= selected_card->energy_cost;
                 return 1;
