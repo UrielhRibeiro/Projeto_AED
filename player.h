@@ -108,7 +108,6 @@ int deletePlayerHandCard(phand *ph, Card *e){
     if(areCardsEqual(&aux->card, e)){
         ph->first = aux->next;
         aux->next = NULL;
-        free(aux);
         return 1;
     }
     do{

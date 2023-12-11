@@ -1,5 +1,14 @@
 
 Nome do Jogador: 1 | Nivel alcancado: cl4
-Type: P@� | Nome: CÃES DIVINOS | Custo: 2 EA | Força: 11
+Type: ATAQUE | Nome: GOLPE | Custo: 1 EA | Força: 6
 
-Type: DEFESA | Nome: ESCUDO DE ENERGIA AMALDIÇOADA | Custo: 2 EA | Força: 9
+Nome do Jogador: 1 | Nivel alcancado: cl3
+Type: ATAQUE | Nome: GOLPE | Custo: 1 EA | Força: 6
+
+Type: DEFESA | Nome: DEFENDER | Custo: 1 EA | Força: 5
+
+Nome do Jogador: 1 | Nivel alcancado: cl2
+Type: ATAQUE | Nome: CÃO DIVINO-TOTAL | Custo: 5 EA | Força: 23
+
+Nome do Jogador: 1 | Nivel alcancado: clesp
+Type: ATAQUE | Nome: NUE | Custo: 4 EA | Força: 18
