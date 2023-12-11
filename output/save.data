@@ -1,14 +1,16 @@
 
 Nome do Jogador: 1 | Nivel alcancado: cl4
-Type: ATAQUE | Nome: GOLPE | Custo: 1 EA | Força: 6
+Type: ATAQUE | Nome: NUE | Custo: 4 EA | Força: 18
 
 Nome do Jogador: 1 | Nivel alcancado: cl3
 Type: ATAQUE | Nome: GOLPE | Custo: 1 EA | Força: 6
 
-Type: DEFESA | Nome: DEFENDER | Custo: 1 EA | Força: 5
+Type: SUPORTE | Nome: BANSHO | Custo: 0 EA | Força: 0
 
 Nome do Jogador: 1 | Nivel alcancado: cl2
 Type: ATAQUE | Nome: CÃO DIVINO-TOTAL | Custo: 5 EA | Força: 23
 
 Nome do Jogador: 1 | Nivel alcancado: clesp
 Type: ATAQUE | Nome: NUE | Custo: 4 EA | Força: 18
+
+Type: DEFESA | Nome: DEFENDER | Custo: 1 EA | Força: 5

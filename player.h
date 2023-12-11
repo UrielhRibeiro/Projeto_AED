@@ -107,6 +107,7 @@ int deletePlayerHandCard(phand *ph, Card *e){
     phand_no *aux = ph->first;
     if(areCardsEqual(&aux->card, e)){
         ph->first = aux->next;
+        aux->next->befo = NULL;
         aux->next = NULL;
         return 1;
     }
